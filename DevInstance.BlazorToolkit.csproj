@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>DevInstance.BlazorToolkit</AssemblyName>
+		<RootNamespace>DevInstance.BlazorToolkit</RootNamespace>
+		<Configurations>Debug;Release;NetApiMoqs;ServiceMoqs</Configurations>
+		<Copyright>Copyright 2021-2024 DevInstance LLC</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DevInstance.LogScope" Version="1.4.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.8" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Shared\Model\Shared.Model.csproj" />
+	</ItemGroup>
+
+</Project>
