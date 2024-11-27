@@ -1,4 +1,4 @@
-﻿using DevInstance.DevCoreApp.Shared.Model;
+﻿using DevInstance.BlazorToolkit.Model;
 using System.Net.Http.Json;
 
 namespace DevInstance.BlazorToolkit.Http;
