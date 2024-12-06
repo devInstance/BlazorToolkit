@@ -1,0 +1,72 @@
+﻿@page "/"
+@using DevInstance.BlazorToolkit.Model
+@using DevInstance.BlazorToolkit.Services
+@using DevInstance.EmployeeList.Client.Services
+@using DevInstance.EmployeeList.Model
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@if (IsError)
+{
+    <p>Error: @ErrorMessage</p>
+}
+
+@if (InProgress)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @if (!IsError && employees != null)
+        {
+            @foreach (var employee in employees.Items)
+            {
+                <li>@employee.Name</li>
+            }
+        }
+    </ul>
+}
+
+@implements IServiceExecutionHost
+@code {
+
+    [Inject]
+    EmployeeService Service { get; set; }
+
+    // private List<EmployeeItem> employees = new List<EmployeeItem>
+    // {
+    //     new EmployeeItem { Name = "John Doe" },
+    //     new EmployeeItem { Name = "Jane Doe" },
+    //     new EmployeeItem { Name = "John Smith" },
+    // };
+
+    private ModelList<EmployeeItem> employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+    }
+
+    #region IServiceExecutionHost implementation
+    public string ErrorMessage { get; set; }
+
+    public bool IsError { get; set; }
+
+    public bool InProgress { get; set; }
+
+    void IServiceExecutionHost.ShowLogin()
+    {
+        //TODO: navigate to login page
+    }
+
+    void IServiceExecutionHost.StateHasChanged()
+    {
+        StateHasChanged();
+    }
+    #endregion
+}

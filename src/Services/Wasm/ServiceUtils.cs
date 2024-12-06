@@ -10,7 +10,7 @@ public static class ServiceUtils
 {
     public delegate Task<T> WebApiHandlerAsync<T>(IScopeLog log);
 
-    public static async Task<ServiceActionResult<T>> HandleWebApiCallAsync<T>(IScopeLog log, WebApiHandlerAsync<T> handler)
+    public static async Task<ServiceActionResult<T>> HandleWebApiCallAsync<T>(WebApiHandlerAsync<T> handler, IScopeLog log = null)
     {
         using (var l = log.TraceScope("ServiceUtils").TraceScope())
         {
