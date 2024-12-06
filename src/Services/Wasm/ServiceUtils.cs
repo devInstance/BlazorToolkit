@@ -1,5 +1,8 @@
 ﻿using DevInstance.LogScope;
+using System;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Services.Wasm;
 
