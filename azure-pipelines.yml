@@ -3,7 +3,8 @@ trigger:
 - yfranz-dev
 
 pool:
-  vmImage: 'Release-Pool'
+  # vmImage: 'Release-Pool'
+  name: 'Default'
 
 variables:
   buildConfiguration: 'Release'
@@ -34,8 +35,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    publishVstsFeed: false  # Set true for Azure Artifacts feed
     packagesToPush: '**/*.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: $(NuGetApiKey)
-    feedPublishUrl: 'https://api.nuget.org/v3/index.json'  # Update for custom feeds
+    publishFeedCredentials: 'NugetCon'  # Reference the correct service connection name
+    feedPublishUrl: 'https://api.nuget.org/v3/index.json'  # Update for your feed
