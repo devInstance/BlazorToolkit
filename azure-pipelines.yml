@@ -34,6 +34,16 @@ steps:
     solution: '**/DevInstance.BlazorToolkit.csproj'  # solution: '**/*.sln'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
+- task: VSBuild@1
+  inputs:
+    solution: '**/DevInstance.EmployeeList.Client.csproj'
+    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '**/DevInstance.EmployeeList.csproj'
+    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+
 # Step 3: Pack NuGet Package
 #- task: NuGetCommand@2
 #  inputs:
