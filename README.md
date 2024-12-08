@@ -1,5 +1,5 @@
-# BlazorToolkit
-BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.
+# Blazor Toolkit
+Blazor Toolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.
 
 ## Features
 - **Network Communication Tools:** Simplify network operations such as making REST API calls. BlazorToolkit offers easy-to-use methods for handling HTTP requests and responses, reducing boilerplate code and potential errors.
@@ -9,6 +9,19 @@ BlazorToolkit is a comprehensive set of tools designed to enhance the developmen
 - **Form Validators:** Integrate robust form validation mechanisms to ensure data integrity. The toolkit includes flexible validators that can be easily applied to your forms, providing immediate feedback to users and enhancing the overall user experience.
 
 ## Installation
+Blazor Toolkit package is available on NuGet (https://www.nuget.org/packages/DevInstance.BlazorToolkit/) and can be installed using the following command:
+
+**Power shell:**
+
+```bash
+dotnet add package DevInstance.BlazorToolkit
+```
+
+**Package manager**:
+
+```bash
+Install-Package DevInstance.BlazorToolkit
+```
 
 ## Examples
 
@@ -22,6 +35,7 @@ static async Task Main(string[] args)
     ...
 }
 ```
+
 `EmployeeService.cs`
 ```csharp
 public class EmplyeeService
@@ -33,7 +47,7 @@ public class EmplyeeService
         Api = api;
     }
 
-    public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page, string? search)
+    public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
@@ -47,11 +61,6 @@ public class EmplyeeService
                 {
                     api = api.Page(page.Value);
                 }
-                if (String.IsNullOrEmpty(search))
-                {
-                    api = api.Search(search);
-                }
-
                 return await api.ListAsync();
             }
         );
@@ -59,7 +68,12 @@ public class EmplyeeService
 }
 ```
 
+`Home.razor`
 ```csharp
+@page "/"
+
+<h1>Hello, world!</h1>
+
 Welcome to your new app.
 
 @if (IsError)
