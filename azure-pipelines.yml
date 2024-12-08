@@ -9,7 +9,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   nugetFeedUrl: 'https://www.nuget.org/packages/DevInstance.BlazorToolkit/'  # For internal feeds
-  nugetApiKey: $(NuGetApiKey)  # Store this in pipeline secrets
+  # nugetApiKey: $(NuGetApiKey)  # Store this in pipeline secrets
 
 steps:
 # Step 1: Restore NuGet Packages
@@ -21,7 +21,7 @@ steps:
 # Step 2: Build the Solution
 - task: VSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: '**/DevInstance.BlazorToolkit.csproj'  # solution: '**/*.sln'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 # Step 3: Pack NuGet Package
@@ -32,10 +32,10 @@ steps:
     configuration: $(buildConfiguration)
 
 # Step 4: Push NuGet Package
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '**/*.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NugetCon'  # Reference the correct service connection name
-    feedPublishUrl: 'https://api.nuget.org/v3/index.json'  # Update for your feed
+#- task: NuGetCommand@2
+#  inputs:
+#    command: 'push'
+#    packagesToPush: '**/*.nupkg'
+#    nuGetFeedType: 'external'
+#    publishFeedCredentials: 'NugetCon'  # Reference the correct service connection name
+#    feedPublishUrl: 'https://api.nuget.org/v3/index.json'  # Update for your feed
