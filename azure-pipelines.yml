@@ -36,12 +36,12 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '**/DevInstance.EmployeeList.Client.csproj'
+    solution: '**/EmployeeList.Client.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 - task: VSBuild@1
   inputs:
-    solution: '**/DevInstance.EmployeeList.csproj'
+    solution: '**/EmployeeList.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 # Step 3: Pack NuGet Package
