@@ -1,6 +1,6 @@
 # Set the branch
 trigger:
-- yfranz-dev
+- dotnet8
 
 pool:
   # vmImage: 'Release-Pool'
