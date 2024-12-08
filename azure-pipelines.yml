@@ -13,6 +13,11 @@ variables:
 
 steps:
 # Step 1: Restore NuGet Packages
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 5.8'
+  inputs:
+    versionSpec: 5.8
+
 - task: UseDotNet@2
   displayName: 'Use .NET 8.x'
   inputs:
@@ -24,7 +29,7 @@ steps:
     restoreSolution: '**/*.sln'
 
 # Step 2: Build the Solution
-- task: MSBuild@1 # VSBuild@1
+- task: VSBuild@1
   inputs:
     solution: '**/DevInstance.BlazorToolkit.csproj'  # solution: '**/*.sln'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
