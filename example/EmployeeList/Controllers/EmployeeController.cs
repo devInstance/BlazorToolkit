@@ -1,4 +1,5 @@
 ﻿using DevInstance.BlazorToolkit.Model;
+using DevInstance.BlazorToolkit.Utils;
 using DevInstance.EmployeeList.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,8 +21,8 @@ public class EmployeeController
             PagesCount = 1,
             Items =
             [
-                new EmployeeItem { Name = "John Doe" },
-                new EmployeeItem { Name = "Jane Doe" }
+                new EmployeeItem { Id = IdGenerator.New(), Name = "John Doe" },
+                new EmployeeItem { Id = IdGenerator.New(), Name = "Jane Doe" }
             ]
         };
     }
