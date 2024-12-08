@@ -38,13 +38,6 @@ else
     [Inject]
     EmployeeService Service { get; set; }
 
-    // private List<EmployeeItem> employees = new List<EmployeeItem>
-    // {
-    //     new EmployeeItem { Name = "John Doe" },
-    //     new EmployeeItem { Name = "Jane Doe" },
-    //     new EmployeeItem { Name = "John Smith" },
-    // };
-
     private ModelList<EmployeeItem> employees;
 
     protected override async Task OnInitializedAsync()

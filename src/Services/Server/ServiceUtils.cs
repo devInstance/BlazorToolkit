@@ -1,34 +1,35 @@
 ﻿using DevInstance.LogScope;
+using System;
+using System.Threading.Tasks;
 
-namespace DevInstance.BlazorToolkit.Services.Server
+namespace DevInstance.BlazorToolkit.Services.Server;
+
+public static class ServiceUtils
 {
-    public static class ServiceUtils
-    {
-        public delegate Task<T> ServiceHandlerAsync<T>(IScopeLog log);
+    public delegate Task<T> ServiceHandlerAsync<T>(IScopeLog log);
 
-        public static async Task<ServiceActionResult<T>> HandleServiceCallAsync<T>(IScopeLog log, ServiceHandlerAsync<T> handler)
+    public static async Task<ServiceActionResult<T>> HandleServiceCallAsync<T>(IScopeLog log, ServiceHandlerAsync<T> handler)
+    {
+        using (var l = log.TraceScope("ServiceUtils").TraceScope())
         {
-            using (var l = log.TraceScope("ServiceUtils").TraceScope())
+            try
             {
-                try
+                return new ServiceActionResult<T>
                 {
-                    return new ServiceActionResult<T>
-                    {
-                        Result = await handler(l),
-                        Success = true,
-                        IsAuthorized = true,
-                    };
-                }
-                catch (Exception ex)
+                    Result = await handler(l),
+                    Success = true,
+                    IsAuthorized = true,
+                };
+            }
+            catch (Exception ex)
+            {
+                l.E(ex);
+                return new ServiceActionResult<T>
                 {
-                    l.E(ex);
-                    return new ServiceActionResult<T>
-                    {
-                        Success = false,
-                        Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
-                        Result = default!
-                    };
-                }
+                    Success = false,
+                    Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
+                    Result = default!
+                };
             }
         }
     }

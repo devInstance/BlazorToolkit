@@ -12,10 +12,18 @@ BlazorToolkit is a comprehensive set of tools designed to enhance the developmen
 
 ## Examples
 
+`Program.cs`
 ```csharp
 
-builder.Services.
-
+static async Task Main(string[] args)
+{
+    ...
+    builder.Services.AddScoped<EmployeeService>();
+    ...
+}
+```
+`EmployeeService.cs`
+```csharp
 public class EmplyeeService
 {
     IApiContext<EmployeeItem> Api { get; set; }
@@ -25,17 +33,89 @@ public class EmplyeeService
         Api = api;
     }
 
-    public async Task<ServiceActionResult<EmployeeItem?>> GetAsync(string id)
+    public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page, string? search)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
             {
-                var api = Api.Get(id);
-                return await api.ExecuteAsync();
+                var api = Api.Get();
+                if (top.HasValue)
+                {
+                    api = api.Top(top.Value);
+                }
+                if (page.HasValue)
+                {
+                    api = api.Page(page.Value);
+                }
+                if (String.IsNullOrEmpty(search))
+                {
+                    api = api.Search(search);
+                }
+
+                return await api.ListAsync();
             }
         );
     }
 }
 ```
+
+```csharp
+Welcome to your new app.
+
+@if (IsError)
+{
+    <p>Error: @ErrorMessage</p>
+}
+
+@if (InProgress)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @if (!IsError && employees != null)
+        {
+            @foreach (var employee in employees.Items)
+            {
+                <li>@employee.Name</li>
+            }
+        }
+    </ul>
+}
+
+@implements IServiceExecutionHost
+@code {
+
+    [Inject]
+    EmployeeService Service { get; set; }
+
+    private ModelList<EmployeeItem> employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+    }
+
+    #region IServiceExecutionHost implementation
+    public string ErrorMessage { get; set; }
+
+    public bool IsError { get; set; }
+
+    public bool InProgress { get; set; }
+
+    void IServiceExecutionHost.ShowLogin()
+    {
+        //TODO: navigate to login page
+    }
+
+    void IServiceExecutionHost.StateHasChanged()
+    {
+        StateHasChanged();
+    }
+    #endregion
+}
+```
+
 ## License
 BlazorToolkit is licensed under the MIT License. You are free to use, modify, and distribute this software in accordance with the terms of the license.
