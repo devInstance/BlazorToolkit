@@ -24,7 +24,7 @@ steps:
     restoreSolution: '**/*.sln'
 
 # Step 2: Build the Solution
-- task: VSBuild@1
+- task: MSBuild@1 # VSBuild@1
   inputs:
     solution: '**/DevInstance.BlazorToolkit.csproj'  # solution: '**/*.sln'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
