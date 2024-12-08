@@ -13,6 +13,11 @@ variables:
 
 steps:
 # Step 1: Restore NuGet Packages
+- task: UseDotNet@2
+  displayName: 'Use .NET 8.x'
+  inputs:
+    version: 8.x
+    
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
