@@ -47,4 +47,4 @@ steps:
     packagesToPush: '**/*.nupkg'
     nuGetFeedType: 'external'
     externalFeedCredentials: 'NugetCon'
-    feedPublishUrl: 'https://api.nuget.org/v3/index.json'
+    # feedPublishUrl: 'https://api.nuget.org/v3/index.json'
