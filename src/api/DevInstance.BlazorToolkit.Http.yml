@@ -1,0 +1,88 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Http
+  commentId: N:DevInstance.BlazorToolkit.Http
+  id: DevInstance.BlazorToolkit.Http
+  children:
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  - DevInstance.BlazorToolkit.Http.HttpApiContextFactory
+  - DevInstance.BlazorToolkit.Http.IApiContext`1
+  langs:
+  - csharp
+  - vb
+  name: DevInstance.BlazorToolkit.Http
+  nameWithType: DevInstance.BlazorToolkit.Http
+  fullName: DevInstance.BlazorToolkit.Http
+  type: Namespace
+  assemblies:
+  - DevInstance.BlazorToolkit
+references:
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  commentId: T:DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  parent: DevInstance.BlazorToolkit.Http
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html
+  name: ApiUrlBuilder
+  nameWithType: ApiUrlBuilder
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+- uid: DevInstance.BlazorToolkit.Http.HttpApiContextFactory
+  commentId: T:DevInstance.BlazorToolkit.Http.HttpApiContextFactory
+  href: DevInstance.BlazorToolkit.Http.HttpApiContextFactory.html
+  name: HttpApiContextFactory
+  nameWithType: HttpApiContextFactory
+  fullName: DevInstance.BlazorToolkit.Http.HttpApiContextFactory
+- uid: DevInstance.BlazorToolkit.Http.IApiContext`1
+  commentId: T:DevInstance.BlazorToolkit.Http.IApiContext`1
+  parent: DevInstance.BlazorToolkit.Http
+  href: DevInstance.BlazorToolkit.Http.IApiContext-1.html
+  name: IApiContext<T>
+  nameWithType: IApiContext<T>
+  fullName: DevInstance.BlazorToolkit.Http.IApiContext<T>
+  nameWithType.vb: IApiContext(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Http.IApiContext(Of T)
+  name.vb: IApiContext(Of T)
+  spec.csharp:
+  - uid: DevInstance.BlazorToolkit.Http.IApiContext`1
+    name: IApiContext
+    href: DevInstance.BlazorToolkit.Http.IApiContext-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: DevInstance.BlazorToolkit.Http.IApiContext`1
+    name: IApiContext
+    href: DevInstance.BlazorToolkit.Http.IApiContext-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: DevInstance.BlazorToolkit.Http
+  commentId: N:DevInstance.BlazorToolkit.Http
+  href: DevInstance.html
+  name: DevInstance.BlazorToolkit.Http
+  nameWithType: DevInstance.BlazorToolkit.Http
+  fullName: DevInstance.BlazorToolkit.Http
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Http
+    name: Http
+    href: DevInstance.BlazorToolkit.Http.html
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Http
+    name: Http
+    href: DevInstance.BlazorToolkit.Http.html

@@ -1,0 +1,783 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1
+  commentId: T:DevInstance.BlazorToolkit.Model.ModelList`1
+  id: ModelList`1
+  parent: DevInstance.BlazorToolkit.Model
+  children:
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Count
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Fields
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Filter
+  - DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Items
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Page
+  - DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount
+  - DevInstance.BlazorToolkit.Model.ModelList`1.Search
+  - DevInstance.BlazorToolkit.Model.ModelList`1.SortBy
+  - DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount
+  langs:
+  - csharp
+  - vb
+  name: ModelList<T>
+  nameWithType: ModelList<T>
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>
+  type: Class
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: ModelList
+    path: Model/ModelList.cs
+    startLine: 7
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Represents a list of models with pagination, sorting, and filtering capabilities.
+  example: []
+  syntax:
+    content: public class ModelList<T>
+    typeParameters:
+    - id: T
+      description: The type of the items in the list.
+    content.vb: Public Class ModelList(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: ModelList(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T)
+  name.vb: ModelList(Of T)
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount
+  id: TotalCount
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: TotalCount
+  nameWithType: ModelList<T>.TotalCount
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.TotalCount
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: TotalCount
+    path: Model/ModelList.cs
+    startLine: 12
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the total count of items.
+  example: []
+  syntax:
+    content: public int TotalCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TotalCount As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount*
+  nameWithType.vb: ModelList(Of T).TotalCount
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).TotalCount
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount
+  id: PagesCount
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: PagesCount
+  nameWithType: ModelList<T>.PagesCount
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.PagesCount
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: PagesCount
+    path: Model/ModelList.cs
+    startLine: 17
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the total count of pages.
+  example: []
+  syntax:
+    content: public int PagesCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property PagesCount As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount*
+  nameWithType.vb: ModelList(Of T).PagesCount
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).PagesCount
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Page
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Page
+  id: Page
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Page
+  nameWithType: ModelList<T>.Page
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Page
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Page
+    path: Model/ModelList.cs
+    startLine: 22
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the selected page index (starting from 0).
+  example: []
+  syntax:
+    content: public int Page { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Page As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Page*
+  nameWithType.vb: ModelList(Of T).Page
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Page
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Count
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Count
+  id: Count
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ModelList<T>.Count
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Count
+    path: Model/ModelList.cs
+    startLine: 27
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the count of items in the selected time range.
+  example: []
+  syntax:
+    content: public int Count { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Count As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Count*
+  nameWithType.vb: ModelList(Of T).Count
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Count
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.SortBy
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.SortBy
+  id: SortBy
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: SortBy
+  nameWithType: ModelList<T>.SortBy
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.SortBy
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: SortBy
+    path: Model/ModelList.cs
+    startLine: 32
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the column name to sort by.
+  example: []
+  syntax:
+    content: public string SortBy { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SortBy As String
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.SortBy*
+  nameWithType.vb: ModelList(Of T).SortBy
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).SortBy
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc
+  id: IsAsc
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: IsAsc
+  nameWithType: ModelList<T>.IsAsc
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.IsAsc
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: IsAsc
+    path: Model/ModelList.cs
+    startLine: 37
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets a value indicating whether to sort in ascending order.
+  example: []
+  syntax:
+    content: public bool IsAsc { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsAsc As Boolean
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc*
+  nameWithType.vb: ModelList(Of T).IsAsc
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).IsAsc
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Search
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Search
+  id: Search
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Search
+  nameWithType: ModelList<T>.Search
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Search
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Search
+    path: Model/ModelList.cs
+    startLine: 42
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the search string.
+  example: []
+  syntax:
+    content: public string Search { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Search As String
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Search*
+  nameWithType.vb: ModelList(Of T).Search
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Search
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Filter
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Filter
+  id: Filter
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Filter
+  nameWithType: ModelList<T>.Filter
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Filter
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Filter
+    path: Model/ModelList.cs
+    startLine: 47
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the filter value.
+  example: []
+  syntax:
+    content: public int Filter { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Filter As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Filter*
+  nameWithType.vb: ModelList(Of T).Filter
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Filter
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Fields
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Fields
+  id: Fields
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Fields
+  nameWithType: ModelList<T>.Fields
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Fields
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Fields
+    path: Model/ModelList.cs
+    startLine: 52
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the fields to include in the response.
+  example: []
+  syntax:
+    content: public int Fields { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Fields As Integer
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Fields*
+  nameWithType.vb: ModelList(Of T).Fields
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Fields
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Items
+  commentId: P:DevInstance.BlazorToolkit.Model.ModelList`1.Items
+  id: Items
+  parent: DevInstance.BlazorToolkit.Model.ModelList`1
+  langs:
+  - csharp
+  - vb
+  name: Items
+  nameWithType: ModelList<T>.Items
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Items
+  type: Property
+  source:
+    remote:
+      path: src/Model/ModelList.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Items
+    path: Model/ModelList.cs
+    startLine: 57
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Model
+  summary: Gets or sets the array of items.
+  example: []
+  syntax:
+    content: public T[] Items { get; set; }
+    parameters: []
+    return:
+      type: '{T}[]'
+    content.vb: Public Property Items As T()
+  overload: DevInstance.BlazorToolkit.Model.ModelList`1.Items*
+  nameWithType.vb: ModelList(Of T).Items
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Items
+references:
+- uid: DevInstance.BlazorToolkit.Model
+  commentId: N:DevInstance.BlazorToolkit.Model
+  href: DevInstance.html
+  name: DevInstance.BlazorToolkit.Model
+  nameWithType: DevInstance.BlazorToolkit.Model
+  fullName: DevInstance.BlazorToolkit.Model
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Model
+    name: Model
+    href: DevInstance.BlazorToolkit.Model.html
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Model
+    name: Model
+    href: DevInstance.BlazorToolkit.Model.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.TotalCount
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_TotalCount
+  name: TotalCount
+  nameWithType: ModelList<T>.TotalCount
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.TotalCount
+  nameWithType.vb: ModelList(Of T).TotalCount
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).TotalCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.PagesCount
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_PagesCount
+  name: PagesCount
+  nameWithType: ModelList<T>.PagesCount
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.PagesCount
+  nameWithType.vb: ModelList(Of T).PagesCount
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).PagesCount
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Page*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Page
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Page
+  name: Page
+  nameWithType: ModelList<T>.Page
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Page
+  nameWithType.vb: ModelList(Of T).Page
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Page
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Count*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Count
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Count
+  name: Count
+  nameWithType: ModelList<T>.Count
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Count
+  nameWithType.vb: ModelList(Of T).Count
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Count
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.SortBy*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.SortBy
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_SortBy
+  name: SortBy
+  nameWithType: ModelList<T>.SortBy
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.SortBy
+  nameWithType.vb: ModelList(Of T).SortBy
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).SortBy
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.IsAsc
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_IsAsc
+  name: IsAsc
+  nameWithType: ModelList<T>.IsAsc
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.IsAsc
+  nameWithType.vb: ModelList(Of T).IsAsc
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).IsAsc
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Search*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Search
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Search
+  name: Search
+  nameWithType: ModelList<T>.Search
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Search
+  nameWithType.vb: ModelList(Of T).Search
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Search
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Filter*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Filter
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Filter
+  name: Filter
+  nameWithType: ModelList<T>.Filter
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Filter
+  nameWithType.vb: ModelList(Of T).Filter
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Filter
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Fields*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Fields
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Fields
+  name: Fields
+  nameWithType: ModelList<T>.Fields
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Fields
+  nameWithType.vb: ModelList(Of T).Fields
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Fields
+- uid: DevInstance.BlazorToolkit.Model.ModelList`1.Items*
+  commentId: Overload:DevInstance.BlazorToolkit.Model.ModelList`1.Items
+  href: DevInstance.BlazorToolkit.Model.ModelList-1.html#DevInstance_BlazorToolkit_Model_ModelList_1_Items
+  name: Items
+  nameWithType: ModelList<T>.Items
+  fullName: DevInstance.BlazorToolkit.Model.ModelList<T>.Items
+  nameWithType.vb: ModelList(Of T).Items
+  fullName.vb: DevInstance.BlazorToolkit.Model.ModelList(Of T).Items
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )

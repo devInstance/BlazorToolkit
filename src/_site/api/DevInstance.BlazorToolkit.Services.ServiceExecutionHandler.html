@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class ServiceExecutionHandler | Blazor Toolkit </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class ServiceExecutionHandler | Blazor Toolkit ">
+      
+      <meta name="description" content="Handles the execution of service calls, managing their progress, success, and error states.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/devInstance/BlazorToolkit/new/dotnet8/apiSpec/new?filename=DevInstance_BlazorToolkit_Services_ServiceExecutionHandler.md&amp;value=---%0Auid%3A%20DevInstance.BlazorToolkit.Services.ServiceExecutionHandler%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Blazor Toolkit">
+            Blazor Toolkit
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler">
+
+
+
+  <h1 id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler" class="text-break">
+Class ServiceExecutionHandler  <a class="header-action link-secondary" title="View source" href="https://github.com/devInstance/BlazorToolkit/blob/dotnet8/src/Services/ServiceExecutionHandler.cs/#L18"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="DevInstance.html">DevInstance</a>.<a class="xref" href="DevInstance.BlazorToolkit.html">BlazorToolkit</a>.<a class="xref" href="DevInstance.BlazorToolkit.Services.html">Services</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>DevInstance.BlazorToolkit.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Handles the execution of service calls, managing their progress, success, and error states.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ServiceExecutionHandler</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">ServiceExecutionHandler</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler__ctor_" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.#ctor*"></a>
+
+  <h3 id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler__ctor_DevInstance_LogScope_IScopeLog_DevInstance_BlazorToolkit_Services_IServiceExecutionHost_" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.#ctor(DevInstance.LogScope.IScopeLog,DevInstance.BlazorToolkit.Services.IServiceExecutionHost)">
+  ServiceExecutionHandler(IScopeLog, IServiceExecutionHost)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/devInstance/BlazorToolkit/blob/dotnet8/src/Services/ServiceExecutionHandler.cs/#L29"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.html">ServiceExecutionHandler</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServiceExecutionHandler(IScopeLog l, IServiceExecutionHost basePage)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>l</code> <span class="xref">IScopeLog</span></dt>
+    <dd><p>The scope log for tracing.</p>
+</dd>
+    <dt><code>basePage</code> <a class="xref" href="DevInstance.BlazorToolkit.Services.IServiceExecutionHost.html">IServiceExecutionHost</a></dt>
+    <dd><p>The base page that implements IServiceExecutionHost.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler_DispatchCall_" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.DispatchCall*"></a>
+
+  <h3 id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler_DispatchCall__1_DevInstance_BlazorToolkit_Services_PerformAsyncCallHandler___0__System_Action___0__System_Func___0_System_Threading_Tasks_Task__System_Action_DevInstance_BlazorToolkit_Services_ServiceActionError____System_Action_System_Boolean_" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.DispatchCall``1(DevInstance.BlazorToolkit.Services.PerformAsyncCallHandler{``0},System.Action{``0},System.Func{``0,System.Threading.Tasks.Task},System.Action{DevInstance.BlazorToolkit.Services.ServiceActionError[]},System.Action,System.Boolean)">
+  DispatchCall&lt;T&gt;(PerformAsyncCallHandler&lt;T&gt;, Action&lt;T&gt;, Func&lt;T, Task&gt;, Action&lt;ServiceActionError[]&gt;, Action, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/devInstance/BlazorToolkit/blob/dotnet8/src/Services/ServiceExecutionHandler.cs/#L47"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Dispatches a service call to be executed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServiceExecutionHandler DispatchCall&lt;T&gt;(PerformAsyncCallHandler&lt;T&gt; handler, Action&lt;T&gt; success = null, Func&lt;T, Task&gt; sucessAsync = null, Action&lt;ServiceActionError[]&gt; error = null, Action before = null, bool enableProgress = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>handler</code> <a class="xref" href="DevInstance.BlazorToolkit.Services.PerformAsyncCallHandler-1.html">PerformAsyncCallHandler</a>&lt;T&gt;</dt>
+    <dd><p>The handler that performs the service call.</p>
+</dd>
+    <dt><code>success</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;T&gt;</dt>
+    <dd><p>The action to execute if the service call is successful.</p>
+</dd>
+    <dt><code>sucessAsync</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</dt>
+    <dd><p>The asynchronous action to execute if the service call is successful.</p>
+</dd>
+    <dt><code>error</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="DevInstance.BlazorToolkit.Services.ServiceActionError.html">ServiceActionError</a>[]&gt;</dt>
+    <dd><p>The action to execute if the service call encounters errors.</p>
+</dd>
+    <dt><code>before</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action">Action</a></dt>
+    <dd><p>The action to execute before the service call.</p>
+</dd>
+    <dt><code>enableProgress</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>Indicates whether to show progress during the service call.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.html">ServiceExecutionHandler</a></dt>
+    <dd><p>The current instance of <a class="xref" href="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.html">ServiceExecutionHandler</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of the result returned by the service call.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler_ExecuteAsync_" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.ExecuteAsync*"></a>
+
+  <h3 id="DevInstance_BlazorToolkit_Services_ServiceExecutionHandler_ExecuteAsync" data-uid="DevInstance.BlazorToolkit.Services.ServiceExecutionHandler.ExecuteAsync">
+  ExecuteAsync()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/devInstance/BlazorToolkit/blob/dotnet8/src/Services/ServiceExecutionHandler.cs/#L66"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Executes all dispatched service calls asynchronously.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task ExecuteAsync()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd><p>A task that represents the asynchronous operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/devInstance/BlazorToolkit/blob/dotnet8/src/Services/ServiceExecutionHandler.cs/#L18" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

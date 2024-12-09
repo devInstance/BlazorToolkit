@@ -1,0 +1,85 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+  commentId: T:DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+  id: ResultHandler`1
+  parent: DevInstance.BlazorToolkit.Services.Wasm
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ResultHandler<T>
+  nameWithType: ResultHandler<T>
+  fullName: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler<T>
+  type: Delegate
+  source:
+    remote:
+      path: src/Services/Wasm/ServiceUtils.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: ResultHandler
+    path: Services/Wasm/ServiceUtils.cs
+    startLine: 8
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Services.Wasm
+  syntax:
+    content: public delegate void ResultHandler<T>(T result)
+    parameters:
+    - id: result
+      type: '{T}'
+    typeParameters:
+    - id: T
+    content.vb: Public Delegate Sub ResultHandler(Of T)(result As T)
+  nameWithType.vb: ResultHandler(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler(Of T)
+  name.vb: ResultHandler(Of T)
+references:
+- uid: DevInstance.BlazorToolkit.Services.Wasm
+  commentId: N:DevInstance.BlazorToolkit.Services.Wasm
+  href: DevInstance.html
+  name: DevInstance.BlazorToolkit.Services.Wasm
+  nameWithType: DevInstance.BlazorToolkit.Services.Wasm
+  fullName: DevInstance.BlazorToolkit.Services.Wasm
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services
+    name: Services
+    href: DevInstance.BlazorToolkit.Services.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Wasm
+    name: Wasm
+    href: DevInstance.BlazorToolkit.Services.Wasm.html
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services
+    name: Services
+    href: DevInstance.BlazorToolkit.Services.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Wasm
+    name: Wasm
+    href: DevInstance.BlazorToolkit.Services.Wasm.html
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

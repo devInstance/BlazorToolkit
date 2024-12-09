@@ -1,0 +1,205 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Services.Server.ServiceUtils.ServiceHandlerAsync`1
+  commentId: T:DevInstance.BlazorToolkit.Services.Server.ServiceUtils.ServiceHandlerAsync`1
+  id: ServiceUtils.ServiceHandlerAsync`1
+  parent: DevInstance.BlazorToolkit.Services.Server
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ServiceUtils.ServiceHandlerAsync<T>
+  nameWithType: ServiceUtils.ServiceHandlerAsync<T>
+  fullName: DevInstance.BlazorToolkit.Services.Server.ServiceUtils.ServiceHandlerAsync<T>
+  type: Delegate
+  source:
+    remote:
+      path: src/Services/Server/ServiceUtils.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: ServiceHandlerAsync
+    path: Services/Server/ServiceUtils.cs
+    startLine: 17
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Services.Server
+  summary: Delegate for asynchronous service handlers.
+  example: []
+  syntax:
+    content: public delegate Task<T> ServiceUtils.ServiceHandlerAsync<T>(IScopeLog log)
+    parameters:
+    - id: log
+      type: DevInstance.LogScope.IScopeLog
+      description: The logging scope.
+    typeParameters:
+    - id: T
+      description: The type of the result returned by the service handler.
+    return:
+      type: System.Threading.Tasks.Task{{T}}
+      description: A task that represents the asynchronous operation, containing the result of type T.
+    content.vb: Public Delegate Function ServiceUtils.ServiceHandlerAsync(Of T)(log As IScopeLog) As Task(Of T)
+  nameWithType.vb: ServiceUtils.ServiceHandlerAsync(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Services.Server.ServiceUtils.ServiceHandlerAsync(Of T)
+  name.vb: ServiceUtils.ServiceHandlerAsync(Of T)
+references:
+- uid: DevInstance.BlazorToolkit.Services.Server
+  commentId: N:DevInstance.BlazorToolkit.Services.Server
+  href: DevInstance.html
+  name: DevInstance.BlazorToolkit.Services.Server
+  nameWithType: DevInstance.BlazorToolkit.Services.Server
+  fullName: DevInstance.BlazorToolkit.Services.Server
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services
+    name: Services
+    href: DevInstance.BlazorToolkit.Services.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Server
+    name: Server
+    href: DevInstance.BlazorToolkit.Services.Server.html
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services
+    name: Services
+    href: DevInstance.BlazorToolkit.Services.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Server
+    name: Server
+    href: DevInstance.BlazorToolkit.Services.Server.html
+- uid: DevInstance.LogScope.IScopeLog
+  commentId: T:DevInstance.LogScope.IScopeLog
+  parent: DevInstance.LogScope
+  isExternal: true
+  name: IScopeLog
+  nameWithType: IScopeLog
+  fullName: DevInstance.LogScope.IScopeLog
+- uid: System.Threading.Tasks.Task{{T}}
+  commentId: T:System.Threading.Tasks.Task{`0}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<T>
+  nameWithType: Task<T>
+  fullName: System.Threading.Tasks.Task<T>
+  nameWithType.vb: Task(Of T)
+  fullName.vb: System.Threading.Tasks.Task(Of T)
+  name.vb: Task(Of T)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: DevInstance.LogScope
+  commentId: N:DevInstance.LogScope
+  isExternal: true
+  name: DevInstance.LogScope
+  nameWithType: DevInstance.LogScope
+  fullName: DevInstance.LogScope
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    isExternal: true
+  - name: .
+  - uid: DevInstance.LogScope
+    name: LogScope
+    isExternal: true
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    isExternal: true
+  - name: .
+  - uid: DevInstance.LogScope
+    name: LogScope
+    isExternal: true
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

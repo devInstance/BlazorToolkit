@@ -1,0 +1,754 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  commentId: T:DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  id: ApiUrlBuilder
+  parent: DevInstance.BlazorToolkit.Http
+  children:
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create(System.String)
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path(System.String)
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query(System.String,System.Object)
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder._path
+  - DevInstance.BlazorToolkit.Http.ApiUrlBuilder._queryParameters
+  langs:
+  - csharp
+  - vb
+  name: ApiUrlBuilder
+  nameWithType: ApiUrlBuilder
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  type: Class
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: ApiUrlBuilder
+    path: Http/ApiUrlBuilder.cs
+    startLine: 18
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: >-
+    The ApiUrlBuilder class is used to construct URLs for API endpoints.
+
+    It allows adding path segments and query parameters to the URL.
+
+    <pre><code class="lang-csharp">var url = ApiUrlBuilder.Create("api/companies").Path(id).Path("employees").Query("firstname", "John");
+
+    Console.Write(url);</code></pre>
+
+    Result:
+
+    <pre><code class="lang-csharp">api/companies/92387/employees?firstname=John</code></pre>
+  example: []
+  syntax:
+    content: public class ApiUrlBuilder
+    content.vb: Public Class ApiUrlBuilder
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder._queryParameters
+  commentId: F:DevInstance.BlazorToolkit.Http.ApiUrlBuilder._queryParameters
+  id: _queryParameters
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: _queryParameters
+  nameWithType: ApiUrlBuilder._queryParameters
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder._queryParameters
+  type: Field
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: _queryParameters
+    path: Http/ApiUrlBuilder.cs
+    startLine: 25
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: Dictionary to store query parameters.
+  example: []
+  syntax:
+    content: protected Dictionary<string, object> _queryParameters
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Object}
+    content.vb: Protected _queryParameters As Dictionary(Of String, Object)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder._path
+  commentId: F:DevInstance.BlazorToolkit.Http.ApiUrlBuilder._path
+  id: _path
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: _path
+  nameWithType: ApiUrlBuilder._path
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder._path
+  type: Field
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: _path
+    path: Http/ApiUrlBuilder.cs
+    startLine: 30
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: List to store path segments.
+  example: []
+  syntax:
+    content: protected List<string> _path
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Protected _path As List(Of String)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create(System.String)
+  commentId: M:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create(System.String)
+  id: Create(System.String)
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: Create(string)
+  nameWithType: ApiUrlBuilder.Create(string)
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create(string)
+  type: Method
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Create
+    path: Http/ApiUrlBuilder.cs
+    startLine: 46
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: Creates a new instance of the <xref href="DevInstance.BlazorToolkit.Http.ApiUrlBuilder" data-throw-if-not-resolved="false"></xref> class with the specified path.
+  example: []
+  syntax:
+    content: public static ApiUrlBuilder Create(string path)
+    parameters:
+    - id: path
+      type: System.String
+      description: The initial path for the URL.
+    return:
+      type: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+      description: A new instance of the <xref href="DevInstance.BlazorToolkit.Http.ApiUrlBuilder" data-throw-if-not-resolved="false"></xref> class.
+    content.vb: Public Shared Function Create(path As String) As ApiUrlBuilder
+  overload: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create*
+  nameWithType.vb: ApiUrlBuilder.Create(String)
+  fullName.vb: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create(String)
+  name.vb: Create(String)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query(System.String,System.Object)
+  commentId: M:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query(System.String,System.Object)
+  id: Query(System.String,System.Object)
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: Query(string, object?)
+  nameWithType: ApiUrlBuilder.Query(string, object?)
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query(string, object?)
+  type: Method
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Query
+    path: Http/ApiUrlBuilder.cs
+    startLine: 57
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: Adds a query parameter to the URL.
+  example: []
+  syntax:
+    content: public ApiUrlBuilder Query(string name, object? value)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the query parameter.
+    - id: value
+      type: System.Object
+      description: The value of the query parameter.
+    return:
+      type: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+      description: The current instance of ApiUrlBuilder.
+    content.vb: Public Function Query(name As String, value As Object) As ApiUrlBuilder
+  overload: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query*
+  nameWithType.vb: ApiUrlBuilder.Query(String, Object)
+  fullName.vb: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query(String, Object)
+  name.vb: Query(String, Object)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path(System.String)
+  commentId: M:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path(System.String)
+  id: Path(System.String)
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: Path(string?)
+  nameWithType: ApiUrlBuilder.Path(string?)
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: Path
+    path: Http/ApiUrlBuilder.cs
+    startLine: 71
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: Adds a path segment to the URL.
+  example: []
+  syntax:
+    content: public ApiUrlBuilder Path(string? value)
+    parameters:
+    - id: value
+      type: System.String
+      description: The path segment to add.
+    return:
+      type: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+      description: The current instance of ApiUrlBuilder.
+    content.vb: Public Function Path(value As String) As ApiUrlBuilder
+  overload: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path*
+  nameWithType.vb: ApiUrlBuilder.Path(String)
+  fullName.vb: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path(String)
+  name.vb: Path(String)
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString
+  commentId: M:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString
+  id: ToString
+  parent: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ApiUrlBuilder.ToString()
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Http/ApiUrlBuilder.cs
+      branch: dotnet8
+      repo: https://github.com/devInstance/BlazorToolkit
+    id: ToString
+    path: Http/ApiUrlBuilder.cs
+    startLine: 84
+  assemblies:
+  - DevInstance.BlazorToolkit
+  namespace: DevInstance.BlazorToolkit.Http
+  summary: Converts the constructed URL to a string.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The constructed URL as a string.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.Object.ToString
+  overload: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString*
+references:
+- uid: DevInstance.BlazorToolkit.Http
+  commentId: N:DevInstance.BlazorToolkit.Http
+  href: DevInstance.html
+  name: DevInstance.BlazorToolkit.Http
+  nameWithType: DevInstance.BlazorToolkit.Http
+  fullName: DevInstance.BlazorToolkit.Http
+  spec.csharp:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Http
+    name: Http
+    href: DevInstance.BlazorToolkit.Http.html
+  spec.vb:
+  - uid: DevInstance
+    name: DevInstance
+    href: DevInstance.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit
+    name: BlazorToolkit
+    href: DevInstance.BlazorToolkit.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Http
+    name: Http
+    href: DevInstance.BlazorToolkit.Http.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.Dictionary{System.String,System.Object}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Object}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, object>
+  nameWithType: Dictionary<string, object>
+  fullName: System.Collections.Generic.Dictionary<string, object>
+  nameWithType.vb: Dictionary(Of String, Object)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Object)
+  name.vb: Dictionary(Of String, Object)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  commentId: T:DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+  parent: DevInstance.BlazorToolkit.Http
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html
+  name: ApiUrlBuilder
+  nameWithType: ApiUrlBuilder
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create*
+  commentId: Overload:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html#DevInstance_BlazorToolkit_Http_ApiUrlBuilder_Create_System_String_
+  name: Create
+  nameWithType: ApiUrlBuilder.Create
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Create
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query*
+  commentId: Overload:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html#DevInstance_BlazorToolkit_Http_ApiUrlBuilder_Query_System_String_System_Object_
+  name: Query
+  nameWithType: ApiUrlBuilder.Query
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Query
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path*
+  commentId: Overload:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html#DevInstance_BlazorToolkit_Http_ApiUrlBuilder_Path_System_String_
+  name: Path
+  nameWithType: ApiUrlBuilder.Path
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.Path
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString*
+  commentId: Overload:DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString
+  href: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.html#DevInstance_BlazorToolkit_Http_ApiUrlBuilder_ToString
+  name: ToString
+  nameWithType: ApiUrlBuilder.ToString
+  fullName: DevInstance.BlazorToolkit.Http.ApiUrlBuilder.ToString

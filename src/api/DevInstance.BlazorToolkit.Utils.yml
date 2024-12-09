@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Utils
+  commentId: N:DevInstance.BlazorToolkit.Utils
+  id: DevInstance.BlazorToolkit.Utils
+  children:
+  - DevInstance.BlazorToolkit.Utils.IdGenerator
+  langs:
+  - csharp
+  - vb
+  name: DevInstance.BlazorToolkit.Utils
+  nameWithType: DevInstance.BlazorToolkit.Utils
+  fullName: DevInstance.BlazorToolkit.Utils
+  type: Namespace
+  assemblies:
+  - DevInstance.BlazorToolkit
+references:
+- uid: DevInstance.BlazorToolkit.Utils.IdGenerator
+  commentId: T:DevInstance.BlazorToolkit.Utils.IdGenerator
+  href: DevInstance.BlazorToolkit.Utils.IdGenerator.html
+  name: IdGenerator
+  nameWithType: IdGenerator
+  fullName: DevInstance.BlazorToolkit.Utils.IdGenerator

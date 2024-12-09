@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Validators
+  commentId: N:DevInstance.BlazorToolkit.Validators
+  id: DevInstance.BlazorToolkit.Validators
+  children:
+  - DevInstance.BlazorToolkit.Validators.FluentValidator
+  langs:
+  - csharp
+  - vb
+  name: DevInstance.BlazorToolkit.Validators
+  nameWithType: DevInstance.BlazorToolkit.Validators
+  fullName: DevInstance.BlazorToolkit.Validators
+  type: Namespace
+  assemblies:
+  - DevInstance.BlazorToolkit
+references:
+- uid: DevInstance.BlazorToolkit.Validators.FluentValidator
+  commentId: T:DevInstance.BlazorToolkit.Validators.FluentValidator
+  href: DevInstance.BlazorToolkit.Validators.FluentValidator.html
+  name: FluentValidator
+  nameWithType: FluentValidator
+  fullName: DevInstance.BlazorToolkit.Validators.FluentValidator

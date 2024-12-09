@@ -1,0 +1,83 @@
+### YamlMime:ManagedReference
+items:
+- uid: DevInstance.BlazorToolkit.Services.Wasm
+  commentId: N:DevInstance.BlazorToolkit.Services.Wasm
+  id: DevInstance.BlazorToolkit.Services.Wasm
+  children:
+  - DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+  - DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+  - DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync`1
+  langs:
+  - csharp
+  - vb
+  name: DevInstance.BlazorToolkit.Services.Wasm
+  nameWithType: DevInstance.BlazorToolkit.Services.Wasm
+  fullName: DevInstance.BlazorToolkit.Services.Wasm
+  type: Namespace
+  assemblies:
+  - DevInstance.BlazorToolkit
+references:
+- uid: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+  commentId: T:DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+  href: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler-1.html
+  name: ResultHandler<T>
+  nameWithType: ResultHandler<T>
+  fullName: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler<T>
+  nameWithType.vb: ResultHandler(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler(Of T)
+  name.vb: ResultHandler(Of T)
+  spec.csharp:
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+    name: ResultHandler
+    href: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler`1
+    name: ResultHandler
+    href: DevInstance.BlazorToolkit.Services.Wasm.ResultHandler-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+  commentId: T:DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+  href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.html
+  name: ServiceUtils
+  nameWithType: ServiceUtils
+  fullName: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+- uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync`1
+  commentId: T:DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync`1
+  href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.html
+  name: ServiceUtils.WebApiHandlerAsync<T>
+  nameWithType: ServiceUtils.WebApiHandlerAsync<T>
+  fullName: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync<T>
+  nameWithType.vb: ServiceUtils.WebApiHandlerAsync(Of T)
+  fullName.vb: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync(Of T)
+  name.vb: ServiceUtils.WebApiHandlerAsync(Of T)
+  spec.csharp:
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+    name: ServiceUtils
+    href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync`1
+    name: WebApiHandlerAsync
+    href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils
+    name: ServiceUtils
+    href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.html
+  - name: .
+  - uid: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync`1
+    name: WebApiHandlerAsync
+    href: DevInstance.BlazorToolkit.Services.Wasm.ServiceUtils.WebApiHandlerAsync-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
