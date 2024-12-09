@@ -32,6 +32,13 @@ steps:
     solution: '**/DevInstance.BlazorToolkit.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
+# Step 3: Pack NuGet Package
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/DevInstance.BlazorToolkit.csproj'  # Or .nuspec if applicable
+    configuration: $(buildConfiguration)
+
 # Step 3: Push NuGet Package
 - task: NuGetCommand@2
   inputs:
