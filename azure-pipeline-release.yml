@@ -9,11 +9,12 @@ variables:
 
 steps:
 # Step 1: Restore NuGet Packages
-- task: NuGetToolInstaller@1
-  displayName: 'Use NuGet 5.8'
-  inputs:
-    versionSpec: 5.8
+- task: NuGetToolInstaller@1                            # Minimum required NuGet version: 4.8.0.5385+.
+  displayName: 'NuGet Tool Installer'
 
+- task: NuGetAuthenticate@1
+  displayName: 'NuGet Authenticate'
+  
 - task: UseDotNet@2
   displayName: 'Use .NET 8.x'
   inputs:
@@ -34,7 +35,12 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    packagesToPush: '**/*.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NugetCon'
-    #feedPublishUrl: $(nugetFeedUrl)
+    feedsToUse: 'config'
+    includeNugetOrg: 'true'
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '**/*.nupkg'
+#     nuGetFeedType: 'external'
+#     publishFeedCredentials: 'NugetCon'
+#     #feedPublishUrl: $(nugetFeedUrl)
