@@ -39,11 +39,4 @@ steps:
     packagesToPush: '**/*.nupkg'
     nuGetFeedType: 'external'
     externalFeedCredentials: 'NugetCon'
-
-# - task: NuGetCommand@2
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '**/*.nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'NugetCon'
-#     #feedPublishUrl: $(nugetFeedUrl)
+    feedPublishUrl: 'https://api.nuget.org/v3/index.json'
