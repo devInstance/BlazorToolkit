@@ -6,6 +6,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   nugetFeedUrl: 'https://www.nuget.org/packages/DevInstance.BlazorToolkit/'
+  nugetApiKey: $(NuGetApiKey)
 
 steps:
 # Step 1: Restore NuGet Packages
@@ -37,7 +38,8 @@ steps:
     command: 'push'
     packagesToPush: '**/*.nupkg'
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'NugetCon'
+    externalFeedCredentials: 'NugetCon'
+
 # - task: NuGetCommand@2
 #   inputs:
 #     command: 'push'
