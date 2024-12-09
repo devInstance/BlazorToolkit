@@ -36,8 +36,11 @@ steps:
   inputs:
     command: 'push'
     feedsToUse: 'config'
-    packagesToPush: '**/*.nupkg'
-    nuGetFeedType: 'external'
     includeNugetOrg: 'true'
-    publishFeedCredentials: 'NugetCon'
-    #feedPublishUrl: $(nugetFeedUrl)
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '**/*.nupkg'
+#     nuGetFeedType: 'external'
+#     publishFeedCredentials: 'NugetCon'
+#     #feedPublishUrl: $(nugetFeedUrl)
