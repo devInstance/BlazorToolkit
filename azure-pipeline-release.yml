@@ -37,6 +37,8 @@ steps:
     command: 'push'
     feedsToUse: 'config'
     includeNugetOrg: 'true'
+    packagesToPush: '**/*.nupkg'
+    publishFeedCredentials: 'NugetCon'
 # - task: NuGetCommand@2
 #   inputs:
 #     command: 'push'
