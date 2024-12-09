@@ -46,5 +46,5 @@ steps:
     command: 'push'
     packagesToPush: '**/*.nupkg'
     nuGetFeedType: 'external'
-    externalFeedCredentials: 'NugetCon'
+    publishFeedCredentials: 'NugetCon'
     # feedPublishUrl: 'https://api.nuget.org/v3/index.json'
