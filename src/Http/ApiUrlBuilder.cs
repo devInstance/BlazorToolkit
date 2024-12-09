@@ -3,23 +3,58 @@ using System.Text;
 
 namespace DevInstance.BlazorToolkit.Http;
 
+
+/// <summary>
+/// The ApiUrlBuilder class is used to construct URLs for API endpoints.
+/// It allows adding path segments and query parameters to the URL.
+/// <code>
+/// var url = ApiUrlBuilder.Create("api/companies").Path(id).Path("employees").Query("firstname", "John");
+/// Console.Write(url);
+/// </code>
+/// Result:
+/// <code>
+/// api/companies/92387/employees?firstname=John
+/// </code>
+/// </summary>
 public class ApiUrlBuilder
 {
     StringBuilder result;
 
+    /// <summary>
+    /// Dictionary to store query parameters.
+    /// </summary>
     protected Dictionary<string, object> _queryParameters = new Dictionary<string, object>();
+
+    /// <summary>
+    /// List to store path segments.
+    /// </summary>
     protected List<string> _path = new List<string>();
 
-    private ApiUrlBuilder(string controller)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApiUrlBuilder"/> class with the specified path.
+    /// </summary>
+    /// <param name="path">The initial path for the URL.</param>
+    private ApiUrlBuilder(string path)
     {
-        result = new StringBuilder(controller);
+        result = new StringBuilder(path);
     }
 
-    public static ApiUrlBuilder Create(string controller)
+    /// <summary>
+    /// Creates a new instance of the <see cref="ApiUrlBuilder"/> class with the specified path.
+    /// </summary>
+    /// <param name="path">The initial path for the URL.</param>
+    /// <returns>A new instance of the <see cref="ApiUrlBuilder"/> class.</returns>
+    public static ApiUrlBuilder Create(string path)
     {
-        return new ApiUrlBuilder(controller);
+        return new ApiUrlBuilder(path);
     }
 
+    /// <summary>
+    /// Adds a query parameter to the URL.
+    /// </summary>
+    /// <param name="name">The name of the query parameter.</param>
+    /// <param name="value">The value of the query parameter.</param>
+    /// <returns>The current instance of ApiUrlBuilder.</returns>
     public ApiUrlBuilder Query(string name, object? value)
     {
         if (value != null)
@@ -29,6 +64,11 @@ public class ApiUrlBuilder
         return this;
     }
 
+    /// <summary>
+    /// Adds a path segment to the URL.
+    /// </summary>
+    /// <param name="value">The path segment to add.</param>
+    /// <returns>The current instance of ApiUrlBuilder.</returns>
     public ApiUrlBuilder Path(string? value)
     {
         if (value != null)
@@ -38,6 +78,10 @@ public class ApiUrlBuilder
         return this;
     }
 
+    /// <summary>
+    /// Converts the constructed URL to a string.
+    /// </summary>
+    /// <returns>The constructed URL as a string.</returns>
     public override string ToString()
     {
         foreach (var item in _path)

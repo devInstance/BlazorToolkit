@@ -5,24 +5,45 @@ using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Services;
 
+/// <summary>
+/// Delegate for performing an asynchronous service call that returns a ServiceActionResult.
+/// </summary>
+/// <typeparam name="T">The type of the result returned by the service call.</typeparam>
+/// <returns>A task that represents the asynchronous operation, containing the ServiceActionResult.</returns>
 public delegate Task<ServiceActionResult<T>> PerformAsyncCallHandler<T>();
 
+/// <summary>
+/// Handles the execution of service calls, managing their progress, success, and error states.
+/// </summary>
 public class ServiceExecutionHandler
 {
     private List<Func<Task<bool>>> tasks;
-
     private IServiceExecutionHost basePage;
-
     IScopeLog log;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ServiceExecutionHandler"/> class.
+    /// </summary>
+    /// <param name="l">The scope log for tracing.</param>
+    /// <param name="basePage">The base page that implements IServiceExecutionHost.</param>
     public ServiceExecutionHandler(IScopeLog l, IServiceExecutionHost basePage)
     {
         this.log = l.TraceScope("SEHandler");
         this.basePage = basePage;
-
         tasks = new List<Func<Task<bool>>>();
     }
 
+    /// <summary>
+    /// Dispatches a service call to be executed.
+    /// </summary>
+    /// <typeparam name="T">The type of the result returned by the service call.</typeparam>
+    /// <param name="handler">The handler that performs the service call.</param>
+    /// <param name="success">The action to execute if the service call is successful.</param>
+    /// <param name="sucessAsync">The asynchronous action to execute if the service call is successful.</param>
+    /// <param name="error">The action to execute if the service call encounters errors.</param>
+    /// <param name="before">The action to execute before the service call.</param>
+    /// <param name="enableProgress">Indicates whether to show progress during the service call.</param>
+    /// <returns>The current instance of <see cref="ServiceExecutionHandler"/>.</returns>
     public ServiceExecutionHandler DispatchCall<T>(PerformAsyncCallHandler<T> handler,
                                                     Action<T> success = null,
                                                     Func<T, Task> sucessAsync = null,
@@ -38,6 +59,10 @@ public class ServiceExecutionHandler
         }
     }
 
+    /// <summary>
+    /// Executes all dispatched service calls asynchronously.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ExecuteAsync()
     {
         using (var l = log.TraceScope())
@@ -58,7 +83,6 @@ public class ServiceExecutionHandler
         {
             if (enableProgress)
             {
-                //TODO: move progress to ExecuteAsync
                 basePage.InProgress = true;
                 basePage.StateHasChanged();
             }
@@ -107,7 +131,6 @@ public class ServiceExecutionHandler
                 l.W(errorMessage);
                 basePage.ErrorMessage = errorMessage;
 
-                //If session has expired we redirect to the login page
                 if (!res.IsAuthorized)
                 {
                     basePage.InProgress = false;

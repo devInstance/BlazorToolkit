@@ -1,46 +1,59 @@
 ﻿namespace DevInstance.BlazorToolkit.Model;
 
+
+/// <summary>
+/// Represents a list of models with pagination, sorting, and filtering capabilities.
+/// </summary>
+/// <typeparam name="T">The type of the items in the list.</typeparam>
 public class ModelList<T>
 {
     /// <summary>
-    /// Total count of items
+    /// Gets or sets the total count of items.
     /// </summary>
     public int TotalCount { get; set; }
+
     /// <summary>
-    /// Total count of pages
+    /// Gets or sets the total count of pages.
     /// </summary>
     public int PagesCount { get; set; }
+
     /// <summary>
-    /// Selected page index (starting from 0)
+    /// Gets or sets the selected page index (starting from 0).
     /// </summary>
     public int Page { get; set; }
+
     /// <summary>
-    /// Count of item on in selected time range
+    /// Gets or sets the count of items in the selected time range.
     /// </summary>
     public int Count { get; set; }
+
     /// <summary>
-    /// Column name to sort by
+    /// Gets or sets the column name to sort by.
     /// </summary>
     public string SortBy { get; set; }
+
     /// <summary>
-    /// If true - sort in ascending order
+    /// Gets or sets a value indicating whether to sort in ascending order.
     /// </summary>
     public bool IsAsc { get; set; }
+
     /// <summary>
-    /// Search string
+    /// Gets or sets the search string.
     /// </summary>
     public string Search { get; set; }
+
     /// <summary>
-    /// Filter value
+    /// Gets or sets the filter value.
     /// </summary>
     public int Filter { get; set; }
+
     /// <summary>
-    /// Fields to include in response
+    /// Gets or sets the fields to include in the response.
     /// </summary>
     public int Fields { get; set; }
 
     /// <summary>
-    /// Array of items
+    /// Gets or sets the array of items.
     /// </summary>
     public T[] Items { get; set; }
 }
