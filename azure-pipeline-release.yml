@@ -1,0 +1,40 @@
+# https://aka.ms/yaml
+
+pool:
+  name: 'Default'
+
+variables:
+  buildConfiguration: 'Release'
+  nugetFeedUrl: 'https://www.nuget.org/packages/DevInstance.BlazorToolkit/'
+
+steps:
+# Step 1: Restore NuGet Packages
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 5.8'
+  inputs:
+    versionSpec: 5.8
+
+- task: UseDotNet@2
+  displayName: 'Use .NET 8.x'
+  inputs:
+    version: 8.x
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+
+# Step 2: Build the Solution and pack NuGet Package
+- task: VSBuild@1
+  inputs:
+    solution: '**/DevInstance.BlazorToolkit.csproj'
+    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+
+# Step 3: Push NuGet Package
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'NugetCon'
+    #feedPublishUrl: $(nugetFeedUrl)
