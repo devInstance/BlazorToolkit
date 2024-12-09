@@ -36,6 +36,7 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '**/*.nupkg'
+    nuGetFeedType: 'external'
     publishFeedCredentials: 'NugetCon'
 # - task: NuGetCommand@2
 #   inputs:
