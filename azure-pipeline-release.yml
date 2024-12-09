@@ -10,11 +10,11 @@ variables:
 
 steps:
 # Step 1: Restore NuGet Packages
-- task: NuGetToolInstaller@1                            # Minimum required NuGet version: 4.8.0.5385+.
+- task: NuGetToolInstaller@1
   displayName: 'NuGet Tool Installer'
 
-- task: NuGetAuthenticate@1
-  displayName: 'NuGet Authenticate'
+# - task: NuGetAuthenticate@1
+#   displayName: 'NuGet Authenticate'
   
 - task: UseDotNet@2
   displayName: 'Use .NET 8.x'
@@ -33,12 +33,13 @@ steps:
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 # Step 3: Pack NuGet Package
-- task: NuGetCommand@2
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/DevInstance.BlazorToolkit.csproj'  # Or .nuspec if applicable
-    configuration: $(buildConfiguration)
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'pack'
+#     packagesToPack: '**/DevInstance.BlazorToolkit.csproj'  # Or .nuspec if applicable
+#     configuration: $(buildConfiguration)
 
+- powershell: Get-ChildItem -recurse
 # Step 3: Push NuGet Package
 - task: NuGetCommand@2
   inputs:
