@@ -1,65 +1,46 @@
 ﻿@page "/"
+@using DevInstance.BlazorToolkit.Components
 @using DevInstance.BlazorToolkit.Model
 @using DevInstance.BlazorToolkit.Services
 @using DevInstance.EmployeeList.Client.Services
 @using DevInstance.EmployeeList.Model
 
+@layout BlazorToolkitPageLayout
 <PageTitle>Home</PageTitle>
-
-<h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-@if (IsError)
+<ul>
+@if (employees != null)
 {
-    <p>Error: @ErrorMessage</p>
+    @foreach (var employee in employees.Items)
+    {
+            <li>@employee.Name</li>
+    }
 }
+</ul>
 
-@if (InProgress)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <ul>
-        @if (!IsError && employees != null)
-        {
-            @foreach (var employee in employees.Items)
-            {
-                <li>@employee.Name</li>
-            }
-        }
-    </ul>
-}
+<button @onclick="TriggerError">Trigger Error</button>
 
-@implements IServiceExecutionHost
 @code {
 
     [Inject]
     EmployeeService Service { get; set; }
 
-    private ModelList<EmployeeItem> employees;
+    [CascadingParameter]
+    public IServiceExecutionHost? Host { get; set; }
+
+    private ModelList<EmployeeItem> employees = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await this.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+        await Host.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
     }
 
-    #region IServiceExecutionHost implementation
-    public string ErrorMessage { get; set; }
-
-    public bool IsError { get; set; }
-
-    public bool InProgress { get; set; }
-
-    void IServiceExecutionHost.ShowLogin()
+    private void TriggerError()
     {
-        //TODO: navigate to login page
+        Host.ErrorMessage = "An error occurred in the child component.";
+        Host.IsError = true;
+        Host.StateHasChanged();
     }
-
-    void IServiceExecutionHost.StateHasChanged()
-    {
-        StateHasChanged();
-    }
-    #endregion
 }

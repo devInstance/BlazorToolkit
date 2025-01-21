@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
 		<AssemblyName>DevInstance.BlazorToolkit</AssemblyName>
 		<RootNamespace>DevInstance.BlazorToolkit</RootNamespace>
@@ -11,9 +12,9 @@
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>8.0.1</Version>
-		<AssemblyVersion>8.0.1.0</AssemblyVersion>
-		<FileVersion>8.0.1.0</FileVersion>
+		<Version>8.1.0</Version>
+		<AssemblyVersion>8.1.0.0</AssemblyVersion>
+		<FileVersion>8.1.0.0</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<SignAssembly>False</SignAssembly>
@@ -25,10 +26,6 @@
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
 		<PackageTags>tools, blazor</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Content Include="icon.png" />
-	</ItemGroup>
 
 
 	<ItemGroup>
@@ -47,10 +44,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevInstance.LogScope" Version="1.4.2" />
-		<PackageReference Include="FluentValidation" Version="11.9.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.11" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.11" />
+		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.12" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
 	</ItemGroup>

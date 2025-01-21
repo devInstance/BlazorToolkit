@@ -17,6 +17,7 @@ public class EmployeeService
 
     public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page, string? search)
     {
+        await Task.Delay(5000);
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
             {

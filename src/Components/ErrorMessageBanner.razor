@@ -1,0 +1,40 @@
+@if (showError)
+{
+    <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+        <span>
+            <span class="oi bi-exclamation-diamond-fill"></span>
+            <span class="ms-2">@errorMessage</span>
+        </span>
+        @if (ShowDismissButton)
+        {
+            <button class="btn btn-danger float-end" @onclick="DismissAlert">
+                @DismissLabel
+            </button>
+        }
+    </div>
+}
+
+@code
+{
+    [Parameter]
+    public bool IsError { get => showError; set => showError = value; }
+
+    [Parameter]
+    public string Message { get => errorMessage; set => errorMessage = value; }
+
+    [Parameter]
+    public bool ShowDismissButton { get; set; } = true;
+
+    [Parameter]
+    public string DismissLabel { get; set; } = "Dismiss";
+
+    private bool showError = true;
+
+    private string errorMessage;
+
+    private void DismissAlert()
+    {
+        showError = false;
+    }
+}
+

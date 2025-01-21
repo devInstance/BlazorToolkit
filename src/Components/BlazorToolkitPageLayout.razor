@@ -1,0 +1,39 @@
+﻿@using DevInstance.BlazorToolkit.Services
+@using Microsoft.AspNetCore.Components.Web
+
+@inherits LayoutComponentBase
+
+@implements IServiceExecutionHost
+
+<CascadingValue Value="this" IsFixed="true">
+    <div class="base-page">
+        @if (InProgress)
+        {
+            <PageProgress></PageProgress>
+        }
+
+        <ErrorMessageBanner IsError="IsError" Message="@ErrorMessage"></ErrorMessageBanner>
+
+        <div class="content">
+            @Body
+        </div>
+    </div>
+ </CascadingValue>
+
+@code {
+    public string ErrorMessage { get; set; } = string.Empty;
+    public bool IsError { get; set; } = false;
+    public bool InProgress { get; set; } = false;
+
+    public void ShowLogin()
+    {
+        ErrorMessage = "Please log in to continue.";
+        IsError = true;
+        StateHasChanged();
+    }
+
+    public new void StateHasChanged()
+    {
+        InvokeAsync(() => base.StateHasChanged());
+    }
+}
