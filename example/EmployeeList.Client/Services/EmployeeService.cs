@@ -2,10 +2,12 @@
 using DevInstance.BlazorToolkit.Model;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Wasm;
+using DevInstance.BlazorToolkit.Tools;
 using DevInstance.EmployeeList.Model;
 
 namespace DevInstance.EmployeeList.Client.Services;
 
+[BlazorService]
 public class EmployeeService
 {
     IApiContext<EmployeeItem> Api { get; set; }

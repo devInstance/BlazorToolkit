@@ -1,4 +1,5 @@
 using DevInstance.BlazorToolkit.Http;
+using DevInstance.BlazorToolkit.Tools;
 using DevInstance.EmployeeList.Client.Services;
 using DevInstance.EmployeeList.Model;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -21,7 +22,7 @@ internal class Program
             return factory.Create<EmployeeItem>("DevInstance.EmployeeList.Client", "api/employees");
         });
 
-        builder.Services.AddScoped<EmployeeService>();
+        builder.Services.AddBlazorServices();
 
         await builder.Build().RunAsync();
     }
