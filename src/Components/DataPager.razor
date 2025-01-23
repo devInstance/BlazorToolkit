@@ -46,23 +46,28 @@
         </ul>
     </nav>
 }
-
+@using DevInstance.BlazorToolkit.Model
+@typeparam TEntity where TEntity : ModelItem
 @code {
     [Parameter]
-    public string UrlTemplate { get; set; }
+    public string? UrlTemplate { get; set; } = null;
 
     [Parameter]
-    public int PagesCount { get; set; }
+    public int PagesCount { get; set; } = 0;
 
     [Parameter]
-    public int SelectedPage { get; set; }
+    public int SelectedPage { get; set; } = 0;
+
+    [Parameter]
+    public ModelList<TEntity>? List { get; set; }
 
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
 
     int MaxItems = 15;
 
-    private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(SelectedPage, PagesCount, MaxItems);
+    private IEnumerable<int> PageRange => 
+        List != null ? DataPageUtils.GetPageRange(List.Page, List.PagesCount, MaxItems) : DataPageUtils.GetPageRange(SelectedPage, PagesCount, MaxItems);
     
     private void ChangePage(int newValue)
     {

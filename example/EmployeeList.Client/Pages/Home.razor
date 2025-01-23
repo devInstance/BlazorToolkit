@@ -6,21 +6,31 @@
 @using DevInstance.EmployeeList.Model
 
 @layout BlazorToolkitPageLayout
-<PageTitle>Home</PageTitle>
 
-Welcome to your new app.
+<PageTitle>Employee List</PageTitle>
 
-<ul>
-@if (employees != null)
-{
-    @foreach (var employee in employees.Items)
-    {
-            <li>@employee.Name</li>
-    }
-}
-</ul>
-
-<button @onclick="TriggerError">Trigger Error</button>
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Employee List</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Welcome to the employee list page. It shows how to use the Blazor Toolkit components.</p>
+        <div class="list-group">
+        @if (employees != null)
+        {
+            @foreach (var employee in employees.Items)
+            {
+                <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
+            }
+            <DataPager List="employees"></DataPager>
+        }
+        </div>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center p-2">
+            <button type="button" class="btn btn-primary" @onclick="TriggerErrorAsync">Add New</button>
+        </div>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center p-2">
+            <button type="button" class="btn btn-danger" @onclick="TriggerErrorAsync">Trigger Error</button>
+        </div>
+    </div>
+</div>
 
 @code {
 
@@ -37,10 +47,8 @@ Welcome to your new app.
         await Host.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
     }
 
-    private void TriggerError()
+    private async Task TriggerErrorAsync()
     {
-        Host.ErrorMessage = "An error occurred in the child component.";
-        Host.IsError = true;
-        Host.StateHasChanged();
+        await Host.ServiceCallAsync<EmployeeItem>(() => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
 }
