@@ -38,34 +38,20 @@ public interface IApiContext<T>
     /// <returns>The API context.</returns>
     IApiContext<T> Delete(string? id);
 
-    /// <summary>
-    /// Limits the number of entities to retrieve.
-    /// </summary>
-    /// <param name="top">The number of entities to retrieve.</param>
-    /// <returns>The API context.</returns>
-    IApiContext<T> Top(int top);
+    IApiContext<T> Url(string url);
+
+    IApiContext<T> Url(ApiUrlBuilder url);
 
     /// <summary>
-    /// Sets the page number for pagination.
+    /// Adds a parameter to the query string of the url.
     /// </summary>
-    /// <param name="page">The page number.</param>
-    /// <returns>The API context.</returns>
-    IApiContext<T> Page(int page);
-
-    /// <summary>
-    /// Searches for entities by a key.
-    /// </summary>
-    /// <param name="key">The search key.</param>
-    /// <returns>The API context.</returns>
-    IApiContext<T> Search(string key);
-
-    /// <summary>
-    /// Sorts the entities by a key.
-    /// </summary>
-    /// <param name="key">The key to sort by.</param>
-    /// <param name="isAsc">If true, sorts in ascending order; otherwise, sorts in descending order.</param>
-    /// <returns>The API context.</returns>
-    IApiContext<T> Sort(string key, bool isAsc);
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    IApiContext<T> Parameter(string name, object value);
+    IApiContext<T> Parameter<F>(string name, F value);
+    IApiContext<T> Path(string name);
+    IApiContext<T> Fragment(string name);
 
     /// <summary>
     /// Executes the API context operation asynchronously.

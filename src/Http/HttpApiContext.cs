@@ -55,6 +55,18 @@ internal class HttpApiContext<T> : IApiContext<T>
         return this;
     }
 
+    public IApiContext<T> Url(string url)
+    {
+        apiUrlBuilder = ApiUrlBuilder.Create(url);
+        return this;
+    }
+
+    public IApiContext<T> Url(ApiUrlBuilder url)
+    {
+        apiUrlBuilder = url;
+        return this;
+    }
+
     public async Task<ModelList<T>?> ListAsync()
     {
         string url = apiUrlBuilder.ToString();
@@ -91,28 +103,27 @@ internal class HttpApiContext<T> : IApiContext<T>
         }
     }
 
-    public IApiContext<T> Top(int top)
+    public IApiContext<T> Parameter(string name, object value)
     {
-        apiUrlBuilder.Query("top", top);
+        apiUrlBuilder.Query(name, value);
         return this;
     }
 
-    public IApiContext<T> Page(int page)
+    public IApiContext<T> Parameter<F>(string name, F value)
     {
-        apiUrlBuilder.Query("page", page);
+        apiUrlBuilder.Query(name, value);
         return this;
     }
 
-    public IApiContext<T> Search(string key)
+    public IApiContext<T> Path(string name)
     {
-        apiUrlBuilder.Query("search", key);
+        apiUrlBuilder.Path(name);
         return this;
     }
 
-    public IApiContext<T> Sort(string key, bool isAsc)
+    public IApiContext<T> Fragment(string name)
     {
-        apiUrlBuilder.Query("sortBy", key);
-        apiUrlBuilder.Query("asc", isAsc);
+        apiUrlBuilder.Fragment(name);
         return this;
     }
 }

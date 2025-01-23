@@ -78,6 +78,11 @@ public class ApiUrlBuilder
         return this;
     }
 
+    public ApiUrlBuilder Fragment(string? value)
+    {
+        throw new System.NotImplementedException();
+    }
+
     /// <summary>
     /// Converts the constructed URL to a string.
     /// </summary>
