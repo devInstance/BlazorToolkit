@@ -1,5 +1,14 @@
 ﻿namespace DevInstance.BlazorToolkit.Services;
 
+/// <summary>
+/// 
+/// </summary>
+public enum ServiceExecutionType
+{
+    None,
+    Read,
+    Submit
+}
 
 /// <summary>
 /// Interface for the service execution host. This should be 

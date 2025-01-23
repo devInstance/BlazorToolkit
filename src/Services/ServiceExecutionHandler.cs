@@ -12,14 +12,6 @@ namespace DevInstance.BlazorToolkit.Services;
 /// <returns>A task that represents the asynchronous operation, containing the ServiceActionResult.</returns>
 public delegate Task<ServiceActionResult<T>> PerformAsyncCallHandler<T>();
 
-
-public enum ServiceExecutionType
-{
-    None,
-    Read,
-    Submit
-}
-
 /// <summary>
 /// Handles the execution of service calls, managing their progress, success, and error states.
 /// </summary>

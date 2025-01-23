@@ -23,6 +23,7 @@
             <DataPager List="employees"></DataPager>
         }
         </div>
+        @* TODO: Add disabled state *@
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center p-2">
             <button type="button" class="btn btn-primary" @onclick="TriggerErrorAsync">Add New</button>
         </div>
@@ -49,6 +50,6 @@
 
     private async Task TriggerErrorAsync()
     {
-        await Host.ServiceCallAsync<EmployeeItem>(() => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
+        await Host.ServiceSubmitAsync<EmployeeItem>(() => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
 }
