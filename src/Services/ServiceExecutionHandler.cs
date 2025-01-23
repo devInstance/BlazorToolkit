@@ -12,6 +12,14 @@ namespace DevInstance.BlazorToolkit.Services;
 /// <returns>A task that represents the asynchronous operation, containing the ServiceActionResult.</returns>
 public delegate Task<ServiceActionResult<T>> PerformAsyncCallHandler<T>();
 
+
+public enum ServiceExecutionType
+{
+    None,
+    Read,
+    Submit
+}
+
 /// <summary>
 /// Handles the execution of service calls, managing their progress, success, and error states.
 /// </summary>
@@ -19,6 +27,7 @@ public class ServiceExecutionHandler
 {
     private List<Func<Task<bool>>> tasks;
     private IServiceExecutionHost basePage;
+    private ServiceExecutionType executionType = ServiceExecutionType.Read;
     IScopeLog log;
 
     /// <summary>
@@ -26,10 +35,15 @@ public class ServiceExecutionHandler
     /// </summary>
     /// <param name="l">The scope log for tracing.</param>
     /// <param name="basePage">The base page that implements IServiceExecutionHost.</param>
-    public ServiceExecutionHandler(IScopeLog l, IServiceExecutionHost basePage)
+    public ServiceExecutionHandler(IScopeLog l, IServiceExecutionHost basePage, ServiceExecutionType executionType)
     {
+        if(executionType  == ServiceExecutionType.None) {
+            throw new ArgumentException("Invalid execution type");
+        }
+
         this.log = l.TraceScope("SEHandler");
         this.basePage = basePage;
+        this.executionType = executionType;
         tasks = new List<Func<Task<bool>>>();
     }
 
@@ -81,6 +95,7 @@ public class ServiceExecutionHandler
 
         using (var l = log.TraceScope())
         {
+            basePage.OngoingExecutionType = executionType;
             if (enableProgress)
             {
                 basePage.InProgress = true;
@@ -145,6 +160,7 @@ public class ServiceExecutionHandler
             }
 
             basePage.InProgress = false;
+            basePage.OngoingExecutionType = ServiceExecutionType.None;
             basePage.StateHasChanged();
 
             return true;

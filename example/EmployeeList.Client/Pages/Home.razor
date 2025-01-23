@@ -34,7 +34,7 @@ Welcome to your new app.
 
     protected override async Task OnInitializedAsync()
     {
-        await Host.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+        await Host.ServiceReadAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
     }
 
     private void TriggerError()
