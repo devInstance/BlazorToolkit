@@ -25,19 +25,11 @@ Install-Package DevInstance.BlazorToolkit
 
 ## Examples
 
-`Program.cs`
-```csharp
+Create a new Blazor WebAssembly project. Add new service class `EmployeeService.cs` and register it in `Program.cs`. Add new razor component `Home.razor` and inject `EmployeeService` into it. Use `IServiceExecutionHost` interface to handle service execution state.
 
-static async Task Main(string[] args)
-{
-    ...
-    builder.Services.AddScoped<EmployeeService>();
-    ...
-}
-```
-
-`EmployeeService.cs`
+`EmployeeService.cs:`
 ```csharp
+[BlazorService]
 public class EmplyeeService
 {
     IApiContext<EmployeeItem> Api { get; set; }
@@ -68,66 +60,58 @@ public class EmplyeeService
 }
 ```
 
-`Home.razor`
+Register service in DI container in Program.cs:
+`Program.cs:`
+```csharp
+
+static async Task Main(string[] args)
+{
+    ...
+    builder.Services.AddBlazorServices();
+    ...
+}
+```
+
+Add new razor component `Home.razor` and inject `EmployeeService` into it. Use `IServiceExecutionHost` interface to handle service execution state. `BlazorToolkitPageLayout` implement all necessary states like loading and error handling.
+
+`Home.razor:`
 ```csharp
 @page "/"
+@using DevInstance.BlazorToolkit.Components
+@using DevInstance.BlazorToolkit.Services
+@using DevInstance.EmployeeList.Client.Services
+@using DevInstance.EmployeeList.Model
+@using DevInstance.WebServiceToolkit.Common.Model
 
-<h1>Hello, world!</h1>
+@layout BlazorToolkitPageLayout
+<PageTitle>Home</PageTitle>
 
 Welcome to your new app.
 
-@if (IsError)
+<ul>
+@if (employees != null)
 {
-    <p>Error: @ErrorMessage</p>
+    @foreach (var employee in employees.Items)
+    {
+        <li>@employee.Name</li>
+    }
 }
+</ul>
 
-@if (InProgress)
-{
-    <p>Loading...</p>
-}
-else
-{
-    <ul>
-        @if (!IsError && employees != null)
-        {
-            @foreach (var employee in employees.Items)
-            {
-                <li>@employee.Name</li>
-            }
-        }
-    </ul>
-}
-
-@implements IServiceExecutionHost
 @code {
 
     [Inject]
     EmployeeService Service { get; set; }
 
-    private ModelList<EmployeeItem> employees;
+    [CascadingParameter]
+    public IServiceExecutionHost? Host { get; set; }
+
+    private ModelList<EmployeeItem> employees = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await this.ServiceCallAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+        await Host.ServiceReadAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
     }
-
-    #region IServiceExecutionHost implementation
-    public string ErrorMessage { get; set; }
-
-    public bool IsError { get; set; }
-
-    public bool InProgress { get; set; }
-
-    void IServiceExecutionHost.ShowLogin()
-    {
-        //TODO: navigate to login page
-    }
-
-    void IServiceExecutionHost.StateHasChanged()
-    {
-        StateHasChanged();
-    }
-    #endregion
 }
 ```
 

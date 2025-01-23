@@ -1,4 +1,4 @@
-﻿using DevInstance.BlazorToolkit.Model;
+﻿using DevInstance.WebServiceToolkit.Common.Model;
 using DevInstance.BlazorToolkit.Utils;
 using DevInstance.EmployeeList.Model;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿using DevInstance.BlazorToolkit.Model;
+﻿using DevInstance.WebServiceToolkit.Common.Model;
 using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Http;

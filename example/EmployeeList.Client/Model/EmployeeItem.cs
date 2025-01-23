@@ -1,4 +1,4 @@
-﻿using DevInstance.BlazorToolkit.Model;
+﻿using DevInstance.WebServiceToolkit.Common.Model;
 
 namespace DevInstance.EmployeeList.Model;
 

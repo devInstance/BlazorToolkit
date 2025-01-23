@@ -19,10 +19,12 @@ public interface IServiceExecutionHost
     bool IsError { get; set; }
 
     /// <summary>
-    /// Flag to indicate if the service call is in progress
+    /// Flag to indicate if the service call is in progress. It is true 
+    /// if <see cref="IsLoading"/> or <see cref="IsSubmitting"/> is in progress.
     /// </summary>
     bool InProgress { get; set; }
 
+    public ServiceExecutionType OngoingExecutionType { get; set; }
     /// <summary>
     /// The implementation of this method should navigate to the login page
     /// </summary>
