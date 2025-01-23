@@ -1,9 +1,9 @@
 ﻿using DevInstance.BlazorToolkit.Http;
-using DevInstance.BlazorToolkit.Model;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Wasm;
 using DevInstance.BlazorToolkit.Tools;
 using DevInstance.EmployeeList.Model;
+using DevInstance.WebServiceToolkit.Common.Model;
 
 namespace DevInstance.EmployeeList.Client.Services;
 

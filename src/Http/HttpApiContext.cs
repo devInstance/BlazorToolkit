@@ -1,4 +1,4 @@
-﻿using DevInstance.BlazorToolkit.Model;
+﻿using DevInstance.WebServiceToolkit.Common.Model;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
