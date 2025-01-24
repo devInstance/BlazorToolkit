@@ -126,4 +126,24 @@ internal class HttpApiContext<T> : IApiContext<T>
         apiUrlBuilder.Fragment(name);
         return this;
     }
+
+    public IApiContext<T> Post(object obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IApiContext<T> Put(string? id, object obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<object> IApiContext<T>.ExecuteAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<T?> ExecuteItemAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
