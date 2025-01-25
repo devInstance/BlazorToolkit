@@ -10,7 +10,8 @@ internal class HttpApiContext<T> : IApiContext<T>
     private enum ApiMethod
     {
         Get,
-        Post,
+        PostTyped,
+        PostObject,
         Put,
         Delete
     }
@@ -18,6 +19,7 @@ internal class HttpApiContext<T> : IApiContext<T>
     private ApiMethod method;
     private ApiUrlBuilder apiUrlBuilder;
     private T payload;
+    private object payloadObj;
 
     public HttpClient Http { get; }
 
@@ -35,8 +37,15 @@ internal class HttpApiContext<T> : IApiContext<T>
 
     public IApiContext<T> Post(T obj)
     {
-        method = ApiMethod.Post;
+        method = ApiMethod.PostTyped;
         payload = obj;
+        return this;
+    }
+
+    public IApiContext<T> Post(object obj)
+    {
+        method = ApiMethod.PostObject;
+        payloadObj = obj;
         return this;
     }
 
@@ -67,7 +76,7 @@ internal class HttpApiContext<T> : IApiContext<T>
         return this;
     }
 
-    public async Task<ModelList<T>?> ListAsync()
+    public async Task<ModelList<T>?> ExecuteListAsync()
     {
         string url = apiUrlBuilder.ToString();
         return await Http.GetFromJsonAsync<ModelList<T>>(url);
@@ -80,9 +89,15 @@ internal class HttpApiContext<T> : IApiContext<T>
         {
             case ApiMethod.Get:
                 return await Http.GetFromJsonAsync<T>(url);
-            case ApiMethod.Post:
+            case ApiMethod.PostTyped:
             {
                 var result = await Http.PostAsJsonAsync(url, payload);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadFromJsonAsync<T>();
+            }
+            case ApiMethod.PostObject:
+            {
+                var result = await Http.PostAsJsonAsync(url, payloadObj);
                 result.EnsureSuccessStatusCode();
                 return await result.Content.ReadFromJsonAsync<T>();
             }
@@ -125,25 +140,5 @@ internal class HttpApiContext<T> : IApiContext<T>
     {
         apiUrlBuilder.Fragment(name);
         return this;
-    }
-
-    public IApiContext<T> Post(object obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    public IApiContext<T> Put(string? id, object obj)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<object> IApiContext<T>.ExecuteAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<T?> ExecuteItemAsync()
-    {
-        throw new NotImplementedException();
     }
 }

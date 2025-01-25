@@ -22,12 +22,6 @@ public interface IApiContext<T>
     /// <param name="obj">The entity to post.</param>
     /// <returns>The API context.</returns>
     IApiContext<T> Post(T obj);
-
-    /// <summary>
-    /// Posts a new entity.
-    /// </summary>
-    /// <param name="obj">The entity to post.</param>
-    /// <returns>The API context.</returns>
     IApiContext<T> Post(object obj);
 
     /// <summary>
@@ -37,14 +31,6 @@ public interface IApiContext<T>
     /// <param name="obj">The entity to update.</param>
     /// <returns>The API context.</returns>
     IApiContext<T> Put(string? id, T obj);
-
-    /// <summary>
-    /// Puts (updates) an entity by ID.
-    /// </summary>
-    /// <param name="id">The ID of the entity.</param>
-    /// <param name="obj">The entity to update.</param>
-    /// <returns>The API context.</returns>
-    IApiContext<T> Put(string? id, object obj);
 
     /// <summary>
     /// Deletes an entity by ID.
@@ -63,7 +49,6 @@ public interface IApiContext<T>
     /// <param name="name"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    IApiContext<T> Parameter(string name, object value);
     IApiContext<T> Parameter<F>(string name, F value);
     IApiContext<T> Path(string name);
     IApiContext<T> Fragment(string name);
@@ -72,17 +57,11 @@ public interface IApiContext<T>
     /// Executes the API context operation asynchronously.
     /// </summary>
     /// <returns>The entity.</returns>
-    Task<object> ExecuteAsync();
-
-    /// <summary>
-    /// Executes the API context operation asynchronously.
-    /// </summary>
-    /// <returns>The entity.</returns>
-    Task<T?> ExecuteItemAsync();
+    Task<T?> ExecuteAsync();
 
     /// <summary>
     /// Lists the entities asynchronously.
     /// </summary>
     /// <returns>A list of entities.</returns>
-    Task<ModelList<T>?> ListAsync();
+    Task<ModelList<T>?> ExecuteListAsync();
 }
