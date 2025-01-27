@@ -10,6 +10,11 @@ namespace DevInstance.BlazorToolkit.Http;
 public interface IApiContext<T>
 {
     /// <summary>
+    /// Gets the constructed URI of the API context.
+    /// </summary>
+    string Uri { get; }
+
+    /// <summary>
     /// Gets an entity by ID.
     /// </summary>
     /// <param name="id">The ID of the entity.</param>

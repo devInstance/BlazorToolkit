@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace DevInstance.BlazorToolkit.Http;
@@ -18,8 +19,7 @@ namespace DevInstance.BlazorToolkit.Http;
 /// </summary>
 public class ApiUrlBuilder
 {
-    StringBuilder result;
-
+    protected string BaseUrl { get; set; }
     /// <summary>
     /// Dictionary to store query parameters.
     /// </summary>
@@ -36,7 +36,7 @@ public class ApiUrlBuilder
     /// <param name="path">The initial path for the URL.</param>
     private ApiUrlBuilder(string path)
     {
-        result = new StringBuilder(path);
+        BaseUrl = path;
     }
 
     /// <summary>
@@ -89,6 +89,8 @@ public class ApiUrlBuilder
     /// <returns>The constructed URL as a string.</returns>
     public override string ToString()
     {
+        StringBuilder result = new StringBuilder(BaseUrl);
+
         foreach (var item in _path)
         {
             result.Append("/").Append(item);

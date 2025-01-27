@@ -23,6 +23,8 @@ internal class HttpApiContext<T> : IApiContext<T>
 
     public HttpClient Http { get; }
 
+    public string Uri => apiUrlBuilder.ToString();
+
     public HttpApiContext(string url, HttpClient http)
     {
         apiUrlBuilder = ApiUrlBuilder.Create(url);
@@ -79,7 +81,37 @@ internal class HttpApiContext<T> : IApiContext<T>
     public async Task<ModelList<T>?> ExecuteListAsync()
     {
         string url = apiUrlBuilder.ToString();
-        return await Http.GetFromJsonAsync<ModelList<T>>(url);
+        switch (method)
+        {
+            case ApiMethod.Get:
+                return await Http.GetFromJsonAsync<ModelList<T>>(url);
+            case ApiMethod.PostTyped:
+            {
+                var result = await Http.PostAsJsonAsync(url, payload);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+            }
+            case ApiMethod.PostObject:
+            {
+                var result = await Http.PostAsJsonAsync(url, payloadObj);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+            }
+            case ApiMethod.Put:
+            {
+                var result = await Http.PutAsJsonAsync(url, payload);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+            }
+            case ApiMethod.Delete:
+            {
+                var result = await Http.DeleteAsync(url);
+                result.EnsureSuccessStatusCode();
+                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+            }
+            default:
+                return default;
+        }
     }
 
     public async Task<T?> ExecuteAsync()
