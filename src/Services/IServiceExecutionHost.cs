@@ -28,8 +28,7 @@ public interface IServiceExecutionHost
     bool IsError { get; set; }
 
     /// <summary>
-    /// Flag to indicate if the service call is in progress. It is true 
-    /// if <see cref="IsLoading"/> or <see cref="IsSubmitting"/> is in progress.
+    /// Flag to indicate if the service call is in progress.
     /// </summary>
     bool InProgress { get; set; }
 

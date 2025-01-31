@@ -10,16 +10,14 @@ internal class HttpApiContext<T> : IApiContext<T>
     private enum ApiMethod
     {
         Get,
-        PostTyped,
-        PostObject,
+        Post,
         Put,
         Delete
     }
 
     private ApiMethod method;
     private ApiUrlBuilder apiUrlBuilder;
-    private T payload;
-    private object payloadObj;
+    private object payload;
 
     public HttpClient Http { get; }
 
@@ -39,19 +37,21 @@ internal class HttpApiContext<T> : IApiContext<T>
 
     public IApiContext<T> Post(T obj)
     {
-        method = ApiMethod.PostTyped;
+        return Post<T>(obj);
+    }
+
+    public IApiContext<T> Post<O>(O obj)
+    {
+        method = ApiMethod.Post;
         payload = obj;
         return this;
     }
 
-    public IApiContext<T> Post(object obj)
-    {
-        method = ApiMethod.PostObject;
-        payloadObj = obj;
-        return this;
-    }
-
     public IApiContext<T> Put(string? id, T obj)
+    {
+        return Put<T>(id, obj);
+    }
+    public IApiContext<T> Put<O>(string? id, O obj)
     {
         method = ApiMethod.Put;
         apiUrlBuilder.Path(id);
@@ -78,76 +78,44 @@ internal class HttpApiContext<T> : IApiContext<T>
         return this;
     }
 
-    public async Task<ModelList<T>?> ExecuteListAsync()
+    public async Task<O?> ExecuteAsync<O>()
     {
         string url = apiUrlBuilder.ToString();
         switch (method)
         {
             case ApiMethod.Get:
-                return await Http.GetFromJsonAsync<ModelList<T>>(url);
-            case ApiMethod.PostTyped:
+                return await Http.GetFromJsonAsync<O>(url);
+            case ApiMethod.Post:
             {
                 var result = await Http.PostAsJsonAsync(url, payload);
                 result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
-            }
-            case ApiMethod.PostObject:
-            {
-                var result = await Http.PostAsJsonAsync(url, payloadObj);
-                result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+                return await result.Content.ReadFromJsonAsync<O>();
             }
             case ApiMethod.Put:
             {
                 var result = await Http.PutAsJsonAsync(url, payload);
                 result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+                return await result.Content.ReadFromJsonAsync<O>();
             }
             case ApiMethod.Delete:
             {
                 var result = await Http.DeleteAsync(url);
                 result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<ModelList<T>>();
+                return await result.Content.ReadFromJsonAsync<O>();
             }
             default:
                 return default;
         }
     }
 
+    public async Task<ModelList<T>?> ExecuteListAsync()
+    {
+        return await ExecuteAsync<ModelList<T>>();
+    }
+
     public async Task<T?> ExecuteAsync()
     {
-        string url = apiUrlBuilder.ToString();
-        switch(method)
-        {
-            case ApiMethod.Get:
-                return await Http.GetFromJsonAsync<T>(url);
-            case ApiMethod.PostTyped:
-            {
-                var result = await Http.PostAsJsonAsync(url, payload);
-                result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<T>();
-            }
-            case ApiMethod.PostObject:
-            {
-                var result = await Http.PostAsJsonAsync(url, payloadObj);
-                result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<T>();
-            }
-            case ApiMethod.Put:
-            {
-                var result = await Http.PutAsJsonAsync(url, payload);
-                result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<T>();
-            }
-            case ApiMethod.Delete:
-            {
-                var result = await Http.DeleteAsync(url);
-                result.EnsureSuccessStatusCode();
-                return await result.Content.ReadFromJsonAsync<T>();
-            }
-            default:
-                return default;
-        }
+        return await ExecuteAsync<T>();
     }
 
     public IApiContext<T> Parameter(string name, object value)

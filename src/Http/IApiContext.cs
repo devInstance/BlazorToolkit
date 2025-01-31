@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Http;
 
+public interface IApiContext : IApiContext<object> { }
+
 /// <summary>
 /// Interface for API context operations.
 /// </summary>
@@ -27,7 +29,7 @@ public interface IApiContext<T>
     /// <param name="obj">The entity to post.</param>
     /// <returns>The API context.</returns>
     IApiContext<T> Post(T obj);
-    IApiContext<T> Post(object obj);
+    IApiContext<T> Post<O>(O obj);
 
     /// <summary>
     /// Puts (updates) an entity by ID.
@@ -36,6 +38,7 @@ public interface IApiContext<T>
     /// <param name="obj">The entity to update.</param>
     /// <returns>The API context.</returns>
     IApiContext<T> Put(string? id, T obj);
+    IApiContext<T> Put<O>(string? id, O obj);
 
     /// <summary>
     /// Deletes an entity by ID.
@@ -57,6 +60,12 @@ public interface IApiContext<T>
     IApiContext<T> Parameter<F>(string name, F value);
     IApiContext<T> Path(string name);
     IApiContext<T> Fragment(string name);
+
+    /// <summary>
+    /// Executes the API context operation asynchronously.
+    /// </summary>
+    /// <returns>The entity.</returns>
+    Task<O?> ExecuteAsync<O>();
 
     /// <summary>
     /// Executes the API context operation asynchronously.

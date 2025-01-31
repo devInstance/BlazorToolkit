@@ -47,8 +47,10 @@
     </nav>
 }
 @using DevInstance.WebServiceToolkit.Common.Model
-@typeparam TEntity where TEntity : ModelItem
 @code {
+    [Parameter]
+    public int MaxItems { get; set; } = 15;
+
     [Parameter]
     public string? UrlTemplate { get; set; } = null;
 
@@ -59,15 +61,9 @@
     public int SelectedPage { get; set; } = 0;
 
     [Parameter]
-    public ModelList<TEntity>? List { get; set; }
-
-    [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
 
-    int MaxItems = 15;
-
-    private IEnumerable<int> PageRange => 
-        List != null ? DataPageUtils.GetPageRange(List.Page, List.PagesCount, MaxItems) : DataPageUtils.GetPageRange(SelectedPage, PagesCount, MaxItems);
+    private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(SelectedPage, PagesCount, MaxItems);
     
     private void ChangePage(int newValue)
     {

@@ -1,4 +1,4 @@
-﻿namespace DevInstance.BlazorToolkit.Http;
+﻿namespace DevInstance.BlazorToolkit.Http.Extensions;
 
 public static class ApiContextExtensions
 {

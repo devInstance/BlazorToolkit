@@ -69,16 +69,19 @@ public class ServiceExecutionHandler
     /// Executes all dispatched service calls asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task ExecuteAsync()
+    public async Task<bool> ExecuteAsync()
     {
         using (var l = log.TraceScope())
         {
             foreach (var task in tasks)
             {
                 if (!await task())
-                    break;
+                {
+                    return false;
+                }
             }
         }
+        return true;
     }
 
     private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler, Action<T> success, Func<T, Task> sucessAsync, Action<ServiceActionError[]> error, Action before, bool enableProgress)

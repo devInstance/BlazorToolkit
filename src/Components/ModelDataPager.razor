@@ -1,0 +1,84 @@
+@if (List.PagesCount > 1)
+{
+            <nav aria-label="Pages">
+                <ul class="pagination">
+                    <li class="page-item @(SelectedPage == 0 ? "disabled" : "")">
+                @if (!string.IsNullOrEmpty(UrlTemplate))
+                {
+                                    <a class="page-link" aria-label="Previous" href="@GetPageUrl(SelectedPage - 1)">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                }
+                else
+                {
+                                    <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(SelectedPage - 1))" disabled="@(SelectedPage == 0)">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </button>
+                }
+                    </li>
+            @foreach (var p in PageRange)
+            {
+                                <li class="@(p == SelectedPage ? "page-item active" : "page-item")">
+                    @if (!string.IsNullOrEmpty(UrlTemplate))
+                    {
+                                                <a class="page-link" href="@GetPageUrl(p)">@((p + 1).ToString())</a>
+                    }
+                    else
+                    {
+                                                <button class="page-link" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
+                    }
+                                </li>
+            }
+                        <li class="page-item @(SelectedPage == List.PagesCount - 1 ? "disabled" : "")">
+                @if (!string.IsNullOrEmpty(UrlTemplate))
+                {
+                                    <a class="page-link" aria-label="Next" href="@GetPageUrl(SelectedPage + 1)">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                }
+                else
+                {
+                                            <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(SelectedPage + 1))" disabled="@(SelectedPage == List.PagesCount - 1)">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </button>
+                }
+                    </li>
+                </ul>
+            </nav>
+}
+@using DevInstance.WebServiceToolkit.Common.Model
+@typeparam TEntity where TEntity : ModelItem
+@code {
+    [Parameter]
+    public int MaxItems { get; set; } = 15;
+
+    [Parameter]
+    public string? UrlTemplate { get; set; } = null;
+
+    [Parameter]
+    public ModelList<TEntity>? List { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnPageChanged { get; set; }
+
+    [Parameter]
+    public int SelectedPage { get; set; }
+
+    private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(List.Page, List.PagesCount, MaxItems);
+
+    private void ChangePage(int newValue)
+    {
+        if (newValue >= 0 && newValue < List.PagesCount)
+        {
+            OnPageChanged.InvokeAsync(newValue);
+        }
+    }
+
+    private string GetPageUrl(int pageNumber)
+    {
+        var validPage = Math.Max(0, Math.Min(pageNumber, List.PagesCount - 1));
+        return string.Format(UrlTemplate, validPage);
+    }
+}
+
+
