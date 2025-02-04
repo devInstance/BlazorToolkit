@@ -5,7 +5,80 @@ using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Http;
 
-internal class HttpApiContext<T> : IApiContext<T>
+internal class HttpApiContext<T> : HttpApiContext<string, T>, IApiContext<T>
+{
+    public HttpApiContext(string url, HttpClient http) : base(url, http)
+    {
+    }
+
+    IApiContext<T> IApiContext<T>.Fragment(string name)
+    {
+        base.Fragment(name);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Get(string? id)
+    {
+        base.Get(id);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Parameter<F>(string name, F value)
+    {
+        base.Parameter<F>(name, value);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Path(string name)
+    {
+        base.Path(name);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Post(T obj)
+    {
+        base.Post(obj);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Post<O>(O obj)
+    {
+        base.Post<O>(obj);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Put(T obj, string? id)
+    {
+        base.Put(obj, id);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Put<O>(O obj, string? id)
+    {
+        base.Put<O>(obj, id);
+        return this;
+    }
+
+    public IApiContext<T> Delete(string? id)
+    {
+        base.Delete(id);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Url(string url)
+    {
+        base.Url(url);
+        return this;
+    }
+
+    IApiContext<T> IApiContext<T>.Url(ApiUrlBuilder url)
+    {
+        base.Url(url);
+        return this;
+    }
+}
+
+internal class HttpApiContext<K, T> : IApiContext<K, T>
 {
     private enum ApiMethod
     {
@@ -29,50 +102,59 @@ internal class HttpApiContext<T> : IApiContext<T>
         Http = http;
     }
 
-    public IApiContext<T> Get(string? id = null)
+    public IApiContext<K, T> Get(K? id = default)
     {
         method = ApiMethod.Get;
+        if (id != null)
+        {
+            apiUrlBuilder.Path(id.ToString());
+        }
         return this;
     }
 
-    public IApiContext<T> Post(T obj)
+    public IApiContext<K, T> Post(T obj)
     {
         return Post<T>(obj);
     }
 
-    public IApiContext<T> Post<O>(O obj)
+    public IApiContext<K, T> Post<O>(O obj)
     {
         method = ApiMethod.Post;
         payload = obj;
         return this;
     }
 
-    public IApiContext<T> Put(string? id, T obj)
+    public IApiContext<K, T> Put(T obj, K? id = default)
     {
-        return Put<T>(id, obj);
+        return Put<T>(obj, id);
     }
-    public IApiContext<T> Put<O>(string? id, O obj)
-    {
+    public IApiContext<K, T> Put<O>(O obj, K? id = default)  {
         method = ApiMethod.Put;
-        apiUrlBuilder.Path(id);
+        if (id != null)
+        {
+            apiUrlBuilder.Path(id.ToString());
+        }
         payload = obj;
         return this;
     }
 
-    public IApiContext<T> Delete(string? id)
+    public IApiContext<K, T> Delete(K? id)
     {
         method = ApiMethod.Delete;
-        apiUrlBuilder.Path(id);
+        if (id != null)
+        {
+            apiUrlBuilder.Path(id.ToString());
+        }
         return this;
     }
 
-    public IApiContext<T> Url(string url)
+    public IApiContext<K, T> Url(string url)
     {
         apiUrlBuilder = ApiUrlBuilder.Create(url);
         return this;
     }
 
-    public IApiContext<T> Url(ApiUrlBuilder url)
+    public IApiContext<K, T> Url(ApiUrlBuilder url)
     {
         apiUrlBuilder = url;
         return this;
@@ -118,25 +200,25 @@ internal class HttpApiContext<T> : IApiContext<T>
         return await ExecuteAsync<T>();
     }
 
-    public IApiContext<T> Parameter(string name, object value)
+    public IApiContext<K, T> Parameter(string name, object value)
     {
         apiUrlBuilder.Query(name, value);
         return this;
     }
 
-    public IApiContext<T> Parameter<F>(string name, F value)
+    public IApiContext<K, T> Parameter<F>(string name, F value)
     {
         apiUrlBuilder.Query(name, value);
         return this;
     }
 
-    public IApiContext<T> Path(string name)
+    public IApiContext<K, T> Path(string name)
     {
         apiUrlBuilder.Path(name);
         return this;
     }
 
-    public IApiContext<T> Fragment(string name)
+    public IApiContext<K, T> Fragment(string name)
     {
         apiUrlBuilder.Fragment(name);
         return this;

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Net.Http;
 
 namespace DevInstance.BlazorToolkit.Http;
@@ -32,9 +33,9 @@ public class HttpApiContextFactory : IHttpApiContextFactory
     /// <param name="clientName">The name of the HTTP client.</param>
     /// <param name="url">The URL for the API context.</param>
     /// <returns>An instance of <see cref="IApiContext{T}"/>.</returns>
-    public IApiContext<T> Create<T>(string clientName, string url)
+    public IApiContext<K, T> Create<K, T>(string clientName, string url)
     {
-        return new HttpApiContext<T>(url, httpFactory.CreateClient(clientName));
+        return new HttpApiContext<K, T>(url, httpFactory.CreateClient(clientName));
     }
 
     /// <summary>
@@ -44,6 +45,16 @@ public class HttpApiContextFactory : IHttpApiContextFactory
     /// <param name="http">The HTTP client.</param>
     /// <param name="url">The URL for the API context.</param>
     /// <returns>An instance of <see cref="IApiContext{T}"/>.</returns>
+    public IApiContext<K, T> Create<K, T>(HttpClient http, string url)
+    {
+        return new HttpApiContext<K, T>(url, http);
+    }
+
+    public IApiContext<T> Create<T>(string clientName, string url)
+    {
+        return new HttpApiContext<T>(url, httpFactory.CreateClient(clientName));
+    }
+
     public IApiContext<T> Create<T>(HttpClient http, string url)
     {
         return new HttpApiContext<T>(url, http);
@@ -54,9 +65,13 @@ public class HttpApiContextFactory : IHttpApiContextFactory
     /// </summary>
     /// <typeparam name="T">The type of the entity.</typeparam>
     /// <returns>An instance of <see cref="IApiContext{T}"/>.</returns>
+    public IApiContext<K, T> CreateDefault<K, T>(string url)
+    {
+        return new HttpApiContext<K, T>(ApiUrlBuilder.Create(baseUrl).Path(url).ToString(), httpFactory.CreateClient(clientName));
+    }
+
     public IApiContext<T> CreateDefault<T>(string url)
     {
         return new HttpApiContext<T>(ApiUrlBuilder.Create(baseUrl).Path(url).ToString(), httpFactory.CreateClient(clientName));
     }
-
 }
