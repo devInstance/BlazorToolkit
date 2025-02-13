@@ -3,12 +3,11 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<Nullable>enable</Nullable>
 		<AssemblyName>DevInstance.BlazorToolkit</AssemblyName>
 		<RootNamespace>DevInstance.BlazorToolkit</RootNamespace>
 		<Configurations>Debug;Release;</Configurations>
-		<Copyright>Copyright 2024 DevInstance LLC</Copyright>
+		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
@@ -27,7 +26,6 @@
 		<PackageTags>tools, blazor</PackageTags>
 	</PropertyGroup>
 
-
 	<ItemGroup>
 		<None Include="icon.png">
 			<Pack>True</Pack>
@@ -44,6 +42,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+	
+	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
 		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="2.1.0" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -58,6 +60,10 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\" />
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,74 @@
+﻿@typeparam TField
+
+<span class="text-nowrap">
+    @if (string.IsNullOrEmpty(UrlTemplate))
+    {
+        <a href="#" class="text-decoration-none text-reset" @onclick="ToggleSort" @onclick:preventDefault>@Label</a>
+        <button class="btn btn-link" @onclick="ToggleSort">
+            @if (IsSorted)
+            {
+                @if (IsAsc)
+                {
+                    <i class="bi bi-caret-down-fill"></i>
+                }
+                else
+                {
+                    <i class="bi bi-caret-up-fill"></i>
+                }
+            }
+            else
+            {
+                <i class="bi bi-caret-down"></i>
+            }
+        </button>
+    }
+    else
+    {
+        <a href="SortLink" class="text-decoration-none text-reset">@Label</a>
+        <a class="btn btn-link" href="@SortLink">
+            @if (IsSorted)
+            {
+                @if (IsAsc)
+                {
+                    <i class="bi bi-caret-down-fill"></i>
+                }
+                else
+                {
+                    <i class="bi bi-caret-up-fill"></i>
+                }
+            }
+            else
+            {
+                <i class="bi bi-caret-down"></i>
+            }
+        </a>
+    }
+</span>
+
+@code {
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public TField SortField { get; set; }
+
+    [Parameter]
+    public bool IsSorted { get; set; } = false;
+
+    [Parameter]
+    public bool IsAsc { get; set; } = true;
+
+    [Parameter]
+    public EventCallback OnSort { get; set; }
+
+    [Parameter]
+    public string UrlTemplate { get; set; }
+
+    private void ToggleSort()
+    {
+        OnSort.InvokeAsync();
+    }
+
+    private string SortLink => string.Format(UrlTemplate, SortField, !IsAsc);
+}

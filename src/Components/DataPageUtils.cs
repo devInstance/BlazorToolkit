@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+namespace DevInstance.BlazorToolkit.Components;
+
 internal static class DataPageUtils
 {
     public static IEnumerable<int> GetPageRange(int selectedPage, int pageCount, int maxItems)
