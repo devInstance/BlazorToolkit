@@ -1,4 +1,4 @@
-@if (List.PagesCount > 1)
+@if (List?.PagesCount > 1)
 {
 <nav aria-label="Pages">
     <ul class="pagination">
@@ -61,7 +61,7 @@
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
 
-    private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(List.Page, List.PagesCount, MaxItems);
+    private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(List?.Page ?? 0, List?.PagesCount ?? 0, MaxItems);
 
     private void ChangePage(int newValue)
     {

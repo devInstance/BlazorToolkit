@@ -16,7 +16,7 @@ public static class ServiceCallExtensions
     /// <param name="log">Optional log scope.</param>
     /// <returns>A ServiceExecutionHandler instance.</returns>
     public static ServiceExecutionHandler BeginServiceCall(this IServiceExecutionHost host, 
-                                                            ServiceExecutionType executionType, 
+                                                            ServiceExecutionType executionType = ServiceExecutionType.Read, 
                                                             IScopeLog log = null)
     {
         return new ServiceExecutionHandler(log, host, executionType);
