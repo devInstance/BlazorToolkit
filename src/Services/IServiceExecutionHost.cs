@@ -6,8 +6,8 @@
 public enum ServiceExecutionType
 {
     None,
-    Read,
-    Submit
+    Reading,
+    Submitting
 }
 
 /// <summary>
@@ -32,7 +32,11 @@ public interface IServiceExecutionHost
     /// </summary>
     bool InProgress { get; set; }
 
-    public ServiceExecutionType OngoingExecutionType { get; set; }
+    /// <summary>
+    ///
+    /// </summary>
+    public ServiceExecutionType ServiceState { get; set; }
+    
     /// <summary>
     /// The implementation of this method should navigate to the login page
     /// </summary>

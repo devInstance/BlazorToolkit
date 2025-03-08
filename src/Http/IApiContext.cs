@@ -125,4 +125,10 @@ public interface IApiContext<K, T>
     /// </summary>
     /// <returns>A list of entities.</returns>
     Task<ModelList<T>?> ExecuteListAsync();
+
+    /// <summary>
+    /// Lists the entities asynchronously.
+    /// </summary>
+    /// <returns>A list of entities.</returns>
+    Task<ModelList<O>?> ExecuteListAsync<O>();
 }

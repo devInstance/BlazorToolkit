@@ -195,6 +195,11 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
         return await ExecuteAsync<ModelList<T>>();
     }
 
+    public async Task<ModelList<O>?> ExecuteListAsync<O>()
+    {
+        return await ExecuteAsync<ModelList<O>>();
+    }
+
     public async Task<T?> ExecuteAsync()
     {
         return await ExecuteAsync<T>();

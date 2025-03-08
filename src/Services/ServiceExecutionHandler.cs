@@ -19,7 +19,7 @@ public class ServiceExecutionHandler
 {
     private List<Func<Task<bool>>> tasks;
     private IServiceExecutionHost basePage;
-    private ServiceExecutionType executionType = ServiceExecutionType.Read;
+    private ServiceExecutionType executionType = ServiceExecutionType.Reading;
     IScopeLog log;
 
     /// <summary>
@@ -84,81 +84,100 @@ public class ServiceExecutionHandler
         return true;
     }
 
+    internal class StateGuard : IDisposable
+    {
+        private IServiceExecutionHost basePage;
+        private readonly bool enableProgress;
+
+        public StateGuard(IServiceExecutionHost basePage, ServiceExecutionType executionType, bool enableProgress)
+        {
+            this.basePage = basePage;
+            this.enableProgress = enableProgress;
+            basePage.ServiceState = executionType;
+            basePage.ErrorMessage = "";
+            basePage.IsError = false;
+            if (enableProgress)
+            {
+                basePage.InProgress = true;
+            }
+            basePage.StateHasChanged();
+        }
+        public void Dispose()
+        {
+            basePage.ServiceState = ServiceExecutionType.None;
+            if (enableProgress)
+            {
+                basePage.InProgress = false;
+            }
+            basePage.StateHasChanged();
+        }
+    }
+
     private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler, Action<T> success, Func<T, Task> sucessAsync, Action<ServiceActionError[]> error, Action before, bool enableProgress)
     {
         ServiceActionResult<T> res = null;
 
         using (var l = log.TraceScope())
         {
-            basePage.OngoingExecutionType = executionType;
-            if (enableProgress)
+            using (var g = new StateGuard(basePage, executionType, enableProgress))
             {
-                basePage.InProgress = true;
-                basePage.StateHasChanged();
-            }
-
-            if (before != null)
-            {
-                before();
-            }
-
-            try
-            {
-                res = await handler();
-            }
-            catch (Exception ex)
-            {
-                l.E(ex.Message);
-                l.I(ex.StackTrace);
-
-                res = new ServiceActionResult<T>
+                if (before != null)
                 {
-                    Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
-                    Success = false,
-                    IsAuthorized = true
-                };
-            }
-
-            basePage.IsError = !res.Success;
-            if (res.Success)
-            {
-                if (success != null)
-                {
-                    success(res.Result);
+                    before();
                 }
-                if (sucessAsync != null)
+
+                try
                 {
-                    await sucessAsync(res.Result);
+                    res = await handler();
                 }
+                catch (Exception ex)
+                {
+                    l.E(ex.Message);
+                    l.I(ex.StackTrace);
+
+                    res = new ServiceActionResult<T>
+                    {
+                        Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
+                        Success = false,
+                        IsAuthorized = true
+                    };
+                }
+
+                basePage.IsError = !res.Success;
+                if (res.Success)
+                {
+                    if (success != null)
+                    {
+                        success(res.Result);
+                    }
+                    if (sucessAsync != null)
+                    {
+                        await sucessAsync(res.Result);
+                    }
+                }
+                else
+                {
+                    var errorMessage = "";
+                    foreach (var errm in res.Errors)
+                    {
+                        errorMessage += errm.Message;
+                    }
+                    l.W(errorMessage);
+                    basePage.ErrorMessage = errorMessage;
+
+                    if (!res.IsAuthorized)
+                    {
+                        basePage.ShowLogin();
+                        return false;
+                    }
+                    else if (error != null)
+                    {
+                        error(res.Errors);
+                    }
+                }
+
+                return true;
             }
-            else
-            {
-                var errorMessage = "";
-                foreach (var errm in res.Errors)
-                {
-                    errorMessage += errm.Message;
-                }
-                l.W(errorMessage);
-                basePage.ErrorMessage = errorMessage;
-
-                if (!res.IsAuthorized)
-                {
-                    basePage.InProgress = false;
-                    basePage.StateHasChanged();
-                    basePage.ShowLogin();
-                    return false;
-                }
-                else if (error != null)
-                {
-                    error(res.Errors);
-                }
-            }
-
-            basePage.InProgress = false;
-            basePage.OngoingExecutionType = ServiceExecutionType.None;
-            basePage.StateHasChanged();
-
-            return true;
         }
     }
 }

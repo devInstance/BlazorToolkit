@@ -16,7 +16,7 @@ public static class ServiceCallExtensions
     /// <param name="log">Optional log scope.</param>
     /// <returns>A ServiceExecutionHandler instance.</returns>
     public static ServiceExecutionHandler BeginServiceCall(this IServiceExecutionHost host, 
-                                                            ServiceExecutionType executionType = ServiceExecutionType.Read, 
+                                                            ServiceExecutionType executionType = ServiceExecutionType.Reading, 
                                                             IScopeLog log = null)
     {
         return new ServiceExecutionHandler(log, host, executionType);
@@ -68,7 +68,7 @@ public static class ServiceCallExtensions
                                                         Action before = null,
                                                         bool enableProgress = true)
     {
-        await host.BeginServiceCall(ServiceExecutionType.Read)
+        await host.BeginServiceCall(ServiceExecutionType.Reading)
             .DispatchCall<T>(handler, success, sucessAsync, error, before, enableProgress)
             .ExecuteAsync();
     }
@@ -93,8 +93,15 @@ public static class ServiceCallExtensions
                                                         Action before = null,
                                                         bool enableProgress = true)
     {
-        await host.BeginServiceCall(ServiceExecutionType.Submit)
+        await host.BeginServiceCall(ServiceExecutionType.Submitting)
             .DispatchCall<T>(handler, success, sucessAsync, error, before, enableProgress)
             .ExecuteAsync();
+    }
+
+    public static void SetException(this IServiceExecutionHost host, Exception ex)
+    {
+        host.IsError = true;
+        host.ErrorMessage = ex.Message;
+        host.StateHasChanged();
     }
 }
