@@ -30,22 +30,12 @@ public static class ServiceUtils
         {
             try
             {
-                return new ServiceActionResult<T>
-                {
-                    Result = await handler(l),
-                    Success = true,
-                    IsAuthorized = true,
-                };
+                return ServiceActionResult<T>.OK(await handler(l));
             }
             catch (Exception ex)
             {
                 l.E(ex);
-                return new ServiceActionResult<T>
-                {
-                    Success = false,
-                    Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
-                    Result = default!
-                };
+                return ServiceActionResult<T>.Failed(ex.Message);
             }
         }
     }

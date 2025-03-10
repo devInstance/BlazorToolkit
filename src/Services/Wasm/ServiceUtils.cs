@@ -35,40 +35,21 @@ public static class ServiceUtils
         {
             try
             {
-                return new ServiceActionResult<T>
-                {
-                    Result = await handler(l),
-                    Success = true,
-                    IsAuthorized = true,
-                };
+                return ServiceActionResult<T>.OK(await handler(l));
             }
             catch (HttpRequestException ex)
             {
                 l.E(ex);
-                return new ServiceActionResult<T>
+                if (ex.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    Success = false,
-                    Errors = new ServiceActionError[]
-                    {
-                        new ServiceActionError
-                        {
-                            //TODO: figure out how to deliver field name for the conflict
-                            Message = ex.Message
-                        }
-                    },
-                    IsAuthorized = !(ex.StatusCode == HttpStatusCode.Unauthorized),
-                    Result = default!
-                };
+                    return ServiceActionResult<T>.Unauthorized();
+                }
+                return ServiceActionResult<T>.Failed(ex.Message);
             }
             catch (Exception ex)
             {
                 l.E(ex);
-                return new ServiceActionResult<T>
-                {
-                    Success = false,
-                    Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
-                    Result = default!
-                };
+                return ServiceActionResult<T>.Failed(ex.Message);
             }
         }
     }
