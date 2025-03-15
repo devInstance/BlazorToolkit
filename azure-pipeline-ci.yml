@@ -32,10 +32,10 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '**/EmployeeList.Client.csproj'
+    solution: '**/DevInstance.BlazorToolkit.Samples.Client.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 - task: VSBuild@1
   inputs:
-    solution: '**/EmployeeList.csproj'
+    solution: '**/DevInstance.BlazorToolkit.Samples.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
