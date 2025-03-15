@@ -27,16 +27,20 @@ steps:
 
 # Step 2: Build the Solution and pack NuGet Package
 - task: VSBuild@1
+  displayName: 'build'
   inputs:
     solution: '**/DevInstance.BlazorToolkit.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
 # Step 3: Push NuGet Package
 - task: NuGetCommand@2
+  displayName: 'nuget push'
   inputs:
     command: 'push'
     feedsToUse: 'config'
     includeNugetOrg: 'true'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.*nupkg'
+    
 # - task: NuGetCommand@2
 #   inputs:
 #     command: 'push'
