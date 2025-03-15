@@ -1,0 +1,55 @@
+﻿@page "/home-layout"
+@using DevInstance.BlazorToolkit.Components
+@using DevInstance.BlazorToolkit.Services
+@using DevInstance.EmployeeList.Client.Services
+@using DevInstance.EmployeeList.Model
+@using DevInstance.WebServiceToolkit.Common.Model
+
+@layout BlazorToolkitPageLayout
+
+<PageTitle>Employee List</PageTitle>
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Employee List</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Welcome to the employee list page. It shows how to use the Blazor Toolkit components.</p>
+        <div class="list-group">
+            @if (employees != null)
+            {
+                @foreach (var employee in employees.Items)
+                {
+                    <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
+                }
+                <DataPager disabled="@Host.InProgress" List="employees"></DataPager>
+            }
+        </div>
+        @* TODO: Add disabled state *@
+        <div class="d-grid gap-2 d-sm-flex justify-content-start p-2">
+            <button type="button" class="btn btn-primary" disabled="@Host.InProgress" @onclick="TriggerErrorAsync">Add New</button>
+        </div>
+        <div class="d-grid gap-2 d-sm-flex justify-content-end p-2">
+            <button type="button" class="btn btn-danger" disabled="@Host.InProgress" @onclick="TriggerErrorAsync">Trigger Error</button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Inject]
+    EmployeeService Service { get; set; }
+
+    [CascadingParameter]
+    public IServiceExecutionHost? Host { get; set; }
+
+    private ModelList<EmployeeItem> employees = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Host.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => employees = e);
+    }
+
+    private async Task TriggerErrorAsync()
+    {
+        await Host.ServiceSubmitAsync<EmployeeItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
+    }
+}

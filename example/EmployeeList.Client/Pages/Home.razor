@@ -1,34 +1,41 @@
 ﻿@page "/"
 @using DevInstance.BlazorToolkit.Components
 @using DevInstance.BlazorToolkit.Services
+@using DevInstance.BlazorToolkit.Services.Wasm
 @using DevInstance.EmployeeList.Client.Services
 @using DevInstance.EmployeeList.Model
 @using DevInstance.WebServiceToolkit.Common.Model
 
-@layout BlazorToolkitPageLayout
+@implements IServiceExecutionHost
 
 <PageTitle>Employee List</PageTitle>
 
+<ErrorMessageBanner IsError="IsError" Message="@ErrorMessage"></ErrorMessageBanner>
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold text-body-emphasis">Employee List</h1>
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Welcome to the employee list page. It shows how to use the Blazor Toolkit components.</p>
         <div class="list-group">
-        @if (employees != null)
-        {
-            @foreach (var employee in employees.Items)
+
+            @if (InProgress)
             {
-                <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
+                <PageProgress></PageProgress>
             }
-            <DataPager List="employees"></DataPager>
-        }
+            else if (employees != null)
+            {
+                @foreach (var employee in employees.Items)
+                {
+                    <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
+                }
+                <ModelDataPager InProgress="InProgress" List="employees"></ModelDataPager>
+            }
         </div>
         @* TODO: Add disabled state *@
-        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center p-2">
-            <button type="button" class="btn btn-primary" @onclick="TriggerErrorAsync">Add New</button>
+        <div class="d-grid gap-2 d-sm-flex justify-content-start p-2">
+            <button type="button" class="btn btn-primary" disabled="@InProgress" @onclick="TriggerErrorAsync">Add New</button>
         </div>
-        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center p-2">
-            <button type="button" class="btn btn-danger" @onclick="TriggerErrorAsync">Trigger Error</button>
+        <div class="d-grid gap-2 d-sm-flex justify-content-end p-2">
+            <button type="button" class="btn btn-danger" disabled="@InProgress" @onclick="TriggerErrorAsync">Trigger Error</button>
         </div>
     </div>
 </div>
@@ -38,18 +45,34 @@
     [Inject]
     EmployeeService Service { get; set; }
 
-    [CascadingParameter]
-    public IServiceExecutionHost? Host { get; set; }
+    #region IServiceExecutionHost
+    public ServiceExecutionType ServiceState { get; set; }
+    public string ErrorMessage { get; set; } = string.Empty;
+    public bool IsError { get; set; } = false;
+    public bool InProgress { get; set; } = false;
+
+    public void ShowLogin()
+    {
+        ErrorMessage = "Please log in to continue.";
+        IsError = true;
+        StateHasChanged();
+    }
+
+    public new void StateHasChanged()
+    {
+        InvokeAsync(() => base.StateHasChanged());
+    }
+    #endregion
 
     private ModelList<EmployeeItem> employees = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await Host.ServiceReadAsync(() => Service.GetItemsAsync(null, null, null), (e) => employees = e);
+        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => employees = e);
     }
 
     private async Task TriggerErrorAsync()
     {
-        await Host.ServiceSubmitAsync<EmployeeItem>(() => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
+        await this.ServiceSubmitAsync<EmployeeItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
 }

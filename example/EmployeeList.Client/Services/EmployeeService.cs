@@ -4,6 +4,7 @@ using DevInstance.BlazorToolkit.Services.Wasm;
 using DevInstance.BlazorToolkit.Tools;
 using DevInstance.EmployeeList.Model;
 using DevInstance.WebServiceToolkit.Common.Model;
+using DevInstance.BlazorToolkit.Http.Extensions;
 
 namespace DevInstance.EmployeeList.Client.Services;
 
@@ -19,7 +20,6 @@ public class EmployeeService
 
     public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page, string? search)
     {
-        await Task.Delay(5000);
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
             {
@@ -37,7 +37,7 @@ public class EmployeeService
                     api = api.Search(search);
                 }
 
-                return await api.ListAsync();
+                return await api.ExecuteListAsync();
             }
         );
     }

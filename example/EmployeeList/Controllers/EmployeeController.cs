@@ -13,6 +13,8 @@ public class EmployeeController
     [HttpGet]
     public async Task<ActionResult<ModelList<EmployeeItem>>> GetItemsAsync(int? top, int? page, string? search)
     {
+        await Task.Delay(5000);
+
         return new ModelList<EmployeeItem>
         {
             Page = 0,
