@@ -4,9 +4,9 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<AssemblyName>DevInstance.EmployeeList</AssemblyName>
-		<RootNamespace>DevInstance.EmployeeList</RootNamespace>
-		<Copyright>Copyright 2021-2024 DevInstance LLC</Copyright>
+		<AssemblyName>DevInstance.BlazorToolkit.Samples</AssemblyName>
+		<RootNamespace>DevInstance.BlazorToolkit.Samples</RootNamespace>
+		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 	</PropertyGroup>
 
@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\DevInstance.BlazorToolkit.csproj" />
-	  <ProjectReference Include="..\EmployeeList.Client\EmployeeList.Client.csproj" />
+	  <ProjectReference Include="..\EmployeeList.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
 	</ItemGroup>
 
 </Project>

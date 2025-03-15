@@ -5,9 +5,9 @@ VisualStudioVersion = 17.12.35424.110
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevInstance.BlazorToolkit", "src\DevInstance.BlazorToolkit.csproj", "{6ACDE706-FA1F-4A75-9E6A-2603F4A3E5D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeList", "example\EmployeeList\EmployeeList.csproj", "{7E572F90-B5AC-485F-8A16-6DB82368C9FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevInstance.BlazorToolkit.Samples", "example\EmployeeList\DevInstance.BlazorToolkit.Samples.csproj", "{7E572F90-B5AC-485F-8A16-6DB82368C9FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeList.Client", "example\EmployeeList.Client\EmployeeList.Client.csproj", "{6CFFF275-3C8D-4898-ABE7-E084585764A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevInstance.BlazorToolkit.Samples.Client", "example\EmployeeList.Client\DevInstance.BlazorToolkit.Samples.Client.csproj", "{6CFFF275-3C8D-4898-ABE7-E084585764A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01811336-33A1-43D1-ACE4-DCB1963E198E}
 	EndGlobalSection
 EndGlobal

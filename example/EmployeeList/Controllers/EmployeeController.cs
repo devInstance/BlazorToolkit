@@ -1,6 +1,6 @@
 ﻿using DevInstance.WebServiceToolkit.Common.Model;
 using DevInstance.BlazorToolkit.Utils;
-using DevInstance.EmployeeList.Model;
+using DevInstance.BlazorToolkit.Samples.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevInstance.EmployeeList.Controllers;
@@ -13,7 +13,7 @@ public class EmployeeController
     [HttpGet]
     public async Task<ActionResult<ModelList<EmployeeItem>>> GetItemsAsync(int? top, int? page, string? search)
     {
-        await Task.Delay(5000);
+        await Task.Delay(3000);
 
         return new ModelList<EmployeeItem>
         {

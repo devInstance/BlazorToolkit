@@ -1,6 +1,6 @@
-using DevInstance.EmployeeList.Components;
+using DevInstance.BlazorToolkit.Samples.Components;
 
-namespace DevInstance.EmployeeList;
+namespace DevInstance.BlazorToolkit.Samples;
 
 public class Program
 {

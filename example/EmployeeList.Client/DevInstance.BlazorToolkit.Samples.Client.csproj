@@ -4,9 +4,9 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyName>DevInstance.EmployeeList.Client</AssemblyName>
-		<RootNamespace>DevInstance.EmployeeList.Client</RootNamespace>
-		<Copyright>Copyright 2021-2024 DevInstance LLC</Copyright>
+		<AssemblyName>DevInstance.BlazorToolkit.Samples.Client</AssemblyName>
+		<RootNamespace>DevInstance.BlazorToolkit.Samples.Client</RootNamespace>
+		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>

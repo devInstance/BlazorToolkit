@@ -2,11 +2,11 @@
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Wasm;
 using DevInstance.BlazorToolkit.Tools;
-using DevInstance.EmployeeList.Model;
+using DevInstance.BlazorToolkit.Samples.Model;
 using DevInstance.WebServiceToolkit.Common.Model;
 using DevInstance.BlazorToolkit.Http.Extensions;
 
-namespace DevInstance.EmployeeList.Client.Services;
+namespace DevInstance.BlazorToolkit.Samples.Services;
 
 [BlazorService]
 public class EmployeeService

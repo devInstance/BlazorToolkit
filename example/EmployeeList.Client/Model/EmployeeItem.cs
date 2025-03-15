@@ -1,6 +1,6 @@
 ﻿using DevInstance.WebServiceToolkit.Common.Model;
 
-namespace DevInstance.EmployeeList.Model;
+namespace DevInstance.BlazorToolkit.Samples.Model;
 
 public class EmployeeItem : ModelItem
 {
