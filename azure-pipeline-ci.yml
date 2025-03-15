@@ -1,7 +1,3 @@
-# Set the branch
-trigger:
-- dotnet8
-
 pool:
   # vmImage: 'Release-Pool'
   name: 'Default'
@@ -43,19 +39,3 @@ steps:
   inputs:
     solution: '**/EmployeeList.csproj'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
-
-# Step 3: Pack NuGet Package
-#- task: NuGetCommand@2
-#  inputs:
-#   command: 'pack'
-#    packagesToPack: '**/DevInstance.BlazorToolkit.csproj'  # Or .nuspec if applicable
-#    configuration: $(buildConfiguration)
-
-# Step 4: Push NuGet Package
-#- task: NuGetCommand@2
-#  inputs:
-#    command: 'push'
-#    packagesToPush: '**/*.nupkg'
-#    nuGetFeedType: 'external'
-#    publishFeedCredentials: 'NugetCon'  # Reference the correct service connection name
-#    feedPublishUrl: 'https://api.nuget.org/v3/index.json'  # Update for your feed
