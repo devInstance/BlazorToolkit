@@ -47,7 +47,7 @@
 	
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
-		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="2.1.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="2.1.1" />
 		<PackageReference Include="FluentValidation" Version="11.11.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.12" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="8.0.12" />

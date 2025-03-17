@@ -16,7 +16,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DevInstance.BlazorToolkit.Samples.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
-	  <ProjectReference Include="..\EmployeeList.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
 	</ItemGroup>
 
 </Project>

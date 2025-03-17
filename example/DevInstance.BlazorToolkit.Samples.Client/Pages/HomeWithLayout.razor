@@ -18,7 +18,7 @@
             {
                 @foreach (var employee in employees.Items)
                 {
-                    <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
+                    <a href="#" class="list-group-item list-group-item-action">@employee.Title</a>
                 }
                 <DataPager disabled="@Host.InProgress" List="employees"></DataPager>
             }
@@ -36,12 +36,12 @@
 @code {
 
     [Inject]
-    EmployeeService Service { get; set; }
+    TodoService Service { get; set; }
 
     [CascadingParameter]
     public IServiceExecutionHost? Host { get; set; }
 
-    private ModelList<EmployeeItem> employees = null;
+    private ModelList<TodoItem> employees = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,6 +50,6 @@
 
     private async Task TriggerErrorAsync()
     {
-        await Host.ServiceSubmitAsync<EmployeeItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
+        await Host.ServiceSubmitAsync<TodoItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
 }

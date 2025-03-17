@@ -18,7 +18,7 @@ internal class Program
 
         builder.Services.AddScoped(sp => {
             var factory = sp.GetRequiredService<HttpApiContextFactory>();
-            return factory.Create<EmployeeItem>("DevInstance.BlazorToolkit.Samples.Client", "api/employees");
+            return factory.Create<TodoItem>("DevInstance.BlazorToolkit.Samples.Client", "api/todo");
         });
 
         builder.Services.AddBlazorServices();

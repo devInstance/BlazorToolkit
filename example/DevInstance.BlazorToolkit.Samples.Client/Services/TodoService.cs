@@ -9,16 +9,16 @@ using DevInstance.BlazorToolkit.Http.Extensions;
 namespace DevInstance.BlazorToolkit.Samples.Services;
 
 [BlazorService]
-public class EmployeeService
+public class TodoService
 {
-    IApiContext<EmployeeItem> Api { get; set; }
+    IApiContext<TodoItem> Api { get; set; }
 
-    public EmployeeService(IApiContext<EmployeeItem> api)
+    public TodoService(IApiContext<TodoItem> api)
     {
         Api = api;
     }
 
-    public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page, string? search)
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(int? top, int? page, string? search)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
@@ -38,6 +38,27 @@ public class EmployeeService
                 }
 
                 return await api.ExecuteListAsync();
+            }
+        );
+    }
+
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(string newTodoText)
+    {
+        var item = new TodoItem { Title = newTodoText };
+        return await ServiceUtils.HandleWebApiCallAsync(
+            async (l) =>
+            {
+                return await Api.Post(newTodoText).ExecuteListAsync();
+            }
+        );
+    }
+
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> DeleteAsync(string id)
+    {
+        return await ServiceUtils.HandleWebApiCallAsync(
+            async (l) =>
+            {
+                return await Api.Delete(id).ExecuteListAsync();
             }
         );
     }

@@ -12,27 +12,70 @@
 
 <ErrorMessageBanner IsError="IsError" Message="@ErrorMessage"></ErrorMessageBanner>
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold text-body-emphasis">Employee List</h1>
-    <div class="col-lg-6 mx-auto">
-        <p class="lead mb-4">Welcome to the employee list page. It shows how to use the Blazor Toolkit components.</p>
-        <div class="list-group">
+    <h1 class="display-5 fw-bold text-body-emphasis">Todo List</h1>
 
-            @if (InProgress)
-            {
-                <PageProgress></PageProgress>
-            }
-            else if (employees != null)
-            {
-                @foreach (var employee in employees.Items)
-                {
-                    <a href="#" class="list-group-item list-group-item-action">@employee.Name</a>
-                }
-                <ModelDataPager InProgress="InProgress" List="employees"></ModelDataPager>
-            }
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Welcome to the todo list page. It shows how to use the Blazor Toolkit components.</p>
+        <div class="add-todo-form">
+            <div class="input-group mb-3">
+                <input @bind="newTodoText" @bind:event="oninput" @onkeypress="HandleKeyPress" class="form-control" placeholder="Add a new task..." />
+                <button class="btn btn-primary" @onclick="AddTodo" disabled="@(string.IsNullOrWhiteSpace(newTodoText) || InProgress)">
+                    @if (IsSubmitting)
+                    {
+                        <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                        <span role="status">Adding...</span>
+                    }
+                    else
+                    {
+                        <span>Add</span>
+                    }
+                </button>
+            </div>
         </div>
-        @* TODO: Add disabled state *@
-        <div class="d-grid gap-2 d-sm-flex justify-content-start p-2">
-            <button type="button" class="btn btn-primary" disabled="@InProgress" @onclick="TriggerErrorAsync">Add New</button>
+        <div class="list-group">
+            @if (IsReading)
+            {
+                <ul class="list-group mt-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Progress pleaceholder</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Progress pleaceholder</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Progress pleaceholder</span>
+                    </li>
+                </ul>
+            }
+            else if (todos != null)
+            {
+                @if (todos.Count == 0)
+                {
+                    <div class="alert alert-info">
+                        No tasks yet. Add one above!
+                    </div>
+                }
+                else
+                {
+                    <ul class="list-group mt-3">
+                        @foreach (var todoItem in todos.Items)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input type="checkbox" @bind="todoItem.IsCompleted" class="me-2" />
+                                    <span class="@(todoItem.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                        @todoItem.Title
+                                    </span>
+                                </div>
+                                <button class="btn btn-sm btn-danger" @onclick="() => RemoveTodo(todoItem)" disabled="@InProgress">
+                                    Delete
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                    <ModelDataPager InProgress="InProgress" List="todos"></ModelDataPager>
+                }
+            }
         </div>
         <div class="d-grid gap-2 d-sm-flex justify-content-end p-2">
             <button type="button" class="btn btn-danger" disabled="@InProgress" @onclick="TriggerErrorAsync">Trigger Error</button>
@@ -41,15 +84,17 @@
 </div>
 
 @code {
-
     [Inject]
-    EmployeeService Service { get; set; }
+    TodoService Service { get; set; }
 
     #region IServiceExecutionHost
     public ServiceExecutionType ServiceState { get; set; }
+    public bool InProgress { get; set; } = false;
+    public bool IsSubmitting => ServiceState == ServiceExecutionType.Submitting;
+    public bool IsReading => ServiceState == ServiceExecutionType.Reading;
+
     public string ErrorMessage { get; set; } = string.Empty;
     public bool IsError { get; set; } = false;
-    public bool InProgress { get; set; } = false;
 
     public void ShowLogin()
     {
@@ -64,15 +109,49 @@
     }
     #endregion
 
-    private ModelList<EmployeeItem> employees = null;
+    private string newTodoText = string.Empty;
+    private ModelList<TodoItem> todos = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => employees = e);
+        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => todos = e);
+    }
+
+    private async Task AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodoText))
+        {
+            await this.ServiceSubmitAsync(async () => await Service.AddAsync(newTodoText),
+            (t) =>
+            {
+                todos = t;
+                newTodoText = string.Empty;
+            });
+        }
+    }
+
+    private async Task RemoveTodo(TodoItem todo)
+    {
+        await this.ServiceSubmitAsync(async () => await Service.DeleteAsync(todo.Id),
+        (t) =>
+            {
+                todos = t;
+            });
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(newTodoText))
+        {
+            await AddTodo();
+        }
     }
 
     private async Task TriggerErrorAsync()
     {
-        await this.ServiceSubmitAsync<EmployeeItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
+        await this.ServiceSubmitAsync<TodoItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
+
+
+
 }
