@@ -1,7 +1,11 @@
-﻿using DevInstance.BlazorToolkit.Samples.Model;
+﻿using DevInstance.BlazorToolkit.Samples.Components.Pages;
+using DevInstance.BlazorToolkit.Samples.Model;
+using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Utils;
 using DevInstance.WebServiceToolkit.Common.Model;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace DevInstance.EmployeeList.Controllers;
@@ -54,11 +58,18 @@ public class TodoController
     }
 
     [HttpPost]
-    public async Task<ActionResult<ModelList<TodoItem>>> AddAsync([FromBody()] string todo)
+    public async Task<ActionResult<ModelList<TodoItem>>> AddAsync([FromBody()] TodoItem item)
     {
+        if (list.FindIndex(t => string.Compare(t.Title, item.Title, StringComparison.OrdinalIgnoreCase) == 0) >= 0)
+        {
+            var error = new ServiceActionError { ErrorType = ServiceActionErrorType.Validation, PropertyName = nameof(item.Title), Message = $"Task with '{nameof(item.Title)}' already exists" };
+            return new BadRequestObjectResult(JsonSerializer.Serialize(error));
+        }
+
         await Task.Delay(delay);
 
-        list.Insert(0, new TodoItem { Id = IdGenerator.New(), Title = todo });
+
+        list.Insert(0, new TodoItem { Id = IdGenerator.New(), Title = item.Title });
 
         return GetList(0);
     }

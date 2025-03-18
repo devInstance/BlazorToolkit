@@ -42,13 +42,12 @@ public class TodoService
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(string newTodoText)
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(TodoItem newTodo)
     {
-        var item = new TodoItem { Title = newTodoText };
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
             {
-                return await Api.Post(newTodoText).ExecuteListAsync();
+                return await Api.Post(newTodo).ExecuteListAsync();
             }
         );
     }

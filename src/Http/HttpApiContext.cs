@@ -1,7 +1,7 @@
-﻿using DevInstance.WebServiceToolkit.Common.Model;
-using System.Net.Http;
+﻿using DevInstance.BlazorToolkit.Exceptions;
+using DevInstance.BlazorToolkit.Services;
+using DevInstance.WebServiceToolkit.Common.Model;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace DevInstance.BlazorToolkit.Http;
 
@@ -170,23 +170,44 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
             case ApiMethod.Post:
             {
                 var result = await Http.PostAsJsonAsync(url, payload);
-                result.EnsureSuccessStatusCode();
+                await HandleResponseAsync(result);
                 return await result.Content.ReadFromJsonAsync<O>();
             }
             case ApiMethod.Put:
             {
                 var result = await Http.PutAsJsonAsync(url, payload);
-                result.EnsureSuccessStatusCode();
+                await HandleResponseAsync(result);
                 return await result.Content.ReadFromJsonAsync<O>();
             }
             case ApiMethod.Delete:
             {
                 var result = await Http.DeleteAsync(url);
-                result.EnsureSuccessStatusCode();
+                await HandleResponseAsync(result);
                 return await result.Content.ReadFromJsonAsync<O>();
             }
             default:
                 return default;
+        }
+    }
+
+    private async Task HandleResponseAsync(HttpResponseMessage? message)
+    {
+        if (!message.IsSuccessStatusCode)
+        {
+            ServiceActionError error = null;
+            try
+            {
+                error = await message.Content.ReadFromJsonAsync<ServiceActionError>();
+            }
+            catch
+            {
+            }
+
+            if (error != null)
+            {
+                throw new HttpServerException(error, message.StatusCode);
+            }
+            throw new HttpRequestException($"Request failed, code {message.StatusCode}", null, message.StatusCode);
         }
     }
 

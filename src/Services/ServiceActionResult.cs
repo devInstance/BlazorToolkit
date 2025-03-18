@@ -36,11 +36,23 @@ public class ServiceActionResult<T>
         };
     }
 
+    public static ServiceActionResult<T> Failed(ServiceActionError error)
+    {
+
+        return new ServiceActionResult<T>
+        {
+            Errors = [error],
+            Result = default(T),
+            Success = false,
+            IsAuthorized = true
+        };
+    }
+
     public static ServiceActionResult<T> Failed(string message)
     {
         return new ServiceActionResult<T>
         {
-            Errors = new ServiceActionError[] { new ServiceActionError { Message = message } },
+            Errors = new ServiceActionError[] { new ServiceActionError { ErrorType = ServiceActionErrorType.General, Message = message } },
             Result = default(T),
             Success = false,
             IsAuthorized = true

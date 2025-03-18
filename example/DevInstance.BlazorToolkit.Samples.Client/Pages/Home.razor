@@ -4,7 +4,9 @@
 @using DevInstance.BlazorToolkit.Samples.Services
 @using DevInstance.BlazorToolkit.Services
 @using DevInstance.BlazorToolkit.Services.Wasm
+@using DevInstance.BlazorToolkit.Validators
 @using DevInstance.WebServiceToolkit.Common.Model
+@using FluentValidation.Results
 
 @implements IServiceExecutionHost
 
@@ -16,22 +18,27 @@
 
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Welcome to the todo list page. It shows how to use the Blazor Toolkit components.</p>
-        <div class="add-todo-form">
-            <div class="input-group mb-3">
-                <input @bind="newTodoText" @bind:event="oninput" @onkeypress="HandleKeyPress" class="form-control" placeholder="Add a new task..." />
-                <button class="btn btn-primary" @onclick="AddTodo" disabled="@(string.IsNullOrWhiteSpace(newTodoText) || InProgress)">
-                    @if (IsSubmitting)
-                    {
-                        <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
-                        <span role="status">Adding...</span>
-                    }
-                    else
-                    {
-                        <span>Add</span>
-                    }
-                </button>
+        <EditForm Model="@newTodo" OnValidSubmit="AddTodo">
+            <ServiceResultValidation @ref="nameValidator"></ServiceResultValidation>
+            <ValidationSummary />
+            <div class="add-todo-form">
+                <div class="input-group mb-3">
+                    <input @bind="newTodo.Title" class="form-control" placeholder="Add a new task..." disabled="@InProgress" />
+                    <ValidationMessage For="@(() => newTodo.Title)" />
+                    <button class="btn btn-primary" type="submit" disabled="@(string.IsNullOrWhiteSpace(newTodo.Title) || InProgress)">
+                        @if (IsSubmitting)
+                        {
+                            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                            <span role="status">Adding...</span>
+                        }
+                        else
+                        {
+                            <span>Add</span>
+                        }
+                    </button>
+                </div>
             </div>
-        </div>
+        </EditForm>
         <div class="list-group">
             @if (IsReading)
             {
@@ -88,6 +95,7 @@
     TodoService Service { get; set; }
 
     #region IServiceExecutionHost
+    // This code shoud be part of a base class if there are more than one page that uses it.
     public ServiceExecutionType ServiceState { get; set; }
     public bool InProgress { get; set; } = false;
     public bool IsSubmitting => ServiceState == ServiceExecutionType.Submitting;
@@ -109,8 +117,9 @@
     }
     #endregion
 
-    private string newTodoText = string.Empty;
+    private TodoItem newTodo = new TodoItem { Id = "None" };
     private ModelList<TodoItem> todos = null;
+    private ServiceResultValidation nameValidator;
 
     protected override async Task OnInitializedAsync()
     {
@@ -119,15 +128,17 @@
 
     private async Task AddTodo()
     {
-        if (!string.IsNullOrWhiteSpace(newTodoText))
+        await this.ServiceSubmitAsync(async () => await Service.AddAsync(newTodo),
+        (t) =>
         {
-            await this.ServiceSubmitAsync(async () => await Service.AddAsync(newTodoText),
-            (t) =>
-            {
-                todos = t;
-                newTodoText = string.Empty;
-            });
-        }
+            todos = t;
+            newTodo = new TodoItem() { Id = "None" };
+        },
+        null,
+        (e) =>
+        {
+            return nameValidator.DisplayErrors(e);
+        });
     }
 
     private async Task RemoveTodo(TodoItem todo)
@@ -139,19 +150,8 @@
             });
     }
 
-    private async Task HandleKeyPress(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(newTodoText))
-        {
-            await AddTodo();
-        }
-    }
-
     private async Task TriggerErrorAsync()
     {
         await this.ServiceSubmitAsync<TodoItem>(async () => throw new Exception("An error occurred in the service."), (e) => { /*Do nothing*/});
     }
-
-
-
 }

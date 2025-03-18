@@ -2,6 +2,7 @@ using DevInstance.BlazorToolkit.Http;
 using DevInstance.BlazorToolkit.Tools;
 using DevInstance.BlazorToolkit.Samples.Model;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using DevInstance.BlazorToolkit.Validators;
 
 namespace DevInstance.BlazorToolkit.Samples.Client;
 

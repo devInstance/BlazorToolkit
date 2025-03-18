@@ -38,8 +38,8 @@ public static class ServiceCallExtensions
                                                         ServiceExecutionType executionType, 
                                                         PerformAsyncCallHandler<T> handler, 
                                                         Action<T> success = null, 
-                                                        Func<T, Task> sucessAsync = null, 
-                                                        Action<ServiceActionError[]> error = null, 
+                                                        Func<T, Task> sucessAsync = null,
+                                                        ErrorCallHandler error = null, 
                                                         Action before = null, 
                                                         bool enableProgress = true)
     {
@@ -64,7 +64,7 @@ public static class ServiceCallExtensions
                                                         PerformAsyncCallHandler<T> handler,
                                                         Action<T> success = null,
                                                         Func<T, Task> sucessAsync = null,
-                                                        Action<ServiceActionError[]> error = null,
+                                                        ErrorCallHandler error = null,
                                                         Action before = null,
                                                         bool enableProgress = true)
     {
@@ -89,7 +89,7 @@ public static class ServiceCallExtensions
                                                         PerformAsyncCallHandler<T> handler,
                                                         Action<T> success = null,
                                                         Func<T, Task> sucessAsync = null,
-                                                        Action<ServiceActionError[]> error = null,
+                                                        ErrorCallHandler error = null,
                                                         Action before = null,
                                                         bool enableProgress = true)
     {
