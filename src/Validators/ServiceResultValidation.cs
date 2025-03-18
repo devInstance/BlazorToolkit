@@ -16,7 +16,7 @@ public class ServiceResultValidation : ComponentBase
     private ValidationMessageStore? messageStore;
 
     [CascadingParameter]
-    private EditContext? CurrentEditContext { get; set; }
+    protected EditContext? CurrentEditContext { get; set; }
 
     protected override void OnInitialized()
     {
@@ -59,3 +59,17 @@ public class ServiceResultValidation : ComponentBase
         messageStore?.Clear();
         CurrentEditContext?.NotifyValidationStateChanged();
     }}
+
+public class ServiceResultValidationEx<CssProviderType> : ServiceResultValidation where CssProviderType : FieldCssClassProvider, new()
+{
+    public CssProviderType CssProvider { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (CssProvider != null)
+        {
+            CurrentEditContext.SetFieldCssClassProvider(CssProvider);
+        }
+    }
+}

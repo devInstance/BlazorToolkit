@@ -18,13 +18,11 @@
 
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Welcome to the todo list page. It shows how to use the Blazor Toolkit components.</p>
-        <EditForm Model="@newTodo" OnValidSubmit="AddTodo">
-            <ServiceResultValidation @ref="nameValidator"></ServiceResultValidation>
-            <ValidationSummary />
-            <div class="add-todo-form">
-                <div class="input-group mb-3">
-                    <input @bind="newTodo.Title" class="form-control" placeholder="Add a new task..." disabled="@InProgress" />
-                    <ValidationMessage For="@(() => newTodo.Title)" />
+        <EditForm Model="newTodo" OnValidSubmit="AddTodo">
+            <ServiceResultValidationEx @ref="nameValidator" CssProviderType="BootstrapFieldCssClassProvider"></ServiceResultValidationEx>
+              <div class="add-todo-form">
+                <div class="input-group has-validation mb-3">
+                    <InputText @bind-Value="@newTodo.Title" class="form-control" placeholder="Add a new task..." disabled="@InProgress" />
                     <button class="btn btn-primary" type="submit" disabled="@(string.IsNullOrWhiteSpace(newTodo.Title) || InProgress)">
                         @if (IsSubmitting)
                         {
@@ -36,6 +34,7 @@
                             <span>Add</span>
                         }
                     </button>
+                    <BoostrapValidationMessage For="@(() => newTodo.Title)" />
                 </div>
             </div>
         </EditForm>
@@ -119,7 +118,7 @@
 
     private TodoItem newTodo = new TodoItem { Id = "None" };
     private ModelList<TodoItem> todos = null;
-    private ServiceResultValidation nameValidator;
+    private ServiceResultValidationEx<BootstrapFieldCssClassProvider> nameValidator;
 
     protected override async Task OnInitializedAsync()
     {

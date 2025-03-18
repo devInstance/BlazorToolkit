@@ -32,6 +32,13 @@ public class TodoController
             list.Add(new TodoItem { Id = IdGenerator.New(), Title = "Schedule team meeting", IsCompleted = true });
         }
     }
+
+    private async Task DelayAsync()
+    {
+        if(delay > 0)
+            await Task.Delay(delay);
+    }
+
     private ActionResult<ModelList<TodoItem>> GetList(int? page, int? itemPerPage = null)
     {
         int pageIndex = page ?? 0;
@@ -52,7 +59,7 @@ public class TodoController
     [HttpGet]
     public async Task<ActionResult<ModelList<TodoItem>>> GetItemsAsync(int? top, int? page, string? search)
     {
-        await Task.Delay(delay);
+        await DelayAsync();
 
         return GetList(page, top);
     }
@@ -66,8 +73,7 @@ public class TodoController
             return new BadRequestObjectResult(JsonSerializer.Serialize(error));
         }
 
-        await Task.Delay(delay);
-
+        await DelayAsync();
 
         list.Insert(0, new TodoItem { Id = IdGenerator.New(), Title = item.Title });
 
@@ -77,7 +83,7 @@ public class TodoController
     [HttpPut]
     public async Task<ActionResult<ModelList<TodoItem>>> UpdateAsync(string id, [FromBody] TodoItem item)
     {
-        await Task.Delay(delay);
+        await DelayAsync();
 
         list.Find(t => t.Id == id).Title = item.Title;
 
@@ -87,7 +93,7 @@ public class TodoController
     [HttpDelete]
     public async Task<ActionResult<ModelList<TodoItem>>> DeleteAsync(string id)
     {
-        await Task.Delay(delay);
+        await DelayAsync();
 
         var index = list.FindIndex(t => t.Id == id);
         list.RemoveAt(index);
@@ -99,7 +105,7 @@ public class TodoController
     [Route("error404")]
     public async Task<ActionResult<TodoItem>> GetErrorAsync()
     {
-        await Task.Delay(delay);
+        await DelayAsync();
 
         return new UnauthorizedResult();
     }
