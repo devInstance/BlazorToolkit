@@ -1,4 +1,5 @@
-﻿using DevInstance.LogScope;
+﻿using DevInstance.BlazorToolkit.Exceptions;
+using DevInstance.LogScope;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -37,14 +38,27 @@ public static class ServiceUtils
             {
                 return ServiceActionResult<T>.OK(await handler(l));
             }
+            catch (HttpServerException ex)
+            {
+                l.E(ex);
+                switch (ex.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized:
+                        return ServiceActionResult<T>.Unauthorized();
+                    default:
+                        return ServiceActionResult<T>.Failed(ex.Error);
+                }
+            }
             catch (HttpRequestException ex)
             {
                 l.E(ex);
-                if (ex.StatusCode == HttpStatusCode.Unauthorized)
+                switch (ex.StatusCode)
                 {
-                    return ServiceActionResult<T>.Unauthorized();
+                    case HttpStatusCode.Unauthorized:
+                        return ServiceActionResult<T>.Unauthorized();
+                    default:
+                        return ServiceActionResult<T>.Failed(ex.Message);
                 }
-                return ServiceActionResult<T>.Failed(ex.Message);
             }
             catch (Exception ex)
             {

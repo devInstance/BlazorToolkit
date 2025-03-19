@@ -115,5 +115,7 @@ Welcome to your new app.
 }
 ```
 
+See more comprehensive example in `DevInstance.BlazorToolkit.Samples` project.
+
 ## License
 BlazorToolkit is licensed under the MIT License. You are free to use, modify, and distribute this software in accordance with the terms of the license.

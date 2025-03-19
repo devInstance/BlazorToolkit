@@ -12,6 +12,8 @@ namespace DevInstance.BlazorToolkit.Services;
 /// <returns>A task that represents the asynchronous operation, containing the ServiceActionResult.</returns>
 public delegate Task<ServiceActionResult<T>> PerformAsyncCallHandler<T>();
 
+public delegate bool ErrorCallHandler(ServiceActionError[] errors);
+
 /// <summary>
 /// Handles the execution of service calls, managing their progress, success, and error states.
 /// </summary>
@@ -35,6 +37,8 @@ public class ServiceExecutionHandler
 
         this.log = l.TraceScope("SEHandler");
         this.basePage = basePage;
+        this.basePage.ErrorMessage = "";
+        this.basePage.IsError = false;
         this.executionType = executionType;
         tasks = new List<Func<Task<bool>>>();
     }
@@ -53,7 +57,7 @@ public class ServiceExecutionHandler
     public ServiceExecutionHandler DispatchCall<T>(PerformAsyncCallHandler<T> handler,
                                                     Action<T> success = null,
                                                     Func<T, Task> sucessAsync = null,
-                                                    Action<ServiceActionError[]> error = null,
+                                                    ErrorCallHandler error = null,
                                                     Action before = null,
                                                     bool enableProgress = true)
     {
@@ -113,7 +117,7 @@ public class ServiceExecutionHandler
         }
     }
 
-    private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler, Action<T> success, Func<T, Task> sucessAsync, Action<ServiceActionError[]> error, Action before, bool enableProgress)
+    private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler, Action<T> success, Func<T, Task> sucessAsync, ErrorCallHandler error, Action before, bool enableProgress)
     {
         ServiceActionResult<T> res = null;
 
@@ -143,7 +147,6 @@ public class ServiceExecutionHandler
                     };
                 }
 
-                basePage.IsError = !res.Success;
                 if (res.Success)
                 {
                     if (success != null)
@@ -163,8 +166,8 @@ public class ServiceExecutionHandler
                         errorMessage += errm.Message;
                     }
                     l.W(errorMessage);
-                    basePage.ErrorMessage = errorMessage;
 
+                    bool showError = true;
                     if (!res.IsAuthorized)
                     {
                         basePage.ShowLogin();
@@ -172,7 +175,12 @@ public class ServiceExecutionHandler
                     }
                     else if (error != null)
                     {
-                        error(res.Errors);
+                        showError = !error(res.Errors);
+                    }
+                    if(showError)
+                    {
+                        basePage.ErrorMessage = errorMessage;
+                        basePage.IsError = true;
                     }
                 }
 

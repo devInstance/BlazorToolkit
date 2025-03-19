@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>DevInstance.BlazorToolkit.Samples</AssemblyName>
+		<RootNamespace>DevInstance.BlazorToolkit.Samples</RootNamespace>
+		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
+		<Company>DevInstance LLC</Company>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.12" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DevInstance.BlazorToolkit.Samples.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
+	</ItemGroup>
+
+</Project>

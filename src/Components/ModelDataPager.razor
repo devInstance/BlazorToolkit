@@ -1,50 +1,50 @@
 @if (List?.PagesCount > 1)
 {
-<nav aria-label="Pages">
-    <ul class="pagination">
-        <li class="page-item @(List.Page == 0 ? "disabled" : "")">
-        @if (!string.IsNullOrEmpty(UrlTemplate))
-        {
-            <a class="page-link" aria-label="Previous" href="@GetPageUrl(List.Page - 1)">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        }
-        else
-        {
-            <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(List.Page - 1))" disabled="@(List.Page == 0)">
-                <span aria-hidden="true">&laquo;</span>
-            </button>
-        }
-        </li>
-        @foreach (var p in PageRange)
-        {
-            <li class="@(p == List.Page ? "page-item active" : "page-item")">
-            @if (!string.IsNullOrEmpty(UrlTemplate))
-            {
-                <a class="page-link" href="@GetPageUrl(p)">@((p + 1).ToString())</a>
-            }
-            else
-            {
-                <button class="page-link" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
-            }
+    <nav aria-label="Pages">
+        <ul class="pagination">
+            <li class="page-item @(List.Page == 0 || InProgress? "disabled" : "")">
+                @if (!string.IsNullOrEmpty(UrlTemplate))
+                {
+                    <a class="page-link" aria-label="Previous" href="@GetPageUrl(List.Page - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                }
+                else
+                {
+                    <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(List.Page - 1))" disabled="@(List.Page == 0 || InProgress)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </button>
+                }
             </li>
-        }
-            <li class="page-item @(List.Page == List.PagesCount - 1 ? "disabled" : "")">
-        @if (!string.IsNullOrEmpty(UrlTemplate))
-        {
-            <a class="page-link" aria-label="Next" href="@GetPageUrl(List.Page + 1)">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        }
-        else
-        {
-             <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(List.Page + 1))" disabled="@(List.Page == List.PagesCount - 1)">
-                <span aria-hidden="true">&raquo;</span>
-            </button>
-        }
-        </li>
-    </ul>
-</nav>
+            @foreach (var p in PageRange)
+            {
+                <li class="@(p == List.Page ? "page-item active" : "page-item")">
+                    @if (!string.IsNullOrEmpty(UrlTemplate))
+                    {
+                        <a class="page-link" href="@GetPageUrl(p)">@((p + 1).ToString())</a>
+                    }
+                    else
+                    {
+                        <button class="page-link" disabled="@InProgress" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
+                    }
+                </li>
+            }
+            <li class="page-item @(List.Page == List.PagesCount - 1 || InProgress ? "disabled" : "")">
+                @if (!string.IsNullOrEmpty(UrlTemplate))
+                {
+                    <a class="page-link" aria-label="Next" href="@GetPageUrl(List.Page + 1)" disabled="InProgress">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                }
+                else
+                {
+                    <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(List.Page + 1))" disabled="@(List.Page == List.PagesCount - 1 || InProgress)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </button>
+                }
+            </li>
+        </ul>
+    </nav>
 }
 @using DevInstance.WebServiceToolkit.Common.Model
 @typeparam TEntity where TEntity : ModelItem
@@ -60,6 +60,9 @@
 
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
+
+    [Parameter]
+    public bool InProgress { get; set; } = false;
 
     private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(List?.Page ?? 0, List?.PagesCount ?? 0, MaxItems);
 

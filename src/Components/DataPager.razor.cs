@@ -24,6 +24,9 @@ public partial class DataPager
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }
 
+    [Parameter]
+    public bool InProgress { get; set; } = false;
+
     private IEnumerable<int> PageRange => DataPageUtils.GetPageRange(SelectedPage, PagesCount, MaxItems);
 
     protected async override Task OnInitializedAsync()

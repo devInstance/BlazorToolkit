@@ -2,16 +2,16 @@
 {
     <nav aria-label="Pages">
         <ul class="pagination">
-            <li class="page-item @(SelectedPage == 0 ? "disabled" : "")">
+            <li class="page-item @(SelectedPage == 0 || InProgress ? "disabled" : "")">
                 @if (!string.IsNullOrEmpty(UrlTemplate))
                 {
-                    <a class="page-link" aria-label="Previous" href="@GetPageUrl(SelectedPage - 1)">
+                    <a class="page-link" aria-label="Previous" href="@GetPageUrl(SelectedPage - 1)" disabled="@InProgress">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 }
                 else
                 {
-                    <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(SelectedPage - 1))" disabled="@(SelectedPage == 0)">
+                    <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(SelectedPage - 1))" disabled="@(SelectedPage == 0 || InProgress)">
                         <span aria-hidden="true">&laquo;</span>
                     </button>
                 }
@@ -21,24 +21,24 @@
                 <li class="@(p == SelectedPage ? "page-item active" : "page-item")">
                     @if (!string.IsNullOrEmpty(UrlTemplate))
                     {
-                        <a class="page-link" href="@GetPageUrl(p)">@((p + 1).ToString())</a>
+                        <a class="page-link" href="@GetPageUrl(p)" disabled="@InProgress">@((p + 1).ToString())</a>
                     }
                     else
                     {
-                        <button class="page-link" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
+                        <button class="page-link" disabled="@InProgress" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
                     }
                 </li>
             }
-            <li class="page-item @(SelectedPage == PagesCount - 1 ? "disabled" : "")">
+            <li class="page-item @(SelectedPage == PagesCount - 1 || InProgress ? "disabled" : "")">
                 @if (!string.IsNullOrEmpty(UrlTemplate))
                 {
-                    <a class="page-link" aria-label="Next" href="@GetPageUrl(SelectedPage + 1)">
+                    <a class="page-link" aria-label="Next" disabled="@InProgress" href="@GetPageUrl(SelectedPage + 1)">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 }
                 else
                 {
-                    <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(SelectedPage + 1))" disabled="@(SelectedPage == PagesCount - 1)">
+                    <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(SelectedPage + 1))" disabled="@(SelectedPage == PagesCount - 1 || InProgress)">
                         <span aria-hidden="true">&raquo;</span>
                     </button>
                 }
