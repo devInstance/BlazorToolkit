@@ -20,9 +20,9 @@
         <p class="lead mb-4">Welcome to the todo list page. It shows how to use the Blazor Toolkit components.</p>
         <EditForm Model="newTodo" OnValidSubmit="AddTodo">
             <ServiceResultValidationEx @ref="nameValidator" CssProviderType="BootstrapFieldCssClassProvider"></ServiceResultValidationEx>
-              <div class="add-todo-form">
+            <div class="add-todo-form">
                 <div class="input-group has-validation mb-3">
-                    <InputText @bind-Value="@newTodo.Title" class="form-control" placeholder="Add a new task..." disabled="@InProgress" />
+                    <InputText @bind-Value="@newTodo.Title" class="form-control" placeholder="Add a new task..." @oninput="HandleInput" disabled="@InProgress" />
                     <button class="btn btn-primary" type="submit" disabled="@(string.IsNullOrWhiteSpace(newTodo.Title) || InProgress)">
                         @if (IsSubmitting)
                         {
@@ -68,7 +68,7 @@
                         {
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
-                                    <input type="checkbox" @bind="todoItem.IsCompleted" class="me-2" />
+                                    <input type="checkbox" @bind="todoItem.IsCompleted" class="me-2" @oninput="@((e) => UpdateItemStatusAsync(todoItem, e))" />
                                     <span class="@(todoItem.IsCompleted ? "text-decoration-line-through text-muted" : "")">
                                         @todoItem.Title
                                     </span>
@@ -120,6 +120,27 @@
     private ModelList<TodoItem> todos = null;
     private ServiceResultValidationEx<BootstrapFieldCssClassProvider> nameValidator;
 
+    private void HandleInput(ChangeEventArgs e)
+    {
+        newTodo.Title = e.Value.ToString();
+    }
+
+    private async Task UpdateItemStatusAsync(TodoItem item, ChangeEventArgs e)
+    {
+        item.IsCompleted = (bool)e.Value;
+        await this.ServiceSubmitAsync(async () => await Service.UpdateAsync(item),
+        (t) =>
+        {
+            todos = t;
+        },
+        null,
+        (e) =>
+        {
+            item.IsCompleted = !item.IsCompleted; //rollback
+            return false; //false to show the main error message
+        });
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => todos = e);
@@ -144,9 +165,9 @@
     {
         await this.ServiceSubmitAsync(async () => await Service.DeleteAsync(todo.Id),
         (t) =>
-            {
-                todos = t;
-            });
+        {
+            todos = t;
+        });
     }
 
     private async Task TriggerErrorAsync()

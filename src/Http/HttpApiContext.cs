@@ -1,6 +1,7 @@
 ﻿using DevInstance.BlazorToolkit.Exceptions;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.WebServiceToolkit.Common.Model;
+using System;
 using System.Net.Http.Json;
 
 namespace DevInstance.BlazorToolkit.Http;
@@ -96,14 +97,25 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
 
     public string Uri => apiUrlBuilder.ToString();
 
+    private string baseUrl;
+
     public HttpApiContext(string url, HttpClient http)
     {
-        apiUrlBuilder = ApiUrlBuilder.Create(url);
         Http = http;
+        baseUrl = url;
+    }
+
+    protected void TryInitializeUrlBuilder()
+    {
+        if(apiUrlBuilder == null)
+        {
+            apiUrlBuilder = ApiUrlBuilder.Create(baseUrl);
+        }
     }
 
     public IApiContext<K, T> Get(K? id = default)
     {
+        TryInitializeUrlBuilder();
         method = ApiMethod.Get;
         if (id != null)
         {
@@ -119,6 +131,7 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
 
     public IApiContext<K, T> Post<O>(O obj)
     {
+        TryInitializeUrlBuilder();
         method = ApiMethod.Post;
         payload = obj;
         return this;
@@ -128,7 +141,11 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
     {
         return Put<T>(obj, id);
     }
-    public IApiContext<K, T> Put<O>(O obj, K? id = default)  {
+    
+    public IApiContext<K, T> Put<O>(O obj, K? id = default) 
+    {
+
+        TryInitializeUrlBuilder();
         method = ApiMethod.Put;
         if (id != null)
         {
@@ -140,6 +157,7 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
 
     public IApiContext<K, T> Delete(K? id)
     {
+        TryInitializeUrlBuilder();
         method = ApiMethod.Delete;
         if (id != null)
         {
@@ -163,19 +181,22 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
     public async Task<O?> ExecuteAsync<O>()
     {
         string url = apiUrlBuilder.ToString();
+        apiUrlBuilder = null;
+        var copyPaylod = payload;
+        payload = null;
         switch (method)
         {
             case ApiMethod.Get:
                 return await Http.GetFromJsonAsync<O>(url);
             case ApiMethod.Post:
             {
-                var result = await Http.PostAsJsonAsync(url, payload);
+                var result = await Http.PostAsJsonAsync(url, copyPaylod);
                 await HandleResponseAsync(result);
                 return await result.Content.ReadFromJsonAsync<O>();
             }
             case ApiMethod.Put:
             {
-                var result = await Http.PutAsJsonAsync(url, payload);
+                var result = await Http.PutAsJsonAsync(url, copyPaylod);
                 await HandleResponseAsync(result);
                 return await result.Content.ReadFromJsonAsync<O>();
             }
