@@ -52,6 +52,16 @@ public class TodoService
         );
     }
 
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> UpdateAsync(TodoItem updatedTodo)
+    {
+        return await ServiceUtils.HandleWebApiCallAsync(
+            async (l) =>
+            {
+                return await Api.Put(updatedTodo, updatedTodo.Id).ExecuteListAsync();
+            }
+        );
+    }
+
     public async Task<ServiceActionResult<ModelList<TodoItem>?>> DeleteAsync(string id)
     {
         return await ServiceUtils.HandleWebApiCallAsync(

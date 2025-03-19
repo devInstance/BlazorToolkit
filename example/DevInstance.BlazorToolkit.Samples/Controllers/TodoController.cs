@@ -81,16 +81,18 @@ public class TodoController
     }
 
     [HttpPut]
+    [Route("{id}")]
     public async Task<ActionResult<ModelList<TodoItem>>> UpdateAsync(string id, [FromBody] TodoItem item)
     {
         await DelayAsync();
 
-        list.Find(t => t.Id == id).Title = item.Title;
+        list.Find(t => t.Id == id).IsCompleted = item.IsCompleted;
 
         return GetList(0);
     }
 
     [HttpDelete]
+    [Route("{id}")]
     public async Task<ActionResult<ModelList<TodoItem>>> DeleteAsync(string id)
     {
         await DelayAsync();
