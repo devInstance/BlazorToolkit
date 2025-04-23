@@ -2,9 +2,8 @@
 @using Microsoft.AspNetCore.Components.Web
 
 @inherits LayoutComponentBase
+@implements IServiceExecutionHost
 
-@* @implements IServiceExecutionHost;
- *@
 <CascadingValue Value="this" IsFixed="true">
     <div class="base-page">
         @if (InProgress)
@@ -18,7 +17,7 @@
             @Body
         </div>
     </div>
- </CascadingValue>
+</CascadingValue>
 
 @code {
     public ServiceExecutionType ServiceState { get; set; }
@@ -40,9 +39,7 @@
 
     public PersistentComponentState ComponentState => null;
 
-    Dictionary<string, object> State => null;
+    Dictionary<string, string> IServiceExecutionHost.State => null;
 
-    // protected override async Task OnInitializedAsync()
-    // {
-    // }
+    Dictionary<string, object> State => null;
 }
