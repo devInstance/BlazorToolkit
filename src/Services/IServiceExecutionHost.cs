@@ -1,4 +1,7 @@
-﻿namespace DevInstance.BlazorToolkit.Services;
+﻿using Microsoft.AspNetCore.Components;
+using System.Globalization;
+
+namespace DevInstance.BlazorToolkit.Services;
 
 /// <summary>
 /// 
@@ -15,7 +18,7 @@ public enum ServiceExecutionType
 /// implemented by the component to handle the service call 
 /// status and errors.
 /// </summary>
-public interface IServiceExecutionHost
+public interface IServiceExecutionHost/* : IDisposable */
 {
     /// <summary>
     /// Error message from the service call (when IsError is true)
@@ -35,7 +38,7 @@ public interface IServiceExecutionHost
     /// <summary>
     ///
     /// </summary>
-    public ServiceExecutionType ServiceState { get; set; }
+    ServiceExecutionType ServiceState { get; set; }
     
     /// <summary>
     /// The implementation of this method should navigate to the login page
@@ -46,4 +49,8 @@ public interface IServiceExecutionHost
     /// The implementation of this method should call the StateHasChanged method to re-render the page
     /// </summary>
     void StateHasChanged();
+
+    PersistentComponentState ComponentState { get; }
+
+    Dictionary<string, string> State { get; }
 }

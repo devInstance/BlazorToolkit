@@ -1,15 +1,15 @@
 ﻿using DevInstance.BlazorToolkit.Http;
+using DevInstance.BlazorToolkit.Http.Extensions;
+using DevInstance.BlazorToolkit.Samples.Model;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Wasm;
 using DevInstance.BlazorToolkit.Tools;
-using DevInstance.BlazorToolkit.Samples.Model;
 using DevInstance.WebServiceToolkit.Common.Model;
-using DevInstance.BlazorToolkit.Http.Extensions;
 
-namespace DevInstance.BlazorToolkit.Samples.Services;
+namespace DevInstance.BlazorToolkit.Samples.Client.Services;
 
 [BlazorService]
-public class TodoService
+public class TodoService : ITodoService
 {
     IApiContext<TodoItem> Api { get; set; }
 
@@ -71,5 +71,4 @@ public class TodoService
             }
         );
     }
-
 }

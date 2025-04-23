@@ -1,0 +1,66 @@
+﻿@using DevInstance.BlazorToolkit.Services
+@using DevInstance.LogScope
+
+@implements IServiceExecutionHost
+@implements IDisposable
+
+@inject PersistentComponentState ApplicationState
+
+@code {
+    public ServiceExecutionType ServiceState { get; set; }
+    public bool InProgress { get; set; } = false;
+    public bool IsSubmitting => ServiceState == ServiceExecutionType.Submitting;
+    public bool IsReading => ServiceState == ServiceExecutionType.Reading;
+
+    public string ErrorMessage { get; set; } = string.Empty;
+    public bool IsError { get; set; } = false;
+
+    private PersistingComponentStateSubscription persistingSubscription;
+
+    private IScopeLog log;
+
+    [Inject]
+    private IScopeManager Manager { get; set; }
+
+    public void ShowLogin()
+    {
+        ErrorMessage = "Please log in to continue.";
+        IsError = true;
+        StateHasChanged();
+    }
+
+    public new void StateHasChanged()
+    {
+        InvokeAsync(() => base.StateHasChanged());
+    }
+
+    public PersistentComponentState ComponentState => ApplicationState;
+
+    Dictionary<string, string> _state = new Dictionary<string, string>();
+    public Dictionary<string, string> State => _state;
+
+    protected override async Task OnInitializedAsync()
+    {
+        log = Manager.CreateLogger(this);
+        persistingSubscription = ApplicationState.RegisterOnPersisting(PersistState);
+    }
+
+    private Task PersistState()
+    {
+        using (var l = log.TraceScope())
+        {
+            foreach (var item in _state)
+            {
+                l.D($"Persisting {item.Key} = {item.Value}");
+                ApplicationState.PersistAsJson<string>(item.Key, item.Value);
+            }
+
+            return Task.CompletedTask;
+        }
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+}

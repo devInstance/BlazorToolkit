@@ -21,12 +21,12 @@ public static class ServiceUtils
     /// Handles a service call asynchronously with logging and error handling.
     /// </summary>
     /// <typeparam name="T">The type of the result returned by the service handler.</typeparam>
-    /// <param name="log">The logging scope.</param>
     /// <param name="handler">The service handler to execute.</param>
+    /// <param name="log">The logging scope.</param>
     /// <returns>A task that represents the asynchronous operation, containing a ServiceActionResult of type T.</returns>
-    public static async Task<ServiceActionResult<T>> HandleServiceCallAsync<T>(IScopeLog log, ServiceHandlerAsync<T> handler)
+    public static async Task<ServiceActionResult<T>> HandleServiceCallAsync<T>(ServiceHandlerAsync<T> handler, IScopeLog log = null)
     {
-        using (var l = log.TraceScope("ServiceUtils").TraceScope())
+        using (var l = log.TraceScope(nameof(ServiceUtils)).TraceScope())
         {
             try
             {

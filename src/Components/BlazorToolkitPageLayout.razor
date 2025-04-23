@@ -3,8 +3,8 @@
 
 @inherits LayoutComponentBase
 
-@implements IServiceExecutionHost
-
+@* @implements IServiceExecutionHost;
+ *@
 <CascadingValue Value="this" IsFixed="true">
     <div class="base-page">
         @if (InProgress)
@@ -37,4 +37,12 @@
     {
         InvokeAsync(() => base.StateHasChanged());
     }
+
+    public PersistentComponentState ComponentState => null;
+
+    Dictionary<string, object> State => null;
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    // }
 }
