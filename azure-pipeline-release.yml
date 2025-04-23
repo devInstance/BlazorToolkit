@@ -12,6 +12,7 @@ pool: default
 
 variables:
   solution: 'src/DevInstance.BlazorToolkit.csproj'
+  version: ${{ parameters.packageVersion }}
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   artifactName: 'drop'
@@ -46,7 +47,7 @@ steps:
     command: 'pack'
     packagesToPack: '$(solution)'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: 'packageVersion'
+    versionEnvVar: 'version'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
