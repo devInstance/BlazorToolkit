@@ -1,50 +1,67 @@
-# https://aka.ms/yaml
 
-pool:
-  name: 'Default'
+trigger: none
+pr: none
+
+parameters:
+  - name: packageVersion
+    displayName: NuGet Package Version
+    type: string
+    default: '9.1.0'
+
+pool: default
 
 variables:
+  solution: 'src/DevInstance.BlazorToolkit.csproj'
+  version: ${{ parameters.packageVersion }}
+  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  artifactName: 'drop'
   nugetFeedUrl: 'https://www.nuget.org/packages/DevInstance.BlazorToolkit/'
 
 steps:
-# Step 1: Restore NuGet Packages
-- task: NuGetToolInstaller@1                            # Minimum required NuGet version: 4.8.0.5385+.
-  displayName: 'NuGet Tool Installer'
-
-- task: NuGetAuthenticate@1
-  displayName: 'NuGet Authenticate'
-  
+# Step 1: Restore NuGet Packages  
 - task: UseDotNet@2
-  displayName: 'Use .NET 8.x'
+  displayName: 'Use .NET 9.x'
   inputs:
-    version: 8.x
-    
+    version: 9.x
+
+- task: NuGetToolInstaller@1
+
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
 
 # Step 2: Build the Solution and pack NuGet Package
-- task: VSBuild@1
-  displayName: 'build'
+- task: DotNetCoreCLI@2
+  displayName: 'Build project'
   inputs:
-    solution: '**/DevInstance.BlazorToolkit.csproj'
-    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
 
 # Step 3: Push NuGet Package
-- task: NuGetCommand@2
-  displayName: 'nuget push'
+- task: DotNetCoreCLI@2
+  displayName: 'Pack NuGet package'
   inputs:
-    command: 'push'
-    feedsToUse: 'config'
-    includeNugetOrg: 'true'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/packages/*.*nupkg'
-    
-# - task: NuGetCommand@2
+    command: 'pack'
+    packagesToPack: '$(solution)'
+    versioningScheme: 'byEnvVar'
+    versionEnvVar: 'version'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Push with API Key'
+  inputs:
+    command: 'custom'
+    custom: 'nuget'
+    arguments: 'push $(Build.ArtifactStagingDirectory)/**/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetApiKey)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Push to NuGet.org'
 #   inputs:
 #     command: 'push'
-#     packagesToPush: '**/*.nupkg'
+#     publishVstsFeed: false
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
 #     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'NugetCon'
-#     #feedPublishUrl: $(nugetFeedUrl)
+#     publishFeedCredentials: '$(NuGetApiKey)'
