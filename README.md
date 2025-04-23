@@ -1,3 +1,5 @@
+[![NuGet](https://img.shields.io/nuget/v/DevInstance.BlazorToolkit.svg)](https://www.nuget.org/packages/DevInstance.BlazorToolkit/)
+
 # Blazor Toolkit
 Blazor Toolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.
 
