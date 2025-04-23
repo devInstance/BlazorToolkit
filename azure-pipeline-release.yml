@@ -2,6 +2,12 @@
 trigger: none
 pr: none
 
+parameters:
+  - name: packageVersion
+    displayName: NuGet Package Version
+    type: string
+    default: '9.1.0'
+
 pool: default
 
 variables:
@@ -38,9 +44,9 @@ steps:
   displayName: 'Pack NuGet package'
   inputs:
     command: 'pack'
-    packagesToPack: '**/BlazorToolkit.csproj'
+    packagesToPack: '$(solution)'
     versioningScheme: 'byEnvVar'
-    versionEnvVar: 'version'
+    versionEnvVar: 'packageVersion'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
