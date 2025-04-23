@@ -51,10 +51,17 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Push to NuGet.org'
+  displayName: 'Push with API Key'
   inputs:
-    command: 'push'
-    publishVstsFeed: false
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'NugetCon'
+    command: 'custom'
+    custom: 'nuget'
+    arguments: 'push $(Build.ArtifactStagingDirectory)/**/*.nupkg --source https://api.nuget.org/v3/index.json --api-key $(NuGetApiKey)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'Push to NuGet.org'
+#   inputs:
+#     command: 'push'
+#     publishVstsFeed: false
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+#     nuGetFeedType: 'external'
+#     publishFeedCredentials: '$(NuGetApiKey)'
