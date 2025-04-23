@@ -1,8 +1,9 @@
 using DevInstance.BlazorToolkit.Http;
-using DevInstance.BlazorToolkit.Tools;
 using DevInstance.BlazorToolkit.Samples.Model;
+using DevInstance.BlazorToolkit.Tools;
+using DevInstance.LogScope.Extensions;
+using DevInstance.LogScope.Formatters;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using DevInstance.BlazorToolkit.Validators;
 
 namespace DevInstance.BlazorToolkit.Samples.Client;
 
@@ -21,6 +22,8 @@ internal class Program
             var factory = sp.GetRequiredService<HttpApiContextFactory>();
             return factory.Create<TodoItem>("DevInstance.BlazorToolkit.Samples.Client", "api/todo");
         });
+
+        builder.Services.AddConsoleScopeLogging(LogScope.LogLevel.TRACE, new DefaultFormattersOptions { ShowTimestamp = true });
 
         builder.Services.AddBlazorServices();
 

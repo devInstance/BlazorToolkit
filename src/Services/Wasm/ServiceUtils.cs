@@ -32,7 +32,7 @@ public static class ServiceUtils
     /// <returns>A task representing the asynchronous operation, with a result of type ServiceActionResult<T>.</returns>
     public static async Task<ServiceActionResult<T>> HandleWebApiCallAsync<T>(WebApiHandlerAsync<T> handler, IScopeLog log = null)
     {
-        using (var l = log.TraceScope("ServiceUtils").TraceScope())
+        using (var l = log.TraceScope(nameof(ServiceUtils)).TraceScope())
         {
             try
             {

@@ -1,25 +1,28 @@
-﻿@page "/"
+﻿@page "/prerender"
 @using DevInstance.BlazorToolkit.Components
+@using DevInstance.BlazorToolkit.Extensions
 @using DevInstance.BlazorToolkit.Samples.Model
 @using DevInstance.BlazorToolkit.Samples.Client.Services
 @using DevInstance.BlazorToolkit.Services
 @using DevInstance.BlazorToolkit.Services.Wasm
 @using DevInstance.BlazorToolkit.Validators
+@using DevInstance.LogScope
 @using DevInstance.WebServiceToolkit.Common.Model
 @using FluentValidation.Results
 
 @inherits ServiceExecutionHostComponent
 
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@rendermode InteractiveWebAssembly
 
-<PageTitle>Employee List (WASM)</PageTitle>
+<PageTitle>Employee List</PageTitle>
 
 <ErrorMessageBanner IsError="IsError" Message="@ErrorMessage"></ErrorMessageBanner>
 <div class="px-4 py-5 my-5 text-center">
-    <h1 class="display-5 fw-bold text-body-emphasis">Todo List (WASM)</h1>
+    <h1 class="display-5 fw-bold text-body-emphasis">Todo List (Prerender)</h1>
+
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Welcome to the todo list page. It shows how to use the Blazor Toolkit components.</p>
-        <p><a href="/prerender">Prerender Version</a></p>
+        <p><a href="/">WASM Version</a></p>
         <EditForm Model="newTodo" OnValidSubmit="AddTodo">
             <ServiceResultValidationEx @ref="nameValidator" CssProviderType="BootstrapFieldCssClassProvider"></ServiceResultValidationEx>
             <div class="add-todo-form">
@@ -95,6 +98,11 @@
     [Inject]
     ITodoService Service { get; set; }
 
+    [Inject]
+    IScopeManager Manager { get; set; }
+
+    IScopeLog log;
+
     private TodoItem newTodo = new TodoItem { Id = "None" };
     private ModelList<TodoItem> todos = null;
     private ServiceResultValidationEx<BootstrapFieldCssClassProvider> nameValidator;
@@ -122,7 +130,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => todos = e);
+        log = Manager.CreateLogger(this);
+
+        await base.OnInitializedAsync();
+
+        using (log.DebugScope("ServiceReadAsync"))
+        {
+            await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => todos = e, nameof(todos));
+        }
     }
 
     private async Task AddTodo()

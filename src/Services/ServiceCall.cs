@@ -1,4 +1,5 @@
 ﻿using DevInstance.LogScope;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ public static class ServiceCallExtensions
     /// <param name="log">Optional log scope.</param>
     /// <returns>A ServiceExecutionHandler instance.</returns>
     public static ServiceExecutionHandler BeginServiceCall(this IServiceExecutionHost host, 
-                                                            ServiceExecutionType executionType = ServiceExecutionType.Reading, 
+                                                            ServiceExecutionType executionType = ServiceExecutionType.Reading,
                                                             IScopeLog log = null)
     {
         return new ServiceExecutionHandler(log, host, executionType);
@@ -37,14 +38,16 @@ public static class ServiceCallExtensions
     public static async Task ServiceCallAsync<T>(this IServiceExecutionHost host, 
                                                         ServiceExecutionType executionType, 
                                                         PerformAsyncCallHandler<T> handler, 
-                                                        Action<T> success = null, 
+                                                        Action<T> success = null,
+                                                        string stateKey = null,
                                                         Func<T, Task> sucessAsync = null,
                                                         ErrorCallHandler error = null, 
                                                         Action before = null, 
-                                                        bool enableProgress = true)
+                                                        bool enableProgress = true,
+                                                        IScopeLog log = null)
     {
-        await host.BeginServiceCall(executionType)
-            .DispatchCall<T>(handler, success, sucessAsync, error, before, enableProgress)
+        await host.BeginServiceCall(executionType, log)
+            .DispatchCall<T>(handler, success, stateKey, sucessAsync, error, before, enableProgress)
             .ExecuteAsync();
     }
 
@@ -63,13 +66,15 @@ public static class ServiceCallExtensions
     public static async Task ServiceReadAsync<T>(this IServiceExecutionHost host,
                                                         PerformAsyncCallHandler<T> handler,
                                                         Action<T> success = null,
+                                                        string stateKey = null,
                                                         Func<T, Task> sucessAsync = null,
                                                         ErrorCallHandler error = null,
                                                         Action before = null,
-                                                        bool enableProgress = true)
+                                                        bool enableProgress = true,
+                                                        IScopeLog log = null)
     {
-        await host.BeginServiceCall(ServiceExecutionType.Reading)
-            .DispatchCall<T>(handler, success, sucessAsync, error, before, enableProgress)
+        await host.BeginServiceCall(ServiceExecutionType.Reading, log)
+            .DispatchCall<T>(handler, success, stateKey, sucessAsync, error, before, enableProgress)
             .ExecuteAsync();
     }
 
@@ -91,10 +96,11 @@ public static class ServiceCallExtensions
                                                         Func<T, Task> sucessAsync = null,
                                                         ErrorCallHandler error = null,
                                                         Action before = null,
-                                                        bool enableProgress = true)
+                                                        bool enableProgress = true,
+                                                        IScopeLog log = null)
     {
-        await host.BeginServiceCall(ServiceExecutionType.Submitting)
-            .DispatchCall<T>(handler, success, sucessAsync, error, before, enableProgress)
+        await host.BeginServiceCall(ServiceExecutionType.Submitting, log)
+            .DispatchCall<T>(handler, success, null, sucessAsync, error, before, enableProgress)
             .ExecuteAsync();
     }
 

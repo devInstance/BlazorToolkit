@@ -1,7 +1,6 @@
-﻿using DevInstance.LogScope;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using DevInstance.BlazorToolkit.Extensions;
+using DevInstance.LogScope;
+using System.Text.Json;
 
 namespace DevInstance.BlazorToolkit.Services;
 
@@ -35,7 +34,7 @@ public class ServiceExecutionHandler
             throw new ArgumentException("Invalid execution type");
         }
 
-        this.log = l.TraceScope("SEHandler");
+        this.log = l.TraceScope($"SEHandler-" + (OperatingSystem.IsBrowser() ? "WASM" : "Server"));
         this.basePage = basePage;
         this.basePage.ErrorMessage = "";
         this.basePage.IsError = false;
@@ -56,6 +55,7 @@ public class ServiceExecutionHandler
     /// <returns>The current instance of <see cref="ServiceExecutionHandler"/>.</returns>
     public ServiceExecutionHandler DispatchCall<T>(PerformAsyncCallHandler<T> handler,
                                                     Action<T> success = null,
+                                                    string stateKey = null,
                                                     Func<T, Task> sucessAsync = null,
                                                     ErrorCallHandler error = null,
                                                     Action before = null,
@@ -63,7 +63,7 @@ public class ServiceExecutionHandler
     {
         using (var l = log.TraceScope())
         {
-            Func<Task<bool>> task = async () => await PerformServiceCallAsync(handler, success, sucessAsync, error, before, enableProgress);
+            Func<Task<bool>> task = async () => await PerformServiceCallAsync(handler, success, stateKey, sucessAsync, error, before, enableProgress);
             tasks.Add(task);
             return this;
         }
@@ -117,7 +117,13 @@ public class ServiceExecutionHandler
         }
     }
 
-    private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler, Action<T> success, Func<T, Task> sucessAsync, ErrorCallHandler error, Action before, bool enableProgress)
+    private async Task<bool> PerformServiceCallAsync<T>(PerformAsyncCallHandler<T> handler,
+                                                        Action<T> success,
+                                                        string stateKey,
+                                                        Func<T, Task> sucessAsync,
+                                                        ErrorCallHandler error,
+                                                        Action before,
+                                                        bool enableProgress)
     {
         ServiceActionResult<T> res = null;
 
@@ -132,7 +138,19 @@ public class ServiceExecutionHandler
 
                 try
                 {
-                    res = await handler();
+                    l.T($"Try restoring state for {stateKey} -> state: {basePage.ComponentState}");
+                    if (basePage.ComponentState != null 
+                        && stateKey != null
+                        && basePage.ComponentState.TryTakeFromJson<string>(stateKey, out var restoredValue))
+                    {
+                        l.T($"Restoring state for {stateKey} -> {restoredValue}");
+                        res = JsonSerializer.Deserialize<ServiceActionResult<T>>(restoredValue);
+                    }
+
+                    if (res == null)
+                    {
+                        res = await handler();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -156,6 +174,11 @@ public class ServiceExecutionHandler
                     if (sucessAsync != null)
                     {
                         await sucessAsync(res.Result);
+                    }
+                    l.T($"Try saving state for {stateKey} -> state: {basePage.ComponentState}");
+                    if (basePage.ComponentState != null && stateKey != null)
+                    {
+                        basePage.State[stateKey] = res.ToJsonString();
                     }
                 }
                 else
