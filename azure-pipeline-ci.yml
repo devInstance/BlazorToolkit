@@ -1,11 +1,13 @@
-pool:
-  # vmImage: 'Release-Pool'
-  name: 'Default'
+trigger:
+- master
+
+pool: default
 
 variables:
+  solution: '**/DevInstance.BlazorToolkit.sln'
   buildConfiguration: 'Release'
   nugetFeedUrl: 'https://www.nuget.org/packages/DevInstance.BlazorToolkit/'  # For internal feeds
-  # nugetApiKey: $(NuGetApiKey)  # Store this in pipeline secrets
+  # nugetApiKey: $(NuGetApiKey)  # Store this in pipeline secrets  
 
 steps:
 # Step 1: Restore NuGet Packages
@@ -27,15 +29,14 @@ steps:
 # Step 2: Build the Solution
 - task: VSBuild@1
   inputs:
-    solution: '**/DevInstance.BlazorToolkit.csproj'  # solution: '**/*.sln'
+    solution: '$(solution)'
     msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+#- task: VSBuild@1
+#  inputs:
+#    solution: '**/DevInstance.BlazorToolkit.Samples.Client.csproj'
+#    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
 
-- task: VSBuild@1
-  inputs:
-    solution: '**/DevInstance.BlazorToolkit.Samples.Client.csproj'
-    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '**/DevInstance.BlazorToolkit.Samples.csproj'
-    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+#- task: VSBuild@1
+#  inputs:
+#    solution: '**/DevInstance.BlazorToolkit.Samples.csproj'
+#    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
