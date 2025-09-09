@@ -1,0 +1,331 @@
+﻿@page "/notoolkit"
+@using DevInstance.BlazorToolkit.Samples.Model
+@using DevInstance.WebServiceToolkit.Common.Model
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<PageTitle>Employee List (No toolkit, WASM)</PageTitle>
+
+@if (showError)
+{
+<div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+    <span>
+        <span class="oi bi-exclamation-diamond-fill"></span>
+        <span class="ms-2">@errorMessage</span>
+    </span>
+    <button type="button" class="btn btn-danger float-end" @onclick="DismissAlert">
+        Dismiss
+    </button>
+</div>
+}
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Todo List (WASM, No toolkit)</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Welcome to the todo list page. It implements the similar functionality without using Blazor Toolkit components.</p>
+        <p><a href="/prerender">Prerender Version</a></p>
+        <EditForm Model="newTodo" OnValidSubmit="AddTodo">
+            <div class="add-todo-form">
+                <div class="input-group has-validation mb-3">
+                    <InputText @bind-Value="@newTodo.Title" class="form-control" placeholder="Add a new task..." @oninput="HandleInput" disabled="@inProgress" />
+                    <button class="btn btn-primary" type="submit" disabled="@(string.IsNullOrWhiteSpace(newTodo.Title) || inProgress)">
+                        @if (isSubmitting)
+                        {
+                            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+                            <span role="status">Adding...</span>
+                        }
+                        else
+                        {
+                            <span>Add</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+        <div class="list-group">
+            @if (isReading)
+            {
+                <ul class="list-group mt-3 placeholder-glow">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="placeholder w-75">Progress</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="placeholder w-50">Progress</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span class="placeholder col-10">Progress</span>
+                    </li>
+                </ul>
+            }
+            else if (todos != null)
+            {
+                @if (todos.Count == 0)
+                {
+                    <div class="alert alert-info">
+                        No tasks yet. Add one above!
+                    </div>
+                }
+                else
+                {
+                    <ul class="list-group mt-3">
+                        @foreach (var todoItem in todos.Items)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <input type="checkbox" @bind="todoItem.IsCompleted" class="me-2" @oninput="@((e) => UpdateItemStatusAsync(todoItem, e))" disabled="@isSubmitting" />
+                                    <span class="@(todoItem.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                        @todoItem.Title
+                                    </span>
+                                </div>
+                                <button class="btn btn-sm btn-danger" @onclick="() => RemoveTodo(todoItem)" disabled="@isSubmitting">
+                                    Delete
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                    @if (todos?.PagesCount > 1)
+                    {
+                        <nav aria-label="Pages">
+                            <ul class="pagination">
+                                <li class="page-item @(todos.Page == 0 || inProgress ? "disabled" : "")">
+                                    <button class="page-link" aria-label="Previous" @onclick="@(() => ChangePage(todos.Page - 1))" disabled="@(todos.Page == 0 || inProgress)">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </button>
+                                </li>
+                                @foreach (var p in PageRange)
+                                {
+                                    <li class="@(p == todos.Page ? "page-item active" : "page-item")">
+                                        <button class="page-link" disabled="@inProgress" @onclick="@(() => ChangePage(p))">@((p + 1).ToString())</button>
+                                    </li>
+                                }
+                                <li class="page-item @(todos.Page == todos.PagesCount - 1 || inProgress ? "disabled" : "")">
+                                    <button class="page-link" aria-label="Next" @onclick="@(() => ChangePage(todos.Page + 1))" disabled="@(todos.Page == todos.PagesCount - 1 || inProgress)">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@inject HttpClient Http
+
+@code {
+
+    const int PageSize = 12;
+
+    private bool showError = false;
+
+    private string errorMessage;
+
+    private bool isReading = false;
+    private bool isSubmitting = false;
+    public bool inProgress => isReading || isSubmitting;
+
+    private IEnumerable<int> PageRange => GetPageRange(todos?.Page ?? 0, todos?.PagesCount ?? 0, 15/*MaxItems*/);
+
+    private void DismissAlert()
+    {
+        showError = false;
+    }
+
+    private TodoItem newTodo = new TodoItem { Id = "None" };
+    private ModelList<TodoItem> todos = null;
+
+    private void HandleInput(ChangeEventArgs e)
+    {
+        newTodo.Title = e.Value.ToString();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ChangePage(0);
+    }
+
+    private async Task ChangePage(int page)
+    {
+        showError = false;
+        errorMessage = "";
+        isSubmitting = false;
+        isReading = true;
+        StateHasChanged();
+
+        try
+        {
+            todos = await Http.GetFromJsonAsync<ModelList<TodoItem>>($"api/todo?top={PageSize}&page={page}");
+        }
+        catch (Exception ex)
+        {
+            showError = true;
+            errorMessage = $"An error loading list: {ex.Message}";
+        }
+        isReading = false;
+    }
+
+    private async Task AddTodo()
+    {
+        showError = false;
+        errorMessage = "";
+        isSubmitting = true;
+        isReading = false;
+        StateHasChanged();
+
+        try
+        {
+            var result = await Http.PostAsJsonAsync("api/todo", newTodo);
+            if (!result.IsSuccessStatusCode)
+            {
+                BlazorToolkit.Services.ServiceActionError error = null;
+                try
+                {
+                    error = await result.Content.ReadFromJsonAsync<BlazorToolkit.Services.ServiceActionError>();
+                }
+                catch
+                {
+                    throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+                }
+
+                if (error != null)
+                {
+                    throw new HttpRequestException(error.Message, null, result.StatusCode);
+                }
+                throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+            }
+            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+            newTodo = new TodoItem() { Id = "None" };
+        }
+        catch (Exception ex)
+        {
+            showError = true;
+            errorMessage = $"An error occurred while updating the item.: {ex.Message}";
+        }
+
+        isSubmitting = false;
+    }
+
+    private async Task UpdateItemStatusAsync(TodoItem item, ChangeEventArgs e)
+    {
+        showError = false;
+        errorMessage = "";
+        isSubmitting = true;
+        isReading = false;
+        StateHasChanged();
+
+        try
+        {
+            item.IsCompleted = (bool)e.Value;
+            var result = await Http.PutAsJsonAsync($"api/todo/{item.Id}", item);
+            if (!result.IsSuccessStatusCode)
+            {
+                BlazorToolkit.Services.ServiceActionError error = null;
+                try
+                {
+                    error = await result.Content.ReadFromJsonAsync<BlazorToolkit.Services.ServiceActionError>();
+                }
+                catch
+                {
+                    throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+                }
+
+                if (error != null)
+                {
+                    throw new HttpRequestException(error.Message, null, result.StatusCode);
+                }
+                throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+            }
+            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+        }
+        catch (Exception ex)
+        {
+            item.IsCompleted = !item.IsCompleted; //rollback
+            showError = true;
+            errorMessage = $"An error occurred while updating the item.: {ex.Message}";
+        }
+
+        isSubmitting = false;
+    }
+
+    private async Task RemoveTodo(TodoItem todo)
+    {
+        showError = false;
+        errorMessage = "";
+        isSubmitting = true;
+        isReading = false;
+        StateHasChanged();
+
+        try
+        {
+            var result = await Http.DeleteAsync($"api/todo/{todo.Id}");
+            if (!result.IsSuccessStatusCode)
+            {
+                BlazorToolkit.Services.ServiceActionError error = null;
+                try
+                {
+                    error = await result.Content.ReadFromJsonAsync<BlazorToolkit.Services.ServiceActionError>();
+                }
+                catch
+                {
+                    throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+                }
+
+                if (error != null)
+                {
+                    throw new HttpRequestException(error.Message, null, result.StatusCode);
+                }
+                throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
+            }
+            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+        }
+        catch (Exception ex)
+        {
+            showError = true;
+            errorMessage = $"An error occurred while updating the item.: {ex.Message}";
+        }
+
+        isSubmitting = false;
+    }
+
+    public static IEnumerable<int> GetPageRange(int selectedPage, int pageCount, int maxItems)
+    {
+        if (pageCount <= maxItems)
+        {
+            return Enumerable.Range(0, pageCount);
+        }
+
+        // default position for the selected item:
+        //        V
+        // [0][1][2][3][4]
+        int midPosition = (maxItems / 2) - 1;
+        // check if selected page is "close" to start
+        // and cannot "sit" in the middle
+        int realPosition = Math.Min(selectedPage, midPosition);
+
+        // check if selected page is "close" to start
+        // and cannot "sit" in the middle
+        int endMargin = pageCount - midPosition;
+        if (selectedPage > endMargin)
+        {
+            realPosition = maxItems - (pageCount - selectedPage - 1) - 1;
+        }
+
+        var range = new int[maxItems];
+        range[0] = 0;//first page
+        range[maxItems - 1] = pageCount - 1; //last page
+        //populate page numbers
+        //1. moving backward
+        for (int i = realPosition, n = 0; i >= 1; i--, n++)
+        {
+            range[i] = selectedPage - n;
+        }
+        //2. moving forward
+        for (int i = realPosition + 1, n = 1; i < maxItems - 1; i++, n++)
+        {
+            range[i] = selectedPage + n;
+        }
+        return range;
+    }
+
+}

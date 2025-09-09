@@ -11,15 +11,15 @@
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>9.1.1</Version>
-		<AssemblyVersion>9.1.1.0</AssemblyVersion>
-		<FileVersion>9.1.1.0</FileVersion>
+		<Version>9.1.3</Version>
+		<AssemblyVersion>9.1.3.0</AssemblyVersion>
+		<FileVersion>9.1.3.0</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<SignAssembly>False</SignAssembly>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Blazor Toolkit</Title>
-		<PackageProjectUrl>https://blazortoolkit.devinstance.net</PackageProjectUrl>
+		<PackageProjectUrl>https://devinstance.net/blazortoolkit</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
@@ -48,11 +48,11 @@
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
 		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="2.1.1" />
-		<PackageReference Include="FluentValidation" Version="11.11.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
+		<PackageReference Include="FluentValidation" Version="12.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -65,5 +65,4 @@
 	<ItemGroup>
 	  <Folder Include="wwwroot\" />
 	</ItemGroup>
-
 </Project>

@@ -81,7 +81,7 @@
                             </li>
                         }
                     </ul>
-                    <ModelDataPager InProgress="InProgress" List="todos"></ModelDataPager>
+                    <ModelDataPager InProgress="InProgress" List="todos" OnPageChanged="ChangePage"></ModelDataPager>
                 }
             }
         </div>
@@ -91,10 +91,10 @@
     </div>
 </div>
 
+@inject ITodoService Service
 @code {
-    [Inject]
-    ITodoService Service { get; set; }
 
+    const int PageSize = 12;
     private TodoItem newTodo = new TodoItem { Id = "None" };
     private ModelList<TodoItem> todos = null;
     private ServiceResultValidationEx<BootstrapFieldCssClassProvider> nameValidator;
@@ -102,6 +102,32 @@
     private void HandleInput(ChangeEventArgs e)
     {
         newTodo.Title = e.Value.ToString();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await ChangePage(0);
+    }
+
+    private async Task ChangePage(int page)
+    {
+        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(PageSize, page, null), (e) => todos = e, nameof(todos));
+    }
+
+    private async Task AddTodo()
+    {
+        await this.ServiceSubmitAsync(async () => await Service.AddAsync(newTodo),
+        (t) =>
+        {
+            todos = t;
+            newTodo = new TodoItem() { Id = "None" };
+        },
+        null,
+        (e) =>
+        {
+            return nameValidator.DisplayErrors(e);
+        });
     }
 
     private async Task UpdateItemStatusAsync(TodoItem item, ChangeEventArgs e)
@@ -117,26 +143,6 @@
         {
             item.IsCompleted = !item.IsCompleted; //rollback
             return false; //false to show the main error message
-        });
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(null, null, null), (e) => todos = e);
-    }
-
-    private async Task AddTodo()
-    {
-        await this.ServiceSubmitAsync(async () => await Service.AddAsync(newTodo),
-        (t) =>
-        {
-            todos = t;
-            newTodo = new TodoItem() { Id = "None" };
-        },
-        null,
-        (e) =>
-        {
-            return nameValidator.DisplayErrors(e);
         });
     }
 

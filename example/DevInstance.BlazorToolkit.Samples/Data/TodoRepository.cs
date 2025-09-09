@@ -14,7 +14,7 @@ public class TodoRepository
     private static List<TodoItem> list = null;
     private readonly int delay;
 
-    public TodoRepository(int delay = 3000)
+    public TodoRepository(int delay = 1000)
     {
         if (list == null)
         {
