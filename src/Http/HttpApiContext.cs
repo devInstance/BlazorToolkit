@@ -249,24 +249,28 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
 
     public IApiContext<K, T> Parameter(string name, object value)
     {
+        TryInitializeUrlBuilder();
         apiUrlBuilder.Query(name, value);
         return this;
     }
 
     public IApiContext<K, T> Parameter<F>(string name, F value)
     {
+        TryInitializeUrlBuilder();
         apiUrlBuilder.Query(name, value);
         return this;
     }
 
     public IApiContext<K, T> Path(string name)
     {
+        TryInitializeUrlBuilder();
         apiUrlBuilder.Path(name);
         return this;
     }
 
     public IApiContext<K, T> Fragment(string name)
     {
+        TryInitializeUrlBuilder();
         apiUrlBuilder.Fragment(name);
         return this;
     }

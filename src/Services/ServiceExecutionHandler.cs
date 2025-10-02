@@ -4,6 +4,8 @@ using System.Text.Json;
 
 namespace DevInstance.BlazorToolkit.Services;
 
+using ServiceCall = Func<Task<bool>>;
+
 /// <summary>
 /// Delegate for performing an asynchronous service call that returns a ServiceActionResult.
 /// </summary>
@@ -18,7 +20,7 @@ public delegate bool ErrorCallHandler(ServiceActionError[] errors);
 /// </summary>
 public class ServiceExecutionHandler
 {
-    private List<Func<Task<bool>>> tasks;
+    private List<ServiceCall> tasks;
     private IServiceExecutionHost basePage;
     private ServiceExecutionType executionType = ServiceExecutionType.Reading;
     IScopeLog log;
@@ -39,9 +41,9 @@ public class ServiceExecutionHandler
         this.basePage.ErrorMessage = "";
         this.basePage.IsError = false;
         this.executionType = executionType;
-        tasks = new List<Func<Task<bool>>>();
+        tasks = new List<ServiceCall>();
     }
-
+   
     /// <summary>
     /// Dispatches a service call to be executed.
     /// </summary>
@@ -63,7 +65,7 @@ public class ServiceExecutionHandler
     {
         using (var l = log.TraceScope())
         {
-            Func<Task<bool>> task = async () => await PerformServiceCallAsync(handler, success, stateKey, sucessAsync, error, before, enableProgress);
+            var task = async () => await PerformServiceCallAsync(handler, success, stateKey, sucessAsync, error, before, enableProgress);
             tasks.Add(task);
             return this;
         }
@@ -207,7 +209,7 @@ public class ServiceExecutionHandler
                     }
                 }
 
-                return true;
+                return res.Success;
             }
         }
     }
