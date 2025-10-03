@@ -1,5 +1,5 @@
 ﻿using DevInstance.BlazorToolkit.Http;
-using NoCrast.Server.WebService.Common.Querying;
+using DevInstance.WebServiceToolkit.Http.Query;
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
