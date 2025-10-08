@@ -11,9 +11,9 @@
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>9.2.0</Version>
-		<AssemblyVersion>9.2.0.0</AssemblyVersion>
-		<FileVersion>9.2.0.0</FileVersion>
+		<Version>9.2.1</Version>
+		<AssemblyVersion>9.2.1.0</AssemblyVersion>
+		<FileVersion>9.2.1.0</FileVersion>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<SignAssembly>False</SignAssembly>
@@ -47,7 +47,7 @@
 	
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
-		<PackageReference Include="DevInstance.WebServiceToolkit" Version="9.0.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="9.0.0" />
 		<PackageReference Include="FluentValidation" Version="12.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="9.0.9" />
