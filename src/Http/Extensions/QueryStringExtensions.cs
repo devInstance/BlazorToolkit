@@ -3,7 +3,7 @@ using System.Collections;
 using System.Globalization;
 using System.Reflection;
 
-namespace DevInstance.BlazorToolkit.Http;
+namespace DevInstance.BlazorToolkit.Http.Extensions;
 
 /// <summary>
 /// Provides extension methods for converting plain objects to query string representations and for appending query
