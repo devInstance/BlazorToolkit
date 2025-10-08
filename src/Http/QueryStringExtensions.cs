@@ -1,10 +1,9 @@
-﻿using DevInstance.BlazorToolkit.Http;
-using DevInstance.WebServiceToolkit.Http.Query;
+﻿using DevInstance.WebServiceToolkit.Http.Query;
 using System.Collections;
 using System.Globalization;
 using System.Reflection;
 
-namespace DevInstance.WebServiceToolkit.Querying;
+namespace DevInstance.BlazorToolkit.Http;
 
 /// <summary>
 /// Provides extension methods for converting plain objects to query string representations and for appending query
