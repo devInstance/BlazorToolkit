@@ -1,5 +1,6 @@
 ﻿using DevInstance.BlazorToolkit.Samples.Data;
 using DevInstance.BlazorToolkit.Samples.Model;
+using DevInstance.BlazorToolkit.Samples.QueryModel;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.WebServiceToolkit.Common.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,12 @@ public class TodoController
     }
 
     [HttpGet]
-    public async Task<ActionResult<ModelList<TodoItem>>> GetItemsAsync(int? top, int? page, string? search)
+    public async Task<ActionResult<ModelList<TodoItem>>> GetItemsAsync([FromQuery]TodoQueryModel? query)
     {
+        int? top = query?.Top ?? 10;
+        int? page = query?.Page ?? 0;
+        string? search = query?.Search;
+
         return await Repository.GetItemsAsync(top, page, search);
     }
 

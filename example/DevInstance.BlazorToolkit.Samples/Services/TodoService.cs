@@ -1,6 +1,7 @@
 ﻿using DevInstance.BlazorToolkit.Samples.Client.Services;
 using DevInstance.BlazorToolkit.Samples.Data;
 using DevInstance.BlazorToolkit.Samples.Model;
+using DevInstance.BlazorToolkit.Samples.QueryModel;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Server;
 using DevInstance.BlazorToolkit.Tools;
@@ -18,12 +19,12 @@ public class TodoService : ITodoService
         Repository = repository;
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(int? top, int? page, string? search)
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query)
     {
         return await ServiceUtils.HandleServiceCallAsync(
             async (l) =>
             {
-                return await Repository.GetItemsAsync(top, page, search);
+                return await Repository.GetItemsAsync(query.Top, query.Page, query.Search);
             }
         );
     }

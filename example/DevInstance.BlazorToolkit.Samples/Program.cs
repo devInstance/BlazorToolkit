@@ -2,6 +2,7 @@ using DevInstance.BlazorToolkit.Samples.Components;
 using DevInstance.BlazorToolkit.Tools;
 using DevInstance.LogScope.Extensions;
 using DevInstance.LogScope.Formatters;
+using DevInstance.WebServiceToolkit.Http.Query;
 
 namespace DevInstance.BlazorToolkit.Samples;
 
@@ -18,6 +19,7 @@ public class Program
 
         builder.Services.AddControllers();
         builder.Services.AddBlazorServices();
+        builder.Services.AddWebServiceToolkitQuery();
         builder.Services.AddConsoleScopeLogging(LogScope.LogLevel.TRACE, new DefaultFormattersOptions { ShowTimestamp = true });
         var app = builder.Build();
 

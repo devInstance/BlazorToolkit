@@ -2,6 +2,7 @@
 @using DevInstance.BlazorToolkit.Components
 @using DevInstance.BlazorToolkit.Samples.Model
 @using DevInstance.BlazorToolkit.Samples.Client.Services
+@using DevInstance.BlazorToolkit.Samples.QueryModel
 @using DevInstance.BlazorToolkit.Services
 @using DevInstance.BlazorToolkit.Services.Wasm
 @using DevInstance.BlazorToolkit.Validators
@@ -112,7 +113,7 @@
 
     private async Task ChangePage(int page)
     {
-        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(PageSize, page, null), (e) => todos = e, nameof(todos));
+        await this.ServiceReadAsync(async () => await Service.GetItemsAsync(new TodoQueryModel { Top = PageSize, Page = page }), (e) => todos = e, nameof(todos));
     }
 
     private async Task AddTodo()

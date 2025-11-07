@@ -1,5 +1,6 @@
 ﻿using DevInstance.BlazorToolkit.Http;
 using DevInstance.BlazorToolkit.Http.Extensions;
+using DevInstance.BlazorToolkit.Samples.QueryModel;
 using DevInstance.BlazorToolkit.Samples.Model;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Services.Wasm;
@@ -18,26 +19,15 @@ public class TodoService : ITodoService
         Api = api;
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(int? top, int? page, string? search)
+    ModelList<TodoItem> modelList;
+
+    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
             {
-                var api = Api.Get();
-                if (top.HasValue)
-                {
-                    api = api.Top(top.Value);
-                }
-                if (page.HasValue)
-                {
-                    api = api.Page(page.Value);
-                }
-                if (String.IsNullOrEmpty(search))
-                {
-                    api = api.Search(search);
-                }
-
-                return await api.ExecuteListAsync();
+                query.Include = new[] { "Value1", "Value2" };
+                return await Api.Get().Query(query).ExecuteListAsync();
             }
         );
     }
