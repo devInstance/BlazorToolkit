@@ -78,6 +78,15 @@ public static class ServiceCallExtensions
             .ExecuteAsync();
     }
 
+    public static async Task ServiceReadAsync<T>(this IServiceExecutionHost host,
+                                                    CallContext<T> context,
+                                                    IScopeLog log = null)
+    {
+        await host.BeginServiceCall(ServiceExecutionType.Reading, log)
+            .DispatchCall(context)
+            .ExecuteAsync();
+    }
+
     /// <summary>
     /// Executes an asynchronous service submit call.
     /// </summary>
@@ -101,6 +110,15 @@ public static class ServiceCallExtensions
     {
         await host.BeginServiceCall(ServiceExecutionType.Submitting, log)
             .DispatchCall<T>(handler, success, null, sucessAsync, error, before, enableProgress)
+            .ExecuteAsync();
+    }
+
+    public static async Task ServiceSubmitAsync<T>(this IServiceExecutionHost host,
+                                                        CallContext<T> context,
+                                                        IScopeLog log = null)
+    {
+        await host.BeginServiceCall(ServiceExecutionType.Submitting, log)
+            .DispatchCall(context)
             .ExecuteAsync();
     }
 

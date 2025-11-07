@@ -71,6 +71,17 @@ public class ServiceExecutionHandler
         }
     }
 
+    public ServiceExecutionHandler DispatchCall<T>(CallContext<T> context)
+    {
+        return DispatchCall(context.Handler,
+                     context.Success,
+                     context.StateKey,
+                     context.SuccessAsync,
+                     context.Error,
+                     context.Before,
+                     context.EnableProgress);
+    }
+
     /// <summary>
     /// Executes all dispatched service calls asynchronously.
     /// </summary>
