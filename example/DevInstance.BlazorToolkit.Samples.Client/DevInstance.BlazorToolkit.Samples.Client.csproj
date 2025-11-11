@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>DevInstance.BlazorToolkit.Samples.Client</AssemblyName>
 		<RootNamespace>DevInstance.BlazorToolkit.Samples.Client</RootNamespace>
 		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
-		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope.NET" Version="8.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
