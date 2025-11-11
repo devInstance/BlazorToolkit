@@ -21,9 +21,9 @@ variables:
 steps:
 # Step 1: Restore NuGet Packages  
 - task: UseDotNet@2
-  displayName: 'Use .NET 9.x'
+  displayName: 'Use .NET 10.x'
   inputs:
-    version: 9.x
+    version: 10.x
 
 - task: NuGetToolInstaller@1
 
