@@ -35,6 +35,11 @@ public class ServiceResultValidation : ComponentBase
         CurrentEditContext.OnFieldChanged += (s, e) => messageStore?.Clear(e.FieldIdentifier);
     }
 
+    /// <summary>
+    /// Displays validation errors from service action errors in the form.
+    /// </summary>
+    /// <param name="errors">The array of service action errors to display.</param>
+    /// <returns><c>true</c> if any validation errors were added; otherwise, <c>false</c>.</returns>
     public bool DisplayErrors(ServiceActionError[] errors)
     {
         bool result = false;
@@ -54,14 +59,25 @@ public class ServiceResultValidation : ComponentBase
         return result;
     }
 
+    /// <summary>
+    /// Clears all validation error messages from the form.
+    /// </summary>
     public void ClearErrors()
     {
         messageStore?.Clear();
         CurrentEditContext?.NotifyValidationStateChanged();
-    }}
+    }
+}
 
+/// <summary>
+/// Extended service result validation component that supports custom CSS class providers for form field styling.
+/// </summary>
+/// <typeparam name="CssProviderType">The type of the CSS class provider to use for field styling.</typeparam>
 public class ServiceResultValidationEx<CssProviderType> : ServiceResultValidation where CssProviderType : FieldCssClassProvider, new()
 {
+    /// <summary>
+    /// Gets or sets the CSS class provider used for field styling.
+    /// </summary>
     public CssProviderType CssProvider { get; set; } = new();
 
     protected override void OnInitialized()

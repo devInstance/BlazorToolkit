@@ -78,6 +78,14 @@ public static class ServiceCallExtensions
             .ExecuteAsync();
     }
 
+    /// <summary>
+    /// Executes an asynchronous service read call using a call context.
+    /// </summary>
+    /// <typeparam name="T">The type of the result.</typeparam>
+    /// <param name="host">The service execution host.</param>
+    /// <param name="context">The call context containing handlers and callbacks.</param>
+    /// <param name="log">Optional log scope.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task ServiceReadAsync<T>(this IServiceExecutionHost host,
                                                     CallContext<T> context,
                                                     IScopeLog log = null)
@@ -113,6 +121,14 @@ public static class ServiceCallExtensions
             .ExecuteAsync();
     }
 
+    /// <summary>
+    /// Executes an asynchronous service submit call using a call context.
+    /// </summary>
+    /// <typeparam name="T">The type of the result.</typeparam>
+    /// <param name="host">The service execution host.</param>
+    /// <param name="context">The call context containing handlers and callbacks.</param>
+    /// <param name="log">Optional log scope.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public static async Task ServiceSubmitAsync<T>(this IServiceExecutionHost host,
                                                         CallContext<T> context,
                                                         IScopeLog log = null)
@@ -122,6 +138,11 @@ public static class ServiceCallExtensions
             .ExecuteAsync();
     }
 
+    /// <summary>
+    /// Sets the error state on the service execution host from an exception.
+    /// </summary>
+    /// <param name="host">The service execution host.</param>
+    /// <param name="ex">The exception that occurred.</param>
     public static void SetException(this IServiceExecutionHost host, Exception ex)
     {
         host.IsError = true;

@@ -78,6 +78,12 @@ public class ApiUrlBuilder
         return this;
     }
 
+    /// <summary>
+    /// Adds a fragment identifier to the URL.
+    /// </summary>
+    /// <param name="value">The fragment value to add.</param>
+    /// <returns>The current instance of <see cref="ApiUrlBuilder"/>.</returns>
+    /// <exception cref="System.NotImplementedException">This method is not yet implemented.</exception>
     public ApiUrlBuilder Fragment(string? value)
     {
         throw new System.NotImplementedException();

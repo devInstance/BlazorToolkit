@@ -13,6 +13,11 @@ using ServiceCall = Func<Task<bool>>;
 /// <returns>A task that represents the asynchronous operation, containing the ServiceActionResult.</returns>
 public delegate Task<ServiceActionResult<T>> PerformAsyncCallHandler<T>();
 
+/// <summary>
+/// Delegate for handling errors from a service call.
+/// </summary>
+/// <param name="errors">The array of errors returned by the service call.</param>
+/// <returns><c>true</c> if the error was handled and should not be displayed; otherwise, <c>false</c>.</returns>
 public delegate bool ErrorCallHandler(ServiceActionError[] errors);
 
 /// <summary>
@@ -71,6 +76,12 @@ public class ServiceExecutionHandler
         }
     }
 
+    /// <summary>
+    /// Dispatches a service call using the provided call context.
+    /// </summary>
+    /// <typeparam name="T">The type of the result returned by the service call.</typeparam>
+    /// <param name="context">The call context containing all handlers and callbacks for the service call.</param>
+    /// <returns>The current instance of <see cref="ServiceExecutionHandler"/>.</returns>
     public ServiceExecutionHandler DispatchCall<T>(CallContext<T> context)
     {
         return DispatchCall(context.Handler,

@@ -5,6 +5,10 @@ using System.Linq.Expressions;
 
 namespace DevInstance.BlazorToolkit.Validators;
 
+/// <summary>
+/// A validation message component that renders Bootstrap-styled validation feedback.
+/// </summary>
+/// <typeparam name="TValue">The type of the field being validated.</typeparam>
 public class BoostrapValidationMessage<TValue> : ComponentBase, IDisposable
 {
     private EditContext? _previousEditContext;
@@ -20,12 +24,12 @@ public class BoostrapValidationMessage<TValue> : ComponentBase, IDisposable
     [CascadingParameter] EditContext CurrentEditContext { get; set; } = default!;
 
     /// <summary>
-    /// Specifies the field for which validation messages should be displayed.
+    /// Gets or sets the expression that identifies the field for which validation messages should be displayed.
     /// </summary>
     [Parameter] public Expression<Func<TValue>>? For { get; set; }
 
-    /// <summary>`
-    /// Constructs an instance of <see cref="ValidationMessage{TValue}"/>.
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BoostrapValidationMessage{TValue}"/> class.
     /// </summary>
     public BoostrapValidationMessage()
     {

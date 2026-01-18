@@ -26,7 +26,12 @@ public class ServiceActionResult<T>
     /// </summary>
     public bool IsAuthorized { get; set; }
 
-    public static ServiceActionResult<T>  OK(T result)
+    /// <summary>
+    /// Creates a successful service action result with the specified result value.
+    /// </summary>
+    /// <param name="result">The result value.</param>
+    /// <returns>A successful <see cref="ServiceActionResult{T}"/> containing the result.</returns>
+    public static ServiceActionResult<T> OK(T result)
     {
         return new ServiceActionResult<T>
         {
@@ -36,9 +41,13 @@ public class ServiceActionResult<T>
         };
     }
 
+    /// <summary>
+    /// Creates a failed service action result with the specified error.
+    /// </summary>
+    /// <param name="error">The error that caused the failure.</param>
+    /// <returns>A failed <see cref="ServiceActionResult{T}"/> containing the error.</returns>
     public static ServiceActionResult<T> Failed(ServiceActionError error)
     {
-
         return new ServiceActionResult<T>
         {
             Errors = [error],
@@ -48,6 +57,11 @@ public class ServiceActionResult<T>
         };
     }
 
+    /// <summary>
+    /// Creates a failed service action result with the specified error message.
+    /// </summary>
+    /// <param name="message">The error message describing the failure.</param>
+    /// <returns>A failed <see cref="ServiceActionResult{T}"/> containing a general error with the message.</returns>
     public static ServiceActionResult<T> Failed(string message)
     {
         return new ServiceActionResult<T>
@@ -59,6 +73,10 @@ public class ServiceActionResult<T>
         };
     }
 
+    /// <summary>
+    /// Creates a failed service action result indicating the user is not authorized.
+    /// </summary>
+    /// <returns>A failed <see cref="ServiceActionResult{T}"/> with <see cref="IsAuthorized"/> set to <c>false</c>.</returns>
     public static ServiceActionResult<T> Unauthorized()
     {
         return new ServiceActionResult<T>
