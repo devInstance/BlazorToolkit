@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\Projects\\\\BlazorToolkit\\\\src\" /s /b)",
+      "Bash(dotnet build:*)"
+    ]
+  }
+}
