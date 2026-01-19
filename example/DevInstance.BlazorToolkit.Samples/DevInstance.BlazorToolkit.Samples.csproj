@@ -19,7 +19,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DevInstance.BlazorToolkit.Samples.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.2" />
 	</ItemGroup>
 
 </Project>

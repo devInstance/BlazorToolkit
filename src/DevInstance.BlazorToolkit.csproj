@@ -13,8 +13,8 @@
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
 		<Version>10.0.0</Version>
-		<AssemblyVersion>10.0.0.0</AssemblyVersion>
-		<FileVersion>10.0.0.0</FileVersion>
+		<AssemblyVersion>10.0.1.0</AssemblyVersion>
+		<FileVersion>10.0.1.0</FileVersion>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -22,7 +22,7 @@
 		<SignAssembly>False</SignAssembly>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>Blazor Toolkit</Title>
-		<PackageProjectUrl>https://devinstance.net/blazortoolkit</PackageProjectUrl>
+		<PackageProjectUrl>https://devinstance.net/engineering/blazortoolkit</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
@@ -51,10 +51,10 @@
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope" Version="1.4.3" />
 		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="10.0.0" />
-		<PackageReference Include="FluentValidation" Version="12.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
