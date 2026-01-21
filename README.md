@@ -31,6 +31,7 @@ Create a new Blazor WebAssembly project. Add new service class `EmployeeService.
 
 `EmployeeService.cs:`
 ```csharp
+// Services are registered with Scoped lifetime by default
 [BlazorService]
 public class EmplyeeService
 {
@@ -60,6 +61,23 @@ public class EmplyeeService
         );
     }
 }
+```
+
+**Service Lifetimes:**
+BlazorToolkit supports all DI service lifetimes:
+
+```csharp
+// Scoped - instance per request/scope (default)
+[BlazorService]
+public class MyService { }
+
+// Singleton - single instance for the entire application
+[BlazorService(ServiceLifetime.Singleton)]
+public class CacheService { }
+
+// Transient - new instance for each injection
+[BlazorService(ServiceLifetime.Transient)]
+public class TemporaryService { }
 ```
 
 Register service in DI container in Program.cs:

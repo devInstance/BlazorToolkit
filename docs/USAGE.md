@@ -41,16 +41,58 @@ builder.Services.AddBlazorServices();
 
 ### 2. Create a Service
 
+Services are marked with the `[BlazorService]` attribute and automatically registered during startup. By default, services are registered with **Scoped** lifetime.
+
 ```csharp
 using DevInstance.BlazorToolkit.Tools;
 using DevInstance.BlazorToolkit.Services;
 
+// Default: Scoped lifetime
 [BlazorService]
 public class TodoService : ITodoService
 {
     // Service implementation
 }
 ```
+
+#### Service Lifetimes
+
+You can specify different service lifetimes using the attribute constructor or property:
+
+```csharp
+// Singleton - single instance for the entire application
+[BlazorService(ServiceLifetime.Singleton)]
+public class CacheService : ICacheService
+{
+    // Shared state across all requests
+}
+
+// Transient - new instance for each injection
+[BlazorService(ServiceLifetime.Transient)]
+public class TemporaryService : ITemporaryService
+{
+    // Fresh instance every time
+}
+
+// Scoped - instance per request/scope (default)
+[BlazorService(ServiceLifetime.Scoped)]
+public class UserContextService : IUserContextService
+{
+    // Shared within a request
+}
+
+// Alternative property syntax
+[BlazorService(Lifetime = ServiceLifetime.Singleton)]
+public class ConfigService : IConfigService
+{
+    // Configuration service
+}
+```
+
+**Choosing the Right Lifetime:**
+- **Singleton**: Use for stateless services, caches, or configuration that should be shared globally
+- **Scoped**: Use for services that maintain state during a user session or request (default for most Blazor services)
+- **Transient**: Use for lightweight, stateless services where you need a fresh instance each time
 
 ---
 
@@ -148,6 +190,49 @@ await this.ServiceReadAsync(new CallContext<ModelList<TodoItem>>
 });
 ```
 
+#### Advanced CallContext Usage: Reusable Actions
+
+`CallContext` is particularly powerful when you need to reuse the same action across multiple sequential operations. A common pattern is refreshing a list after modifying it:
+
+```csharp
+// Define a reusable refresh action
+private CallContext<ModelList<TodoItem>> refreshTodos = new()
+{
+    Handler = async () => await TodoService.GetItemsAsync(currentQuery),
+    Success = result => todos = result,
+    StateKey = nameof(todos)
+};
+
+// Delete an item and refresh the list
+private async Task DeleteTodo(string id)
+{
+    await this.BeginServiceCall(ServiceExecutionType.Submitting)
+        .DispatchCall(
+            handler: async () => await TodoService.DeleteAsync(id),
+            success: _ => { /* Delete succeeded */ }
+        )
+        .DispatchCall(refreshTodos)  // Reuse the refresh action
+        .ExecuteAsync();
+}
+
+// Update an item and refresh the list
+private async Task UpdateTodo(TodoItem item)
+{
+    await this.BeginServiceCall(ServiceExecutionType.Submitting)
+        .DispatchCall(
+            handler: async () => await TodoService.UpdateAsync(item),
+            success: _ => { /* Update succeeded */ }
+        )
+        .DispatchCall(refreshTodos)  // Reuse the same refresh action
+        .ExecuteAsync();
+}
+```
+
+**Key Benefits:**
+- **DRY Principle**: Define the refresh logic once, reuse it everywhere
+- **Consistency**: All operations use the same refresh mechanism
+- **Maintainability**: Change the refresh logic in one place
+
 ### Manual Service Execution
 
 For advanced scenarios, use `BeginServiceCall` directly:
@@ -164,6 +249,32 @@ await this.BeginServiceCall(ServiceExecutionType.Reading)
     )
     .ExecuteAsync();
 ```
+
+#### Sequential Execution Guarantee
+
+**Important**: All `DispatchCall` operations execute **sequentially** in the order they are chained. This means:
+
+1. Each call completes before the next one starts
+2. You can safely use results from previous calls
+3. If any call fails, subsequent calls are **not executed**
+
+```csharp
+private TodoItem? selectedItem;
+
+// Example: Load item details, then load related comments
+await this.BeginServiceCall(ServiceExecutionType.Reading)
+    .DispatchCall(
+        handler: async () => await TodoService.GetByIdAsync(itemId),
+        success: result => selectedItem = result  // Store the result
+    )
+    .DispatchCall(
+        handler: async () => await CommentService.GetCommentsAsync(selectedItem.Id),
+        success: result => comments = result  // Safely use selectedItem from previous call
+    )
+    .ExecuteAsync();
+```
+
+This sequential behavior makes it safe to chain dependent operations without worrying about race conditions or synchronization.
 
 ---
 

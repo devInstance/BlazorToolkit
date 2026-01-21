@@ -4,11 +4,13 @@ using DevInstance.BlazorToolkit.Tools;
 using DevInstance.BlazorToolkit.Utils;
 using DevInstance.WebServiceToolkit.Common.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace DevInstance.BlazorToolkit.Samples.Data;
 
-[BlazorService]
+// Using Singleton lifetime because the repository manages a shared in-memory data store
+[BlazorService(ServiceLifetime.Singleton)]
 public class TodoRepository
 {
     private static List<TodoItem> list = null;
