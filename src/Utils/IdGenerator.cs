@@ -13,6 +13,7 @@
 /// Console >> 14r9sb94vd36c4842avdt1j9of5asf22
 /// </code>
 /// </summary>
+[Obsolete("This class is deprecated and moved to DevInstance.WebServiceToolkit.Common.Tools")]
 public class IdGenerator
 {
     private static char EncodeByte(byte val)
