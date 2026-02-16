@@ -12,14 +12,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevInstance.LogScope.NET" Version="8.0.1" />
-		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.0.0" />
+		<PackageReference Include="DevInstance.LogScope.NET" Version="10.0.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-rc.2.25502.107" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DevInstance.BlazorToolkit.Samples.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
 	</ItemGroup>
 
 </Project>
