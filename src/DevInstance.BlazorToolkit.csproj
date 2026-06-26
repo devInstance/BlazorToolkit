@@ -8,13 +8,13 @@
 		<AssemblyName>DevInstance.BlazorToolkit</AssemblyName>
 		<RootNamespace>DevInstance.BlazorToolkit</RootNamespace>
 		<Configurations>Debug;Release;</Configurations>
-		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
+		<Copyright>Copyright 2024-2026 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>10.1.2</Version>
-		<AssemblyVersion>10.1.2.0</AssemblyVersion>
-		<FileVersion>10.1.2.0</FileVersion>
+		<Version>10.3.1</Version>
+		<AssemblyVersion>10.3.1.0</AssemblyVersion>
+		<FileVersion>10.3.1.0</FileVersion>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -49,12 +49,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevInstance.LogScope" Version="10.0.0" />
-		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="10.1.0" />
+		<PackageReference Include="DevInstance.LogScope" Version="10.1.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="10.2.0" />
 		<PackageReference Include="FluentValidation" Version="12.1.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.3" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.9" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>

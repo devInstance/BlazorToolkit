@@ -7,19 +7,19 @@
 		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
 		<AssemblyName>DevInstance.BlazorToolkit.Samples</AssemblyName>
 		<RootNamespace>DevInstance.BlazorToolkit.Samples</RootNamespace>
-		<Copyright>Copyright 2024-2025 DevInstance LLC</Copyright>
+		<Copyright>Copyright 2024-2026 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DevInstance.LogScope.NET" Version="10.0.0" />
-		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.1.0" />
+		<PackageReference Include="DevInstance.LogScope.NET" Version="10.1.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-rc.2.25502.107" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DevInstance.BlazorToolkit.Samples.Client\DevInstance.BlazorToolkit.Samples.Client.csproj" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.9" />
 	</ItemGroup>
 
 </Project>

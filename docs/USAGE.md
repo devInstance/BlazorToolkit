@@ -8,6 +8,7 @@ A comprehensive guide to using the BlazorToolkit library for service execution, 
 - [Service Execution](#service-execution)
 - [HTTP API Context](#http-api-context)
 - [State Management](#state-management)
+- [Offline Tools](#offline-tools)
 - [Error Handling](#error-handling)
 - [Complete Examples](#complete-examples)
 
@@ -514,6 +515,192 @@ await this.ServiceReadAsync(
 
 ---
 
+## Offline Tools
+
+The `DevInstance.BlazorToolkit.Offline` namespace provides offline-first building blocks for Blazor WebAssembly apps: an IndexedDB object store, connectivity tracking, a read-through cache, and a write-through outbox (sync queue). Reads serve local data immediately and refresh from the API in the background; writes save locally and queue for replay when connectivity returns.
+
+### Architecture
+
+| Layer | Type | Role |
+|-------|------|------|
+| Storage | `IObjectStore` / `IndexedDbObjectStore` | Generic JSON key/value store over IndexedDB |
+| Storage | `OfflineStoreOptions` | Declares DB name/version and object stores (plus reserved `syncMeta`, `syncQueue`) |
+| Connectivity | `IConnectivityService` | `navigator.onLine` + online/offline events → `OnConnectivityChanged` |
+| Sync | `ICacheableSource<T>` / `CacheableSource<T>` | Read-through cache: serve local immediately, refresh in background |
+| Sync | `IOutboxQueue` / `OutboxProcessor` | Write-through queue with exponential backoff; `pending`/`failed`/`conflict` states |
+| Sync | `ISyncOperationHandler` / `CrudSyncHandler<T>` | Per-entity replay logic; `CrudSyncHandler<T>` covers standard REST CRUD |
+| Sync | `IMasterDataSync` / `MasterDataSync` | Refreshes all registered cacheable sources (on login / when stale) |
+
+The server is expected to wrap responses in `ServiceActionResult<ModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource` unwraps that envelope.
+
+### 1. Register the Offline Stack
+
+```csharp
+// Program.cs (WASM)
+builder.Services.AddBlazorOffline(opts =>
+{
+    opts.DatabaseName = "myapp";
+    opts.DatabaseVersion = 1;
+    opts.AddStore("todos");
+    opts.AddStore("contacts");
+});
+
+// Read-through cache per entity
+builder.Services.AddCacheableSource<TodoItem>(sp =>
+{
+    var store = sp.GetRequiredService<IObjectStore>();
+    return new CacheableSourceOptions<TodoItem>
+    {
+        Endpoint = "todos",
+        LoadLocal = () => store.GetAllAsync<TodoItem>("todos"),
+        SaveLocal = items => store.ReplaceAllAsync("todos", items),
+    };
+});
+
+// Outbox handler per entity (standard CRUD)
+builder.Services.AddCrudSyncHandler<TodoItem>(sp =>
+{
+    var store = sp.GetRequiredService<IObjectStore>();
+    return new CrudSyncHandlerOptions<TodoItem>
+    {
+        EntityType = "todo",
+        Endpoint = "todos",
+        LoadLocal = id => store.GetAsync<TodoItem>("todos", id),
+    };
+});
+```
+
+Initialize once after `builder.Build()`:
+
+```csharp
+var host = builder.Build();
+await host.Services.GetRequiredService<IObjectStore>().InitializeAsync();
+await host.Services.GetRequiredService<IConnectivityService>().InitializeAsync();
+await host.RunAsync();
+```
+
+### 2. Reference the Static Assets
+
+The IndexedDB and connectivity JS ship as static web assets. Load them **before** `blazor.webassembly.js` so the first interop call during host init succeeds:
+
+```html
+<script src="_content/DevInstance.BlazorToolkit/js/blazortoolkit-db.js"></script>
+<script src="_content/DevInstance.BlazorToolkit/js/blazortoolkit-connectivity.js"></script>
+```
+
+TypeScript sources live in `src/Scripts/`.
+
+### 3. Feature Service Pattern
+
+Inject `ICacheableSource<T>`, `IObjectStore`, and `IOutboxQueue`. Reads return the cache immediately and fire a background refresh; writes save locally and enqueue for sync:
+
+```csharp
+[BlazorService]
+public class TodoService : ITodoService
+{
+    private readonly ICacheableSource<TodoItem> _source;
+    private readonly IObjectStore _store;
+    private readonly IOutboxQueue _outbox;
+
+    public TodoService(ICacheableSource<TodoItem> source, IObjectStore store, IOutboxQueue outbox)
+    {
+        _source = source;
+        _store = store;
+        _outbox = outbox;
+    }
+
+    // Read: returns cached items immediately, refreshes in the background
+    public async Task<List<TodoItem>> GetItemsAsync()
+    {
+        var items = await _source.GetCachedAsync();
+        _ = _source.RefreshAsync(); // fire-and-forget background refresh
+        return items;
+    }
+
+    // Write: persist locally, then queue for server sync
+    public async Task SaveAsync(TodoItem item, bool isNew)
+    {
+        await _store.PutAsync("todos", item);
+        await _outbox.EnqueueAsync("todo", item.Id, isNew ? "create" : "update");
+    }
+
+    public async Task DeleteAsync(string id)
+    {
+        await _store.DeleteAsync("todos", id);
+        await _outbox.EnqueueAsync("todo", id, "delete");
+    }
+}
+```
+
+> **Avoid clobbering offline-created records:** a background refresh can wipe a locally-created record before it syncs. Make the source's `SaveLocal` merge — keep local items that still have a pending outbox entry and aren't on the server yet.
+
+### 4. Surface Sync State in the UI
+
+`IOutboxQueue`, `IConnectivityService`, and `IMasterDataSync` all expose state and events for sync chips and banners:
+
+```razor
+@inject IOutboxQueue Outbox
+@inject IConnectivityService Connectivity
+@implements IDisposable
+
+@if (!Connectivity.IsOnline)
+{
+    <span class="badge bg-warning">Offline</span>
+}
+@if (Outbox.PendingCount > 0)
+{
+    <span class="badge bg-info">@Outbox.PendingCount pending</span>
+}
+@if (Outbox.ConflictCount > 0)
+{
+    <span class="badge bg-danger">@Outbox.ConflictCount conflicts</span>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        Outbox.OnStatusChanged += StateHasChanged;
+        Outbox.OnProcessed += StateHasChanged;
+        Connectivity.OnConnectivityChanged += _ => StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Outbox.OnStatusChanged -= StateHasChanged;
+        Outbox.OnProcessed -= StateHasChanged;
+    }
+}
+```
+
+### 5. Master-Data Sync
+
+Pull all registered cacheable sources into the local cache — typically on login and periodically:
+
+```csharp
+// Force a full refresh (e.g. after login)
+await MasterDataSync.SyncAllAsync();
+
+// Refresh only if the last sync is older than 5 minutes
+await MasterDataSync.SyncIfStaleAsync(TimeSpan.FromMinutes(5));
+```
+
+### 6. Conflicts
+
+`OutboxProcessor` parks an entry as `conflict` when a handler returns `SyncOperationResult.Conflict(...)` (e.g. server state moved). `CrudSyncHandler<T>` is last-write-wins and never produces conflicts; richer custom handlers can. Surface `GetConflictsAsync()` in the UI and resolve with `DiscardAsync(entryId)`:
+
+```csharp
+var conflicts = await Outbox.GetConflictsAsync();
+foreach (var entry in conflicts)
+{
+    // Show the conflict to the user, then discard or re-apply
+    await Outbox.DiscardAsync(entry.Id);
+}
+```
+
+See [docs/offline-tools.md](offline-tools.md) for the full reference, and `tests/DevInstance.BlazorToolkit.Offline.Tests` for outbox dispatch behavior (success / retry+backoff / conflict / drop) tested with an in-memory store.
+
+---
+
 ## Error Handling
 
 ### ServiceActionResult
@@ -847,6 +1034,20 @@ else if (todos?.Items != null)
 | `IApiContext<T>` | `Http` | HTTP request builder interface |
 | `HttpApiContextFactory` | `Http` | Creates API context instances |
 | `ApiUrlBuilder` | `Http` | Fluent URL construction |
+| `IObjectStore` | `Offline.Storage` | Generic IndexedDB key/value store |
+| `IConnectivityService` | `Offline.Connectivity` | Tracks browser online/offline state |
+| `ICacheableSource<T>` | `Offline.Sync` | Read-through local cache backed by the API |
+| `IOutboxQueue` | `Offline.Sync` | Write-through sync queue with backoff |
+| `IMasterDataSync` | `Offline.Sync` | Refreshes all registered cacheable sources |
+| `CrudSyncHandler<T>` | `Offline.Sync` | Standard REST CRUD replay handler |
+
+### Offline Extension Methods
+
+| Method | Description |
+|--------|-------------|
+| `AddBlazorOffline()` | Register the IndexedDB store, connectivity, outbox, and master-data sync |
+| `AddCacheableSource<T>()` | Register a read-through cache for an entity |
+| `AddCrudSyncHandler<T>()` | Register a CRUD outbox handler for an entity |
 
 ### Extension Methods
 

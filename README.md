@@ -10,6 +10,8 @@ Blazor Toolkit is a comprehensive set of tools designed to enhance the developme
 
 - **Form Validators:** Integrate robust form validation mechanisms to ensure data integrity. The toolkit includes flexible validators that can be easily applied to your forms, providing immediate feedback to users and enhancing the overall user experience.
 
+- **Offline-First Tools:** Build offline-capable Blazor WebAssembly apps with an IndexedDB object store, connectivity tracking, a read-through cache, and a write-through outbox (sync queue). Reads serve local data immediately and refresh in the background; writes are persisted locally and replayed against the server when connectivity returns. See [docs/offline-tools.md](docs/offline-tools.md).
+
 ## Installation
 Blazor Toolkit package is available on NuGet (https://www.nuget.org/packages/DevInstance.BlazorToolkit/) and can be installed using the following command:
 
