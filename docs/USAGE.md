@@ -738,6 +738,24 @@ return ServiceActionResult<TodoItem>.Failed(new ServiceActionError
 return ServiceActionResult<TodoItem>.Unauthorized();
 ```
 
+### Unhandled Exceptions
+
+If a service call throws, the execution handler catches it and converts it into a failed
+`ServiceActionResult<T>` instead of letting the exception bubble up. The resulting
+`ServiceActionError` is tagged with `ServiceActionErrorType.Exception`, its `Message` is set to
+the exception message, and the original exception is preserved on the `Exception` property so
+your error handler can inspect it (log it, branch on the exception type, etc.):
+
+```csharp
+public class ServiceActionError
+{
+    public ServiceActionErrorType ErrorType { get; set; } // Unknown | Exception | General | Validation
+    public string Message { get; set; }
+    public Exception? Exception { get; set; }             // set when ErrorType == Exception
+    public string? PropertyName { get; set; }
+}
+```
+
 ### Custom Error Handling in Components
 
 ```csharp
@@ -746,12 +764,17 @@ await this.ServiceSubmitAsync(
     success: result => todos = result,
     error: errors =>
     {
-        // Handle validation errors
         foreach (var error in errors)
         {
             if (error.ErrorType == ServiceActionErrorType.Validation)
             {
+                // Handle validation errors
                 validationMessages[error.PropertyName] = error.Message;
+            }
+            else if (error.ErrorType == ServiceActionErrorType.Exception)
+            {
+                // Inspect the original exception that was thrown by the service call
+                logger.LogError(error.Exception, "Service call failed");
             }
         }
 

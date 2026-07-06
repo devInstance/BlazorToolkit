@@ -11,6 +11,12 @@ public enum ServiceActionErrorType
     Unknown,
 
     /// <summary>
+    /// An error caused by an unhandled exception thrown during the service call.
+    /// The originating exception is available on <see cref="ServiceActionError.Exception"/>.
+    /// </summary>
+    Exception,
+
+    /// <summary>
     /// A general error not related to validation.
     /// </summary>
     General,
@@ -29,12 +35,19 @@ public class ServiceActionError
     /// <summary>
     /// Gets or sets the type of error that occurred.
     /// </summary>
-    public ServiceActionErrorType ErrorType { get; set; }
+    public ServiceActionErrorType ErrorType { get; set; } = ServiceActionErrorType.Unknown;
 
     /// <summary>
     /// Gets or sets the error message.
     /// </summary>
     public string Message { get; set; }
+
+    /// <summary>
+    /// Gets or sets the exception that caused this error, when the error originated from an
+    /// unhandled exception during the service call. Populated when <see cref="ErrorType"/> is
+    /// <see cref="ServiceActionErrorType.Exception"/>; otherwise <c>null</c>.
+    /// </summary>
+    public Exception Exception { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the property associated with the error, typically used for validation errors.

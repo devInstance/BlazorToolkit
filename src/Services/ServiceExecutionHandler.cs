@@ -97,7 +97,7 @@ public class ServiceExecutionHandler
     /// Executes all dispatched service calls asynchronously.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> ExecuteAsync()
+    public async Task<bool> ExecuteAsync(/*TODO: make flag to ignore falures*/)
     {
         using (var l = log.TraceScope())
         {
@@ -111,6 +111,7 @@ public class ServiceExecutionHandler
         }
         return true;
     }
+    //TODO: we need ExecuteParallelAsync
 
     internal class StateGuard : IDisposable
     {
@@ -181,9 +182,18 @@ public class ServiceExecutionHandler
                     l.E(ex.Message);
                     l.I(ex.StackTrace);
 
+                    // An unhandled exception during the call is surfaced as a failed result
+                    // tagged with ServiceActionErrorType.Exception. The original exception is
+                    // preserved on the error so callers can inspect it in their error handler.
                     res = new ServiceActionResult<T>
                     {
-                        Errors = new ServiceActionError[] { new ServiceActionError { Message = ex.Message } },
+                        Errors = new ServiceActionError[] {
+                            new ServiceActionError {
+                                Message = ex.Message,
+                                ErrorType = ServiceActionErrorType.Exception,
+                                Exception = ex
+                            }
+                        },
                         Success = false,
                         IsAuthorized = true
                     };
