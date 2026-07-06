@@ -94,24 +94,34 @@ public class ServiceExecutionHandler
     }
 
     /// <summary>
-    /// Executes all dispatched service calls asynchronously.
+    /// Executes all dispatched service calls sequentially, in the order they were dispatched.
     /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task<bool> ExecuteAsync(/*TODO: make flag to ignore falures*/)
+    /// <param name="ignoreFailures">
+    /// When <c>false</c> (the default) execution stops at the first failed call and the remaining
+    /// calls are not executed. When <c>true</c> every call is executed regardless of failures.
+    /// </param>
+    /// <returns>
+    /// A task that resolves to <c>true</c> if every executed call succeeded; otherwise <c>false</c>.
+    /// </returns>
+    public async Task<bool> ExecuteAsync(bool ignoreFailures = false)
     {
+        var allSucceeded = true;
         using (var l = log.TraceScope())
         {
             foreach (var task in tasks)
             {
                 if (!await task())
                 {
-                    return false;
+                    allSucceeded = false;
+                    if (!ignoreFailures)
+                    {
+                        return false;
+                    }
                 }
             }
         }
-        return true;
+        return allSucceeded;
     }
-    //TODO: we need ExecuteParallelAsync
 
     internal class StateGuard : IDisposable
     {
@@ -164,7 +174,7 @@ public class ServiceExecutionHandler
                 try
                 {
                     l.T($"Try restoring state for {stateKey} -> state: {basePage.ComponentState}");
-                    if (basePage.ComponentState != null 
+                    if (basePage.ComponentState != null
                         && stateKey != null
                         && basePage.ComponentState.TryTakeFromJson<string>(stateKey, out var restoredValue))
                     {
@@ -234,7 +244,7 @@ public class ServiceExecutionHandler
                     {
                         showError = !error(res.Errors);
                     }
-                    if(showError)
+                    if (showError)
                     {
                         basePage.ErrorMessage = errorMessage;
                         basePage.IsError = true;
