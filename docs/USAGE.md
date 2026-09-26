@@ -116,7 +116,7 @@ Use `ServiceReadAsync` for data fetching operations:
 @inject ITodoService TodoService
 
 @code {
-    private ModelList<TodoItem>? todos;
+    private TodoItemList? todos;
 
     protected override async Task OnInitializedAsync()
     {
@@ -177,7 +177,7 @@ await this.ServiceSubmitAsync<T>(...);
 For cleaner code with many parameters, use `CallContext<T>`:
 
 ```csharp
-await this.ServiceReadAsync(new CallContext<ModelList<TodoItem>>
+await this.ServiceReadAsync(new CallContext<TodoItemList>
 {
     Handler = async () => await TodoService.GetItemsAsync(),
     Success = result => todos = result,
@@ -197,7 +197,7 @@ await this.ServiceReadAsync(new CallContext<ModelList<TodoItem>>
 
 ```csharp
 // Define a reusable refresh action
-private CallContext<ModelList<TodoItem>> refreshTodos = new()
+private CallContext<TodoItemList> refreshTodos = new()
 {
     Handler = async () => await TodoService.GetItemsAsync(currentQuery),
     Success = result => todos = result,
@@ -309,6 +309,33 @@ var usersApi = factory.CreateDefault<User>("users");
 
 ### Basic CRUD Operations
 
+Models implement `IModelItem`, and list responses are your own `IModelList<T>` implementation
+(both from `DevInstance.WebServiceToolkit.Common.Model`). `ModelItem`, `ModelList<T>` and
+`ExecuteListAsync()` are obsolete — read lists with `ExecuteAsync<TList>()` instead.
+If you don't need a list class of your own, `ExecuteModelListAsync()` returns an `IModelList<T>`
+backed by an internal implementation. It can't be restored from prerendered state (a `stateKey`),
+so use your own list class with `ExecuteAsync<TList>()` there.
+
+```csharp
+public class TodoItem : IModelItem
+{
+    public string Id { get; set; }
+    public string Title { get; set; }
+    public bool IsCompleted { get; set; }
+}
+
+public class TodoItemList : IModelList<TodoItem>
+{
+    public int TotalCount { get; set; }
+    public int PagesCount { get; set; }
+    public int Page { get; set; }
+    public int Count { get; set; }
+    public string[] SortOrder { get; set; }
+    public string Search { get; set; }
+    public TodoItem[] Items { get; set; }
+}
+```
+
 ```csharp
 [BlazorService]
 public class TodoService : ITodoService
@@ -321,10 +348,10 @@ public class TodoService : ITodoService
     }
 
     // GET all items
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetAllAsync()
+    public async Task<ServiceActionResult<TodoItemList?>> GetAllAsync()
     {
         return await ServiceUtils.HandleWebApiCallAsync(
-            async (log) => await Api.Get().ExecuteListAsync()
+            async (log) => await Api.Get().ExecuteAsync<TodoItemList>()
         );
     }
 
@@ -390,7 +417,7 @@ var result = await Api
     .Path("active")
     .Parameter("category", "work")
     .Parameter("priority", "high")
-    .ExecuteListAsync();
+    .ExecuteAsync<TodoItemList>();
 ```
 
 ### Query Parameters
@@ -403,7 +430,7 @@ var result = await Api
     .Parameter("top", 10)
     .Parameter("page", 0)
     .Parameter("search", "meeting")
-    .ExecuteListAsync();
+    .ExecuteAsync<TodoItemList>();
 ```
 
 #### Using Extension Methods
@@ -417,7 +444,7 @@ var result = await Api
     .Page(0)
     .Search("meeting")
     .Sort("createdAt", ascending: false)
-    .ExecuteListAsync();
+    .ExecuteAsync<TodoItemList>();
 ```
 
 #### Using Query Objects
@@ -449,7 +476,7 @@ var query = new TodoQueryModel
     Include = new[] { "subtasks", "comments" }
 };
 
-var result = await Api.Get().Query(query).ExecuteListAsync();
+var result = await Api.Get().Query(query).ExecuteAsync<TodoItemList>();
 // URL: api/todos?top=10&page=0&search=meeting&include=subtasks,comments
 ```
 
@@ -531,7 +558,7 @@ The `DevInstance.BlazorToolkit.Offline` namespace provides offline-first buildin
 | Sync | `ISyncOperationHandler` / `CrudSyncHandler<T>` | Per-entity replay logic; `CrudSyncHandler<T>` covers standard REST CRUD |
 | Sync | `IMasterDataSync` / `MasterDataSync` | Refreshes all registered cacheable sources (on login / when stale) |
 
-The server is expected to wrap responses in `ServiceActionResult<ModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource` unwraps that envelope.
+The server is expected to wrap responses in `ServiceActionResult<IModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource` unwraps that envelope.
 
 ### 1. Register the Offline Stack
 
@@ -836,19 +863,19 @@ public class TodoService : ITodoService
         _repository = repository;
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query)
+    public async Task<ServiceActionResult<TodoItemList?>> GetItemsAsync(TodoQueryModel query)
     {
         return await ServiceUtils.HandleServiceCallAsync(
             async (log) => await _repository.GetItemsAsync(query.Top, query.Page, query.Search)
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(TodoItem newTodo)
+    public async Task<ServiceActionResult<TodoItemList?>> AddAsync(TodoItem newTodo)
     {
         // Validation
         if (string.IsNullOrWhiteSpace(newTodo.Title))
         {
-            return ServiceActionResult<ModelList<TodoItem>?>.Failed(new ServiceActionError
+            return ServiceActionResult<TodoItemList?>.Failed(new ServiceActionError
             {
                 ErrorType = ServiceActionErrorType.Validation,
                 PropertyName = nameof(newTodo.Title),
@@ -859,7 +886,7 @@ public class TodoService : ITodoService
         // Check for duplicates
         if (await _repository.ExistsAsync(newTodo.Title))
         {
-            return ServiceActionResult<ModelList<TodoItem>?>.Failed(new ServiceActionError
+            return ServiceActionResult<TodoItemList?>.Failed(new ServiceActionError
             {
                 ErrorType = ServiceActionErrorType.Validation,
                 PropertyName = nameof(newTodo.Title),
@@ -892,31 +919,31 @@ public class TodoService : ITodoService
         _api = api;
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query)
+    public async Task<ServiceActionResult<TodoItemList?>> GetItemsAsync(TodoQueryModel query)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
-            async (log) => await _api.Get().Query(query).ExecuteListAsync()
+            async (log) => await _api.Get().Query(query).ExecuteAsync<TodoItemList>()
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(TodoItem newTodo)
+    public async Task<ServiceActionResult<TodoItemList?>> AddAsync(TodoItem newTodo)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
-            async (log) => await _api.Post(newTodo).ExecuteListAsync()
+            async (log) => await _api.Post(newTodo).ExecuteAsync<TodoItemList>()
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> UpdateAsync(TodoItem todo)
+    public async Task<ServiceActionResult<TodoItemList?>> UpdateAsync(TodoItem todo)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
-            async (log) => await _api.Put(todo, todo.Id).ExecuteListAsync()
+            async (log) => await _api.Put(todo, todo.Id).ExecuteAsync<TodoItemList>()
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> DeleteAsync(string id)
+    public async Task<ServiceActionResult<TodoItemList?>> DeleteAsync(string id)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
-            async (log) => await _api.Delete(id).ExecuteListAsync()
+            async (log) => await _api.Delete(id).ExecuteAsync<TodoItemList>()
         );
     }
 }
@@ -989,7 +1016,7 @@ else if (todos?.Items != null)
 }
 
 @code {
-    private ModelList<TodoItem>? todos;
+    private TodoItemList? todos;
     private TodoItem newTodo = new();
     private int currentPage = 0;
     private const int PageSize = 10;

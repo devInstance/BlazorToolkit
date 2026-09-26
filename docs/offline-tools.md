@@ -18,7 +18,7 @@ app can declare its own stores and entities.
 | `…Offline.Sync` | `IMasterDataSync` / `MasterDataSync` | Refreshes all registered cacheable sources (on login / when stale). |
 
 The server is expected to wrap list/item responses in
-`ServiceActionResult<ModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource`
+`ServiceActionResult<IModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource`
 unwraps that envelope.
 
 ## Wiring (Program.cs, WASM)

@@ -47,7 +47,7 @@
     </nav>
 }
 @using DevInstance.WebServiceToolkit.Common.Model
-@typeparam TEntity where TEntity : ModelItem
+@typeparam TEntity where TEntity : IModelItem
 @code {
     [Parameter]
     public int MaxItems { get; set; } = 15;
@@ -56,7 +56,7 @@
     public string? UrlTemplate { get; set; } = null;
 
     [Parameter]
-    public ModelList<TEntity>? List { get; set; }
+    public IModelList<TEntity>? List { get; set; }
 
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }

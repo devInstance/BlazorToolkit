@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="DevInstance.LogScope.NET" Version="10.1.0" />
-		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.2.0" />
+		<PackageReference Include="DevInstance.WebServiceToolkit" Version="10.3.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-rc.2.25502.107" />
 	</ItemGroup>
 

@@ -7,8 +7,8 @@ namespace DevInstance.BlazorToolkit.Samples.Client.Services;
 
 public interface ITodoService
 {
-    Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query);
-    Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(TodoItem newTodo);
-    Task<ServiceActionResult<ModelList<TodoItem>?>> UpdateAsync(TodoItem updatedTodo);
-    Task<ServiceActionResult<ModelList<TodoItem>?>> DeleteAsync(string id);
+    Task<ServiceActionResult<TodoItemList?>> GetItemsAsync(TodoQueryModel query);
+    Task<ServiceActionResult<TodoItemList?>> AddAsync(TodoItem newTodo);
+    Task<ServiceActionResult<TodoItemList?>> UpdateAsync(TodoItem updatedTodo);
+    Task<ServiceActionResult<TodoItemList?>> DeleteAsync(string id);
 }

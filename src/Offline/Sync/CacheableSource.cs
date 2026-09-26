@@ -2,14 +2,13 @@ using DevInstance.BlazorToolkit.Http;
 using DevInstance.BlazorToolkit.Http.Extensions;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.LogScope;
-using DevInstance.WebServiceToolkit.Common.Model;
 
 namespace DevInstance.BlazorToolkit.Offline.Sync;
 
 /// <summary>
 /// Default <see cref="ICacheableSource{T}"/> implementation. Reads from the local
 /// store; refreshes from a list endpoint that returns
-/// <c>ServiceActionResult&lt;ModelList&lt;T&gt;&gt;</c>. Concurrent refreshes are
+/// <c>ServiceActionResult&lt;IModelList&lt;T&gt;&gt;</c> (only <c>Items</c> is read). Concurrent refreshes are
 /// de-duplicated and rate-limited so multiple pages binding the same source don't
 /// stampede the server.
 /// </summary>
@@ -68,10 +67,10 @@ public class CacheableSource<T> : ICacheableSource<T> where T : class
             }
 
             var api = apiFactory.CreateDefault<T>(options.Endpoint);
-            // The server wraps list responses in ServiceActionResult<ModelList<T>>;
+            // The server wraps list responses in ServiceActionResult<IModelList<T>>;
             // ExecuteListAsync would see an envelope-shaped payload and quietly return
             // an empty list, so deserialize and unwrap the envelope explicitly.
-            var envelope = await api.Get().Top(options.PageSize).ExecuteAsync<ServiceActionResult<ModelList<T>>>();
+            var envelope = await api.Get().Top(options.PageSize).ExecuteAsync<ServiceActionResult<CacheableList<T>>>();
             if (envelope == null || !envelope.Success || envelope.Result == null)
             {
                 l.D($"No data returned for {options.Endpoint}");

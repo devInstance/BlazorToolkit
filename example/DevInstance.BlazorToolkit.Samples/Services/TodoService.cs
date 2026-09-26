@@ -19,7 +19,7 @@ public class TodoService : ITodoService
         Repository = repository;
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> GetItemsAsync(TodoQueryModel query)
+    public async Task<ServiceActionResult<TodoItemList?>> GetItemsAsync(TodoQueryModel query)
     {
         return await ServiceUtils.HandleServiceCallAsync(
             async (l) =>
@@ -29,7 +29,7 @@ public class TodoService : ITodoService
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> AddAsync(TodoItem newTodo)
+    public async Task<ServiceActionResult<TodoItemList?>> AddAsync(TodoItem newTodo)
     {
         if (await Repository.DoesExistAsync(newTodo))
         {
@@ -39,7 +39,7 @@ public class TodoService : ITodoService
                 PropertyName = nameof(newTodo.Title),
                 Message = $"Task with '{nameof(newTodo.Title)}' already exists"
             };
-            return ServiceActionResult<ModelList<TodoItem>?>.Failed(error);
+            return ServiceActionResult<TodoItemList?>.Failed(error);
         }
 
         return await ServiceUtils.HandleServiceCallAsync(
@@ -50,7 +50,7 @@ public class TodoService : ITodoService
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> UpdateAsync(TodoItem updatedTodo)
+    public async Task<ServiceActionResult<TodoItemList?>> UpdateAsync(TodoItem updatedTodo)
     {
         return await ServiceUtils.HandleServiceCallAsync(
             async (l) =>
@@ -60,7 +60,7 @@ public class TodoService : ITodoService
         );
     }
 
-    public async Task<ServiceActionResult<ModelList<TodoItem>?>> DeleteAsync(string id)
+    public async Task<ServiceActionResult<TodoItemList?>> DeleteAsync(string id)
     {
         return await ServiceUtils.HandleServiceCallAsync(
             async (l) =>

@@ -133,7 +133,7 @@
     }
 
     private TodoItem newTodo = new TodoItem { Id = "None" };
-    private ModelList<TodoItem> todos = null;
+    private TodoItemList todos = null;
 
     private void HandleInput(ChangeEventArgs e)
     {
@@ -155,7 +155,7 @@
 
         try
         {
-            todos = await Http.GetFromJsonAsync<ModelList<TodoItem>>($"api/todo?top={PageSize}&page={page}");
+            todos = await Http.GetFromJsonAsync<TodoItemList>($"api/todo?top={PageSize}&page={page}");
         }
         catch (Exception ex)
         {
@@ -194,7 +194,7 @@
                 }
                 throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
             }
-            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+            todos = await result.Content.ReadFromJsonAsync<TodoItemList>();
             newTodo = new TodoItem() { Id = "None" };
         }
         catch (Exception ex)
@@ -236,7 +236,7 @@
                 }
                 throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
             }
-            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+            todos = await result.Content.ReadFromJsonAsync<TodoItemList>();
         }
         catch (Exception ex)
         {
@@ -277,7 +277,7 @@
                 }
                 throw new HttpRequestException($"Request failed, code {result.StatusCode}", null, result.StatusCode);
             }
-            todos = await result.Content.ReadFromJsonAsync<ModelList<TodoItem>>();
+            todos = await result.Content.ReadFromJsonAsync<TodoItemList>();
         }
         catch (Exception ex)
         {

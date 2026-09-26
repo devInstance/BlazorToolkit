@@ -20,7 +20,7 @@ public class TodoController
     }
 
     [HttpGet]
-    public async Task<ActionResult<ModelList<TodoItem>>> GetItemsAsync([FromQuery]TodoQueryModel? query)
+    public async Task<ActionResult<TodoItemList>> GetItemsAsync([FromQuery]TodoQueryModel? query)
     {
         int? top = query?.Top ?? 10;
         int? page = query?.Page ?? 0;
@@ -30,7 +30,7 @@ public class TodoController
     }
 
     [HttpPost]
-    public async Task<ActionResult<ModelList<TodoItem>>> AddAsync([FromBody()] TodoItem item)
+    public async Task<ActionResult<TodoItemList>> AddAsync([FromBody()] TodoItem item)
     {
         if (await Repository.DoesExistAsync(item))
         {
@@ -48,14 +48,14 @@ public class TodoController
 
     [HttpPut]
     [Route("{id}")]
-    public async Task<ActionResult<ModelList<TodoItem>>> UpdateAsync(string id, [FromBody] TodoItem item)
+    public async Task<ActionResult<TodoItemList>> UpdateAsync(string id, [FromBody] TodoItem item)
     {
         return await Repository.UpdateAsync(id, item);
     }
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<ActionResult<ModelList<TodoItem>>> DeleteAsync(string id)
+    public async Task<ActionResult<TodoItemList>> DeleteAsync(string id)
     {
         return await Repository.DeleteAsync(id);
     }

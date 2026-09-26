@@ -44,7 +44,7 @@ public class EmplyeeService
         Api = api;
     }
 
-    public async Task<ServiceActionResult<ModelList<EmployeeItem>?>> GetItemsAsync(int? top, int? page)
+    public async Task<ServiceActionResult<EmployeeItemList?>> GetItemsAsync(int? top, int? page)
     {
         return await ServiceUtils.HandleWebApiCallAsync(
             async (l) =>
@@ -58,7 +58,7 @@ public class EmplyeeService
                 {
                     api = api.Page(page.Value);
                 }
-                return await api.ListAsync();
+                return await api.ExecuteAsync<EmployeeItemList>();
             }
         );
     }
@@ -128,7 +128,7 @@ Welcome to your new app.
     [CascadingParameter]
     public IServiceExecutionHost? Host { get; set; }
 
-    private ModelList<EmployeeItem> employees = null;
+    private EmployeeItemList employees = null;
 
     protected override async Task OnInitializedAsync()
     {

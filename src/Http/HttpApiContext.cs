@@ -187,7 +187,11 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
         switch (method)
         {
             case ApiMethod.Get:
-                return await Http.GetFromJsonAsync<O>(url);
+            {
+                var result = await Http.GetAsync(url);
+                await HandleResponseAsync(result);
+                return await result.Content.ReadFromJsonAsync<O>();
+            }
             case ApiMethod.Post:
             {
                 var result = await Http.PostAsJsonAsync(url, copyPaylod);
@@ -232,11 +236,13 @@ internal class HttpApiContext<K, T> : IApiContext<K, T>
         }
     }
 
+    [Obsolete("ModelList<T> is obsolete. Use ExecuteAsync<TList>() with your own IModelList<T> implementation instead.")]
     public async Task<ModelList<T>?> ExecuteListAsync()
     {
         return await ExecuteAsync<ModelList<T>>();
     }
 
+    [Obsolete("ModelList<T> is obsolete. Use ExecuteAsync<TList>() with your own IModelList<T> implementation instead.")]
     public async Task<ModelList<O>?> ExecuteListAsync<O>()
     {
         return await ExecuteAsync<ModelList<O>>();

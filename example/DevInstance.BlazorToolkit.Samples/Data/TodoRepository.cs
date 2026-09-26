@@ -1,7 +1,7 @@
 ﻿using DevInstance.BlazorToolkit.Samples.Model;
 using DevInstance.BlazorToolkit.Services;
 using DevInstance.BlazorToolkit.Tools;
-using DevInstance.BlazorToolkit.Utils;
+using DevInstance.WebServiceToolkit.Common.Tools;
 using DevInstance.WebServiceToolkit.Common.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,14 +38,14 @@ public class TodoRepository
             await Task.Delay(delay);
     }
 
-    private ModelList<TodoItem> GetList(int? page, int? itemPerPage = null)
+    private TodoItemList GetList(int? page, int? itemPerPage = null)
     {
         int pageIndex = page ?? 0;
         int pageSize = itemPerPage ?? 10;
 
         var totalPageCount = (int)Math.Ceiling((double)list.Count / (double)pageSize);
         var result = list.Skip(pageIndex * pageSize).Take(pageSize).ToArray();
-        return new ModelList<TodoItem>
+        return new TodoItemList
         {
             Page = pageIndex,
             TotalCount = totalPageCount,
@@ -55,7 +55,7 @@ public class TodoRepository
         };
     }
 
-    public async Task<ModelList<TodoItem>> GetItemsAsync(int? top, int? page, string? search)
+    public async Task<TodoItemList> GetItemsAsync(int? top, int? page, string? search)
     {
         await DelayAsync();
 
@@ -69,7 +69,7 @@ public class TodoRepository
         return list.FindIndex(t => string.Compare(t.Title, item.Title, StringComparison.OrdinalIgnoreCase) == 0) >= 0;
     }
 
-    public async Task<ModelList<TodoItem>> AddAsync(TodoItem item)
+    public async Task<TodoItemList> AddAsync(TodoItem item)
     {
         await DelayAsync();
 
@@ -78,7 +78,7 @@ public class TodoRepository
         return GetList(0);
     }
 
-    public async Task<ModelList<TodoItem>> UpdateAsync(string id, [FromBody] TodoItem item)
+    public async Task<TodoItemList> UpdateAsync(string id, [FromBody] TodoItem item)
     {
         await DelayAsync();
 
@@ -87,7 +87,7 @@ public class TodoRepository
         return GetList(0);
     }
 
-    public async Task<ModelList<TodoItem>> DeleteAsync(string id)
+    public async Task<TodoItemList> DeleteAsync(string id)
     {
         await DelayAsync();
 

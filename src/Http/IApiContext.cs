@@ -124,11 +124,36 @@ public interface IApiContext<K, T>
     /// Lists the entities asynchronously.
     /// </summary>
     /// <returns>A list of entities.</returns>
+    [Obsolete("ModelList<T> is obsolete. Use ExecuteAsync<TList>() with your own IModelList<T> implementation instead.")]
     Task<ModelList<T>?> ExecuteListAsync();
 
     /// <summary>
     /// Lists the entities asynchronously.
     /// </summary>
     /// <returns>A list of entities.</returns>
+    [Obsolete("ModelList<T> is obsolete. Use ExecuteAsync<TList>() with your own IModelList<T> implementation instead.")]
     Task<ModelList<O>?> ExecuteListAsync<O>();
+
+    /// <summary>
+    /// Lists the entities asynchronously as an <see cref="IModelList{T}"/>, without requiring
+    /// a caller-defined list class.
+    /// </summary>
+    /// <remarks>
+    /// The result is backed by an internal implementation, so it cannot be restored from
+    /// prerendered state (a <c>stateKey</c> on <c>ServiceReadAsync</c>), which deserializes
+    /// by the declared type. Define your own <see cref="IModelList{T}"/> class and use
+    /// <see cref="ExecuteAsync{O}"/> in that case.
+    /// </remarks>
+    /// <returns>A list of entities.</returns>
+    async Task<IModelList<T>?> ExecuteModelListAsync() => await ExecuteAsync<ApiModelList<T>>();
+
+    /// <summary>
+    /// Lists entities of type <typeparamref name="O"/> asynchronously as an <see cref="IModelList{T}"/>,
+    /// without requiring a caller-defined list class.
+    /// </summary>
+    /// <remarks>
+    /// Cannot be used with prerendered state (a <c>stateKey</c>); see <see cref="ExecuteModelListAsync()"/>.
+    /// </remarks>
+    /// <returns>A list of entities.</returns>
+    async Task<IModelList<O>?> ExecuteModelListAsync<O>() => await ExecuteAsync<ApiModelList<O>>();
 }
