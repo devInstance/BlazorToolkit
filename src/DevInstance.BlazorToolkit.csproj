@@ -12,7 +12,7 @@
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>10.5.0</Version>
+		<Version>10.5.1</Version>
 		<AssemblyVersion>10.5.0.0</AssemblyVersion>
 		<FileVersion>10.5.0.0</FileVersion>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>

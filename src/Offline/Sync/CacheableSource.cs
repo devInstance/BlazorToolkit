@@ -7,8 +7,8 @@ namespace DevInstance.BlazorToolkit.Offline.Sync;
 
 /// <summary>
 /// Default <see cref="ICacheableSource{T}"/> implementation. Reads from the local
-/// store; refreshes from a list endpoint that returns
-/// <c>ServiceActionResult&lt;IModelList&lt;T&gt;&gt;</c> (only <c>Items</c> is read). Concurrent refreshes are
+/// store; refreshes from a list endpoint that returns a bare <c>IModelList&lt;T&gt;</c>
+/// (only <c>Items</c> is read). Concurrent refreshes are
 /// de-duplicated and rate-limited so multiple pages binding the same source don't
 /// stampede the server.
 /// </summary>
@@ -67,17 +67,18 @@ public class CacheableSource<T> : ICacheableSource<T> where T : class
             }
 
             var api = apiFactory.CreateDefault<T>(options.Endpoint);
-            // The server wraps list responses in ServiceActionResult<IModelList<T>>;
-            // ExecuteListAsync would see an envelope-shaped payload and quietly return
-            // an empty list, so deserialize and unwrap the envelope explicitly.
-            var envelope = await api.Get().Top(options.PageSize).ExecuteAsync<ServiceActionResult<CacheableList<T>>>();
-            if (envelope == null || !envelope.Success || envelope.Result == null)
+            // The list endpoint returns a bare IModelList<T>; a failed request throws
+            // (HttpServerException, caught below). A body without "items" is not a list at all
+            // (e.g. a server still sending a ServiceActionResult envelope) and must not be
+            // mistaken for an empty one, or the refresh would wipe the local cache.
+            var list = await api.Get().Top(options.PageSize).ExecuteAsync<CacheableList<T>>();
+            if (list?.Items == null)
             {
-                l.D($"No data returned for {options.Endpoint}");
+                l.D($"No list returned for {options.Endpoint}");
                 return false;
             }
 
-            var items = envelope.Result.Items?.ToList() ?? new List<T>();
+            var items = list.Items.ToList();
             items = ApplyCacheConditions(items);
             await options.SaveLocal(items);
 

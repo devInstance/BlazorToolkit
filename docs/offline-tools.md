@@ -17,9 +17,10 @@ app can declare its own stores and entities.
 | `…Offline.Sync` | `ISyncOperationHandler`, `CrudSyncHandler<T>` | Per-entity-type replay logic. `CrudSyncHandler<T>` covers standard REST CRUD. |
 | `…Offline.Sync` | `IMasterDataSync` / `MasterDataSync` | Refreshes all registered cacheable sources (on login / when stale). |
 
-The server is expected to wrap list/item responses in
-`ServiceActionResult<IModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource`
-unwraps that envelope.
+A `CacheableSource` list endpoint returns a **bare** `IModelList<T>` (only `items` is
+read). Errors travel as an HTTP status plus a `WebServiceError` body. A response with no
+`items` — for example a server that still wraps lists in a `ServiceActionResult` envelope,
+as before 10.5.1 — fails the refresh and leaves the local cache untouched.
 
 ## Wiring (Program.cs, WASM)
 

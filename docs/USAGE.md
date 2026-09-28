@@ -558,7 +558,7 @@ The `DevInstance.BlazorToolkit.Offline` namespace provides offline-first buildin
 | Sync | `ISyncOperationHandler` / `CrudSyncHandler<T>` | Per-entity replay logic; `CrudSyncHandler<T>` covers standard REST CRUD |
 | Sync | `IMasterDataSync` / `MasterDataSync` | Refreshes all registered cacheable sources (on login / when stale) |
 
-The server is expected to wrap responses in `ServiceActionResult<IModelList<T>>` / `ServiceActionResult<T>` — `CacheableSource` unwraps that envelope.
+A `CacheableSource` list endpoint returns a **bare** `IModelList<T>` (only `items` is read); errors travel as an HTTP status plus a `WebServiceError` body. Before 10.5.1 the list had to be wrapped in a `ServiceActionResult` envelope; a response with no `items` now fails the refresh and leaves the cache untouched.
 
 ### 1. Register the Offline Stack
 
