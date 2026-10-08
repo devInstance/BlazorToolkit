@@ -227,22 +227,25 @@ public class ServiceExecutionHandler
                 }
                 else
                 {
+                    // An unauthorized result (ServiceActionResult.Unauthorized()) carries no errors.
+                    var errors = res.Errors ?? Array.Empty<ServiceActionError>();
                     var errorMessage = "";
-                    foreach (var errm in res.Errors)
+                    foreach (var errm in errors)
                     {
                         errorMessage += errm.Message;
                     }
                     l.W(errorMessage);
 
-                    bool showError = true;
                     if (!res.IsAuthorized)
                     {
                         basePage.ShowLogin();
                         return false;
                     }
-                    else if (error != null)
+
+                    bool showError = true;
+                    if (error != null)
                     {
-                        showError = !error(res.Errors);
+                        showError = !error(errors);
                     }
                     if (showError)
                     {
