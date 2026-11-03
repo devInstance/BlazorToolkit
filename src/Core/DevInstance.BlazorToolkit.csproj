@@ -39,11 +39,11 @@ See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-co
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\README.md">
+		<None Include="..\..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\LICENSE">
+		<None Include="..\..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
@@ -53,21 +53,13 @@ See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-co
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
-	<!-- The Components package lives in a subfolder of this project's directory; keep it out of the core assembly. -->
 	<ItemGroup>
-		<Compile Remove="DevInstance.BlazorToolkit.Components\**" />
-		<Content Remove="DevInstance.BlazorToolkit.Components\**" />
-		<None Remove="DevInstance.BlazorToolkit.Components\**" />
-		<EmbeddedResource Remove="DevInstance.BlazorToolkit.Components\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="DevInstance.LogScope" Version="10.1.0" />
+		<PackageReference Include="DevInstance.LogScope" Version="10.1.1" />
 		<PackageReference Include="DevInstance.WebServiceToolkit.Common" Version="10.3.0" />
-		<PackageReference Include="FluentValidation" Version="12.1.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.12" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.12" />
+		<PackageReference Include="FluentValidation" Version="12.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.14" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `DevInstance.BlazorToolkit` is a NuGet-published class library (`Microsoft.NET.Sdk.Razor`, `net10.0`) that provides infrastructure for Blazor apps: attribute-based service registration, a service-execution/state-management pattern for components, a fluent HTTP API-context layer, form validation helpers, and an offline-first stack (IndexedDB store, connectivity, read-through cache, write-through outbox). It targets both Blazor Server and WASM from the same package (`browser` is a supported platform).
 
-A second package, `DevInstance.BlazorToolkit.Components` (`src/DevInstance.BlazorToolkit.Components/`, split out in 10.6.0), holds the UI components (`ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`). It `ProjectReference`s core and packs with a NuGet dependency on it. Its folder sits inside core's project directory, so core's csproj `Remove`s it from its item globs — keep that when adding files. `ServiceExecutionHostComponent` deliberately **stays in core** (it is the base of the service-execution pattern); the `DevInstance.BlazorToolkit.Components` namespace is therefore split across both assemblies. Planned additions (HDataGrid etc.): `docs/components-package-plan.md`.
+A second package, `DevInstance.BlazorToolkit.Components` (`src/Components/`, split out in 10.6.0), holds the UI components (`ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`). It `ProjectReference`s core and packs with a NuGet dependency on it. `ServiceExecutionHostComponent` deliberately **stays in core** (it is the base of the service-execution pattern); the `DevInstance.BlazorToolkit.Components` namespace is therefore split across both assemblies. Planned additions (HDataGrid etc.): `docs/components-package-plan.md`.
 
-Both packages share one version number: bump `<Version>`/`<AssemblyVersion>`/`<FileVersion>` in **both** `src/DevInstance.BlazorToolkit.csproj` and `src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj`. `GeneratePackageOnBuild` is on, so a Release build produces both `.nupkg`s.
+Both packages share one version number: bump `<Version>`/`<AssemblyVersion>`/`<FileVersion>` in **both** `src/Core/DevInstance.BlazorToolkit.csproj` and `src/Components/DevInstance.BlazorToolkit.Components.csproj`. `GeneratePackageOnBuild` is on, so a Release build produces both `.nupkg`s.
 
 ## Build, test, run
 
@@ -17,7 +17,7 @@ Both packages share one version number: bump `<Version>`/`<AssemblyVersion>`/`<F
 dotnet build DevInstance.BlazorToolkit.sln
 
 # Build the libraries in Release (produces both NuGet packages)
-dotnet build src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj -c Release
+dotnet build src/Components/DevInstance.BlazorToolkit.Components.csproj -c Release
 
 # Run all tests
 dotnet test tests/DevInstance.BlazorToolkit.Offline.Tests/DevInstance.BlazorToolkit.Offline.Tests.csproj
@@ -34,6 +34,8 @@ Tests use **xUnit v3**. The single test project (named `Offline.Tests`) covers o
 There is no separate lint step; rely on the compiler with `Nullable` enabled. Note the codebase itself is not fully null-annotated (many public APIs use `= null` defaults on non-nullable reference params) — match the existing style rather than introducing new nullable warnings.
 
 ## Architecture
+
+Folder paths below are relative to the core project, `src/Core/`.
 
 Consuming apps depend on three interlocking pieces. Read `docs/USAGE.md` for the full API surface with examples; the big picture:
 
@@ -63,7 +65,7 @@ A service method's body wraps its real work in a `ServiceUtils` helper that norm
 Registered separately via `AddBlazorOffline(opts => ...)` + per-entity `AddCacheableSource<T>()` / `AddCrudSyncHandler<T>()`. Layers: `IObjectStore`/`IndexedDbObjectStore` (JSON key/value over IndexedDB), `IConnectivityService` (`navigator.onLine`), `ICacheableSource<T>` (read-through: serve local now, refresh in background), `IOutboxQueue`/`OutboxProcessor` (write-through with exponential backoff; `pending`/`failed`/`conflict`), `ISyncOperationHandler`/`CrudSyncHandler<T>` (per-entity replay; CRUD handler is last-write-wins), `IMasterDataSync` (refresh all sources on login/when stale).
 
 - Requires the JS assets loaded **before** `blazor.webassembly.js`:
-  `_content/DevInstance.BlazorToolkit/js/blazortoolkit-db.js` and `...-connectivity.js`. The shipped JS lives in `src/wwwroot/js/`. `blazortoolkit-db.js` has a TypeScript source at `src/Scripts/blazortoolkit-db.ts`; keep the two in sync (there is no tsconfig/npm build step in the repo, so the `.js` is not regenerated automatically). `blazortoolkit-connectivity.js` has no TS source — edit it directly.
+  `_content/DevInstance.BlazorToolkit/js/blazortoolkit-db.js` and `...-connectivity.js`. The shipped JS lives in `src/Core/wwwroot/js/`. `blazortoolkit-db.js` has a TypeScript source at `src/Core/Scripts/blazortoolkit-db.ts`; keep the two in sync (there is no tsconfig/npm build step in the repo, so the `.js` is not regenerated automatically). `blazortoolkit-connectivity.js` has no TS source — edit it directly.
 - After `builder.Build()` you must `InitializeAsync()` the `IObjectStore` and `IConnectivityService`.
 - Known pitfall (documented in `docs/offline-tools.md`): a background refresh can clobber a locally-created record before it syncs — a source's `SaveLocal` should merge and preserve items with a still-pending outbox entry.
 - `CacheableSource` reads a **bare** `IModelList<T>` from its list endpoint into the internal `CacheableList<T>` (only `Items` is read), so it depends on neither `ModelList<T>` nor a `ServiceActionResult` envelope (required before 10.5.1). A body without `items` fails the refresh rather than being read as an empty list — otherwise a mismatched server would wipe the cache.

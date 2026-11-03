@@ -777,7 +777,7 @@ The IndexedDB and connectivity JS ship as static web assets. Load them **before*
 <script src="_content/DevInstance.BlazorToolkit/js/blazortoolkit-connectivity.js"></script>
 ```
 
-TypeScript sources live in `src/Scripts/`.
+TypeScript sources live in `src/Core/Scripts/`.
 
 ### 3. Feature Service Pattern
 

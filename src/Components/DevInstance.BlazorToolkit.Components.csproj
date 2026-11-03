@@ -34,7 +34,7 @@ See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-co
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\icon.png">
+		<None Include="..\Core\icon.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
@@ -53,6 +53,6 @@ See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-co
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DevInstance.BlazorToolkit.csproj" />
+		<ProjectReference Include="..\Core\DevInstance.BlazorToolkit.csproj" />
 	</ItemGroup>
 </Project>

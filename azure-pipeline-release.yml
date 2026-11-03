@@ -12,7 +12,7 @@ pool: default
 
 variables:
   # Core + Components packages are always released together with the same version
-  solution: 'src/DevInstance.BlazorToolkit.csproj;src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj'
+  solution: 'src/Core/DevInstance.BlazorToolkit.csproj;src/Components/DevInstance.BlazorToolkit.Components.csproj'
   version: ${{ parameters.packageVersion }}
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'

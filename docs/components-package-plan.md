@@ -14,8 +14,8 @@ the newest of four (DevCoreApp, Tentrie, coreblog are older); port **that** one.
 
 Decided 2026-11-03. Can ship on its own, before the HDataGrid port (no WST.Common 10.4.0 needed).
 
-**Dependency check.** Core does not reference anything in `src/Components/` (only the `@using` in
-`src/_Imports.razor`); the components depend on core (`IServiceExecutionHost`), WST.Common
+**Dependency check.** Core did not reference anything in its `Components/` folder (only the `@using` in
+`_Imports.razor`); the components depend on core (`IServiceExecutionHost`), WST.Common
 (`IModelList<T>`) and ASP.NET Core Components only, none have CSS/JS of their own. A single
 `ProjectReference` to core covers every dependency — no cycle.
 
@@ -37,10 +37,9 @@ package. Warn that Razor does **not** error on a missing component — `<ErrorMe
 render nothing; recommend `<WarningsAsErrors>RZ10012</WarningsAsErrors>` while upgrading.
 (`@layout BlazorToolkitPageLayout` does fail to compile.)
 
-**Folder layout.** `src/` is the core project's directory, so `src/DevInstance.BlazorToolkit.Components/**`
-would be globbed into core. Add `<Compile Remove>`, `<Content Remove>`, `<None Remove>` for that folder
-to the core csproj (or move core into `src/DevInstance.BlazorToolkit/` — then update the pipelines and
-`CLAUDE.md` paths).
+**Folder layout (done).** Core lives in `src/Core/` (`DevInstance.BlazorToolkit.csproj`), the Components
+project in `src/Components/` (`DevInstance.BlazorToolkit.Components.csproj`); the folder name is short,
+the project/package name is unchanged.
 
 **Checklist**
 1. Create the project (see "Project layout" below for csproj settings); `_Imports.razor` with
@@ -79,7 +78,7 @@ Then bump the core BlazorToolkit package's `WebServiceToolkit.Common` reference 
 ## Project layout
 
 ```
-src/DevInstance.BlazorToolkit.Components/
+src/Components/
 ├── DevInstance.BlazorToolkit.Components.csproj
 ├── _Imports.razor
 ├── DataGrid/        HDataGrid.razor(.cs), HColumnTemplate.razor, HSortableHeader.razor,
@@ -96,7 +95,7 @@ csproj: copy the core package's (`Microsoft.NET.Sdk.Razor`, `net10.0`, `Nullable
 `SupportedPlatform browser`, `GeneratePackageOnBuild`, license/icon/readme packing). Differences:
 
 - `AssemblyName`/`PackageId` `DevInstance.BlazorToolkit.Components`, `RootNamespace` the same.
-- `ProjectReference` to `../DevInstance.BlazorToolkit.csproj` (for `ModelDataPager`). It packs as a
+- `ProjectReference` to `../Core/DevInstance.BlazorToolkit.csproj` (for `ModelDataPager`). It packs as a
   NuGet dependency on the same version — **release both packages with one version number**.
 - Package references: only `Microsoft.AspNetCore.Components.Web` + `DevInstance.WebServiceToolkit.Common`
   (transitively via the core package is fine). No FluentValidation, no LogScope needed.

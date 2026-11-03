@@ -75,7 +75,7 @@ The IndexedDB and connectivity JS ship as static web assets:
 ```
 
 Load them **before** `blazor.webassembly.js` so the first interop call during host
-init succeeds. TypeScript sources live in `src/Scripts/`.
+init succeeds. TypeScript sources live in `src/Core/Scripts/`.
 
 ## Feature service pattern
 
