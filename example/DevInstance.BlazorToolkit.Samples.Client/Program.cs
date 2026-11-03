@@ -23,6 +23,11 @@ internal class Program
             return factory.Create<TodoItem>("DevInstance.BlazorToolkit.Samples.Client", "api/todo");
         });
 
+        builder.Services.AddScoped(sp => {
+            var factory = sp.GetRequiredService<HttpApiContextFactory>();
+            return factory.Create<Employee>("DevInstance.BlazorToolkit.Samples.Client", "api/employees");
+        });
+
         builder.Services.AddConsoleScopeLogging(LogScope.LogLevel.TRACE, new DefaultFormattersOptions { ShowTimestamp = true });
 
         builder.Services.AddBlazorServices();

@@ -11,10 +11,10 @@
 		<Copyright>Copyright 2024-2026 DevInstance LLC</Copyright>
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
-		<Description>UI components for DevInstance.BlazorToolkit: error banner, page progress, data pagers, sortable header, loading progress and a page layout that hosts service execution state.</Description>
-		<Version>10.6.0</Version>
-		<AssemblyVersion>10.6.0.0</AssemblyVersion>
-		<FileVersion>10.6.0.0</FileVersion>
+		<Description>UI components for DevInstance.BlazorToolkit: HDataGrid (sorting, paging, column grouping, resizing, selection, search highlights) with GridSettings, HSearchBar, error banner, page progress, data pagers, sortable header, loading progress and a page layout that hosts service execution state. Works in Blazor Server and WebAssembly.</Description>
+		<Version>10.7.0</Version>
+		<AssemblyVersion>10.7.0.0</AssemblyVersion>
+		<FileVersion>10.7.0.0</FileVersion>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -25,12 +25,19 @@
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
-		<PackageTags>tools, blazor, components</PackageTags>
-		<PackageReleaseNotes>10.6.0
+		<PackageTags>tools, blazor, components, datagrid</PackageTags>
+		<PackageReleaseNotes>10.7.0
+- New: HDataGrid (DevInstance.BlazorToolkit.Components.DataGrid) binding to IModelList&lt;TItem&gt;, with HColumnTemplate, HSortableHeader, GridSettings and ColumnDescriptor. Sort, page, group by column, resize columns, select rows, render server search highlights (IModelListHighlights).
+- New: HSearchBar and SearchHighlight (DevInstance.BlazorToolkit.Components.Search).
+- Needs Bootstrap 5.3 CSS and JS bundle plus bootstrap-icons, and the stylesheet _content/DevInstance.BlazorToolkit.Components/css/blazortoolkit-components.css. The grid's script is an ES module it imports itself: no script tag.
+- Several grids and GridSettings on one page: give each pair its own HDataGrid.SettingsId / GridSettings.Id.
+- Requires DevInstance.WebServiceToolkit.Common 10.4.0 (via DevInstance.BlazorToolkit 10.7.0).
+
+10.6.0
 - First release. The UI components (ErrorMessageBanner, PageProgress, LoadingProgress, DataPager, ModelDataPager, SortableHeader, BlazorToolkitPageLayout) moved here from DevInstance.BlazorToolkit 10.5.x. The namespace (DevInstance.BlazorToolkit.Components) is unchanged; ServiceExecutionHostComponent stays in the core package.
 - Depends on DevInstance.BlazorToolkit with the same version; both packages are released together.
 - Fixed: SortableHeader's label link pointed to the literal URL "SortLink" when UrlTemplate was set.
-See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-components</PackageReleaseNotes>
+See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-components and docs/components.md</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -50,6 +57,10 @@ See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-co
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="DevInstance.BlazorToolkit.Components.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>

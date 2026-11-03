@@ -1,6 +1,16 @@
 # `DevInstance.BlazorToolkit.Components` — implementation brief
 
-**Status: Step 0 done 2026-11-03 (10.6.0); HDataGrid port not started.** Consumer-side plan and research: `ThreadIQ/docs/blazortoolkit-components-plan.md`.
+**Status: Step 0 done and published 2026-11-03 (10.6.0). HDataGrid port done in code 2026-11-03 for 10.7.0
+(10.6.0 was already on nuget.org): WST.Common 10.4.0 published, grid/search ported, CSS + JS module, tests,
+`/grid` sample page, `docs/components.md`, README/USAGE sections. Remaining: publish both packages 10.7.0.
+ThreadIQ switch-over is deferred (decided 2026-11-03): ThreadIQ keeps developing its local grid and logs
+every change since the snapshot (`353479c`) in its plan's divergence log; those changes are ported here
+before ThreadIQ switches.**
+Deviations from this brief: `--btk-*` fallbacks are resolved at each use (`var(--btk-accent, var(--bs-primary))`)
+instead of a `:root` block, so `[data-bs-theme]` on any ancestor works, plus a `--btk-chip` variable;
+`GridSettings` gained `ShowToggleButton` (two drawers' fixed buttons would overlap); a public
+`IModelList<T>.HighlightsFor(itemId, field)` extension replaces ThreadIQ's `PagedList.HighlightsFor`;
+`HDataGrid` re-renders when an `HColumnTemplate` registers (with synchronous data the template never applied). Consumer-side plan and research: `ThreadIQ/docs/blazortoolkit-components-plan.md`.
 
 A second NuGet package in this repo for reusable **UI components**. The core `DevInstance.BlazorToolkit`
 package stays infrastructure (DI, service execution, HTTP, offline); visual components with their own

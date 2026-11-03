@@ -1,0 +1,44 @@
+<div class="h-search-bar" style="position: relative;">
+    <div class="d-flex gap-2">
+        <div class="input-group bg-body-secondary rounded-3 border flex-grow-1">
+            <span class="input-group-text bg-transparent border-0">
+                <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text"
+                   class="form-control bg-transparent border-0 shadow-none"
+                   placeholder="@Placeholder"
+                   value="@Value"
+                   @oninput="HandleInput"
+                   @onkeydown="HandleKeyDown"
+                   disabled="@Disabled" />
+            @if (AdvancedContent != null)
+            {
+                <button class="btn bg-transparent border-0 @(_isOpen ? "text-primary" : "text-muted")"
+                        type="button"
+                        @onclick="ToggleDropdown"
+                        disabled="@Disabled">
+                    <i class="bi bi-sliders"></i>
+                </button>
+            }
+        </div>
+        <button class="btn btn-primary"
+                type="button"
+                @onclick="HandleSearchClick"
+                disabled="@Disabled">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+
+    @if (_isOpen && AdvancedContent != null)
+    {
+        <div class="h-search-bar-backdrop" @onclick="CloseDropdown"></div>
+        <div class="h-search-bar-dropdown shadow-lg rounded-3 bg-body border p-3">
+            @AdvancedContent
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-primary btn-sm" type="button" @onclick="HandleDropdownSearch">
+                    <i class="bi bi-search me-1"></i>Search
+                </button>
+            </div>
+        </div>
+    }
+</div>

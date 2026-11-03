@@ -6,7 +6,7 @@ using DevInstance.WebServiceToolkit.Common.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace DevInstance.EmployeeList.Controllers;
+namespace DevInstance.BlazorToolkit.Samples.Controllers;
 
 [ApiController]
 [Route("api/todo")]

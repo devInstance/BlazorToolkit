@@ -1,0 +1,190 @@
+/*
+ * DevInstance.BlazorToolkit.Components — styles for HDataGrid, GridSettings and SearchHighlight.
+ *
+ * Link it after Bootstrap and before the app's own CSS:
+ *   <link href="_content/DevInstance.BlazorToolkit.Components/css/blazortoolkit-components.css" rel="stylesheet" />
+ *
+ * Every colour goes through a --btk-* custom property that falls back to a Bootstrap 5.3 variable, so the
+ * grid follows Bootstrap's light/dark theme out of the box. Override any of them in the app, e.g.
+ *   :root { --btk-accent: var(--my-accent); --btk-accent-bg: var(--my-accent-soft); }
+ *
+ *   --btk-accent      accent (resize handle hover, drop target, highlighted text)   default --bs-primary
+ *   --btk-accent-bg   soft accent background (search match, drop-target ring)        default --bs-primary-bg-subtle
+ *   --btk-border      borders (group bar, settings cards and footer)                 default --bs-border-color
+ *   --btk-surface     group bar background                                           default --bs-tertiary-bg
+ *   --btk-chip        chip / count pill background                                   default --bs-secondary-bg
+ *   --btk-bg          settings column card background                                default --bs-body-bg
+ *   --btk-text        primary text                                                   default --bs-body-color
+ *   --btk-text-2      secondary text (labels, chips)                                 default --bs-secondary-color
+ *   --btk-text-3      tertiary text (eyebrow headings, drag grip)                    default --bs-tertiary-color
+ *
+ * The fallbacks are resolved where each rule applies (not once on :root), so a [data-bs-theme] set on any
+ * ancestor element is honoured.
+ */
+
+/* ---------- HDataGrid: column resizing (blazortoolkit-components.js) ---------- */
+
+thead th.hdg-th {
+    position: relative;
+}
+
+.hdg-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    touch-action: none;
+    user-select: none;
+}
+
+.hdg-resizer::after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    bottom: 25%;
+    right: 0;
+    width: 2px;
+    border-radius: 1px;
+}
+
+.hdg-resizer:hover::after {
+    background-color: var(--btk-accent, var(--bs-primary));
+}
+
+/* while a column is being dragged */
+body.hdg-resizing {
+    cursor: col-resize;
+    user-select: none;
+}
+
+/* ---------- HDataGrid: "Grouped by <column>" bar ---------- */
+
+.hdg-groupbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--btk-border, var(--bs-border-color));
+    background: var(--btk-surface, var(--bs-tertiary-bg));
+}
+
+.hdg-groupbar .btn-link {
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.hdg-groupbar-remove {
+    width: 6px;
+    height: 6px;
+    padding: 4px;
+    margin-left: 2px;
+    background-size: 6px;
+}
+
+/* ---------- Small labels used by the grid and GridSettings ---------- */
+
+.hdg-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--btk-text-3, var(--bs-tertiary-color));
+}
+
+.hdg-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--btk-chip, var(--bs-secondary-bg));
+    color: var(--btk-text-2, var(--bs-secondary-color));
+}
+
+.hdg-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 8px;
+    border-radius: 20px;
+    background: var(--btk-chip, var(--bs-secondary-bg));
+    color: var(--btk-text-2, var(--bs-secondary-color));
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---------- SearchHighlight: a soft accent tint, not the browser's yellow <mark> ---------- */
+
+mark.search-mark {
+    background: var(--btk-accent-bg, var(--bs-primary-bg-subtle, #fff3cd));
+    color: var(--btk-accent, var(--bs-primary, inherit));
+    padding: 0;
+    border-radius: 3px;
+}
+
+/* ---------- GridSettings drawer ---------- */
+
+.gs-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.gs-col {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    border: 1px solid var(--btk-border, var(--bs-border-color));
+    border-radius: 9px;
+    background: var(--btk-bg, var(--bs-body-bg));
+}
+
+.gs-col .form-check-input {
+    margin: 0;
+    flex: 0 0 auto;
+}
+
+.gs-col .form-check-label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--btk-text, var(--bs-body-color));
+    cursor: default;
+}
+
+.gs-col.column-dragging {
+    opacity: 0.5;
+}
+
+.gs-col.column-can-drop {
+    border-color: var(--btk-accent, var(--bs-primary));
+    box-shadow: 0 0 0 2px var(--btk-accent-bg, var(--bs-primary-bg-subtle));
+}
+
+.gs-grip {
+    font-size: 15px;
+    color: var(--btk-text-3, var(--bs-tertiary-color));
+    cursor: grab;
+    flex: 0 0 auto;
+}
+
+.gs-ipp-label {
+    font-size: 13px;
+    color: var(--btk-text-2, var(--bs-secondary-color));
+}
+
+.gs-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 14px;
+    margin-top: 16px;
+    border-top: 1px solid var(--btk-border, var(--bs-border-color));
+}

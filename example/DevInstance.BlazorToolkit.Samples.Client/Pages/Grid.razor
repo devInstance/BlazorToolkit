@@ -1,0 +1,186 @@
+@page "/grid"
+@using System.Globalization
+@using DevInstance.BlazorToolkit.Components
+@using DevInstance.BlazorToolkit.Components.DataGrid
+@using DevInstance.BlazorToolkit.Components.Search
+@using DevInstance.BlazorToolkit.Samples.Client.Services
+@using DevInstance.BlazorToolkit.Samples.Model
+@using DevInstance.BlazorToolkit.Services
+
+@inherits ServiceExecutionHostComponent
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+
+<PageTitle>HDataGrid sample</PageTitle>
+
+<ErrorMessageBanner IsError="IsError" Message="@ErrorMessage"></ErrorMessageBanner>
+
+<div class="container py-4">
+    <h1 class="h3">HDataGrid</h1>
+    <p class="text-muted">
+        Data comes from <code>GET api/employees</code> through <code>IEmployeeService</code> and
+        <code>ServiceReadAsync</code>; search, sort and paging run on the server, which also returns the search
+        highlights. Click a header to sort, right-click it for the column menu (sort, move, group, hide, settings),
+        drag a header border to resize. <a href="/">Back to the todo list</a>
+    </p>
+
+    @* ---- 1. Server-paged grid: search, sort, paging, selection, templates, settings drawer ---- *@
+    <h2 class="h5 mt-4">Employees</h2>
+    <div class="d-flex gap-2 align-items-center mb-2">
+        <div class="flex-grow-1">
+            <HSearchBar @bind-Value="search" OnSearch="SearchAsync" Placeholder="Search name or city..." Disabled="InProgress" />
+        </div>
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#employeeSettings">
+            <i class="bi bi-sliders me-1"></i>Columns
+        </button>
+    </div>
+
+    <HDataGrid TItem="Employee"
+               Data="employees"
+               Columns="employeeColumns"
+               IsLoading="loadingEmployees"
+               PlaceholderRows="employeePageSize"
+               SettingsId="employeeSettings"
+               OnSort="SortAsync"
+               OnPageChanged="LoadEmployeesAsync"
+               OnColumnsChanged="OnColumnsChanged"
+               EnableSelection="true"
+               IdSelector="e => e.Id"
+               @bind-SelectedIds="selectedIds">
+        <ColumnTemplates>
+            <HColumnTemplate TItem="Employee" Field="@nameof(Employee.Salary)" Context="employee">
+                <span class="font-monospace">@employee.Salary.ToString("C0", UsCulture)</span>
+            </HColumnTemplate>
+        </ColumnTemplates>
+        <SearchContent>
+            <p class="small text-muted mb-2">
+                @employees!.TotalCount result(s) for "<strong>@context</strong>"
+                <button class="btn btn-link btn-sm p-0 ms-2 align-baseline" @onclick="ClearSearchAsync">clear</button>
+            </p>
+        </SearchContent>
+        <EmptyContent>
+            <div class="alert alert-info">No employees match "@search".</div>
+        </EmptyContent>
+    </HDataGrid>
+    <p class="small text-muted">Selected: @(selectedIds.Count == 0 ? "none" : string.Join(", ", selectedIds.Order()))</p>
+
+    @* ---- 2. Second grid on the same page: all rows, grouped by a column, no pager ---- *@
+    <h2 class="h5 mt-5">By department</h2>
+    <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#departmentSettings">
+            <i class="bi bi-sliders me-1"></i>Columns
+        </button>
+    </div>
+    <HDataGrid TItem="Employee"
+               Data="departmentView"
+               Columns="departmentColumns"
+               IsLoading="loadingDepartments"
+               SettingsId="departmentSettings"
+               ShowPager="false"
+               GroupsCollapsedByDefault="true"
+               OnColumnsChanged="OnColumnsChanged" />
+</div>
+
+@* Each grid's settings drawer has its own Id, matching the grid's SettingsId. The fixed toggle buttons
+   are turned off because the two would overlap; the "Columns" buttons above open the drawers instead. *@
+<GridSettings TItem="Employee" Id="employeeSettings" ShowToggleButton="false"
+              Columns="employeeColumns" PageSize="employeePageSize" OnSave="SaveEmployeeSettingsAsync" />
+<GridSettings TItem="Employee" Id="departmentSettings" ShowToggleButton="false"
+              Columns="departmentColumns" PageSize="AllRows" OnSave="SaveDepartmentSettings" />
+
+@inject IEmployeeService Service
+@code {
+    private const int AllRows = 1000;
+    private static readonly CultureInfo UsCulture = CultureInfo.GetCultureInfo("en-US");
+
+    // Query state for the first grid; the server echoes it back in the list (Page, SortOrder, Search).
+    private string search = string.Empty;
+    private string? sortBy = nameof(Employee.Name);
+    private bool isAscending = true;
+    private int employeePageSize = 10;
+
+    private EmployeeList? employees;
+    private EmployeeList? departmentView;
+    private bool loadingEmployees;
+    private bool loadingDepartments;
+    private HashSet<string> selectedIds = new();
+
+    // Field = the server's sort key. HighlightField = the property whose highlights the server returns.
+    private List<ColumnDescriptor<Employee>> employeeColumns = new()
+    {
+        new() { Field = nameof(Employee.Name), Label = "Name", ValueSelector = e => e.Name, HighlightField = nameof(Employee.Name), Width = "28%" },
+        new() { Field = nameof(Employee.Department), Label = "Department", ValueSelector = e => e.Department, Width = "18%" },
+        new() { Field = nameof(Employee.City), Label = "City", ValueSelector = e => e.City, HighlightField = nameof(Employee.City), Width = "18%" },
+        new()
+        {
+            Field = nameof(Employee.HireDate), Label = "Hired", ValueSelector = e => e.HireDate, Width = "18%",
+            GroupKeySelector = e => e.HireDate.Year, // grouping by this column groups by year
+            Template = value => @<span>@(value is DateOnly d ? d.ToString("MMM d, yyyy", CultureInfo.InvariantCulture) : value)</span>,
+        },
+        // Cells come from the HColumnTemplate above
+        new() { Field = nameof(Employee.Salary), Label = "Salary", ValueSelector = e => e.Salary, Width = "18%", CellClass = "text-end", HeaderClass = "text-end" },
+    };
+
+    private List<ColumnDescriptor<Employee>> departmentColumns = new()
+    {
+        new() { Field = nameof(Employee.Department), Label = "Department", ValueSelector = e => e.Department, Width = "30%", IsGrouped = true },
+        new() { Field = nameof(Employee.Name), Label = "Name", ValueSelector = e => e.Name, Width = "40%", IsSortable = false, IsGroupable = true },
+        new() { Field = nameof(Employee.City), Label = "City", ValueSelector = e => e.City, Width = "30%", IsSortable = false, IsGroupable = true },
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadEmployeesAsync(0);
+        await LoadDepartmentsAsync();
+    }
+
+    private async Task LoadEmployeesAsync(int page)
+    {
+        loadingEmployees = true;
+        await this.ServiceReadAsync(
+            async () => await Service.GetItemsAsync(employeePageSize, page, search, sortBy, isAscending),
+            list => employees = list);
+        loadingEmployees = false;
+    }
+
+    private async Task LoadDepartmentsAsync()
+    {
+        loadingDepartments = true;
+        await this.ServiceReadAsync(
+            async () => await Service.GetItemsAsync(AllRows, 0, null, nameof(Employee.Name), true),
+            list => departmentView = list);
+        loadingDepartments = false;
+    }
+
+    private Task SearchAsync() => LoadEmployeesAsync(0);
+
+    private async Task ClearSearchAsync()
+    {
+        search = string.Empty;
+        await LoadEmployeesAsync(0);
+    }
+
+    private async Task SortAsync(HSortableHeaderSortArgs args)
+    {
+        sortBy = args.SortBy;
+        isAscending = args.IsAscending;
+        await LoadEmployeesAsync(employees?.Page ?? 0);
+    }
+
+    // Column moved / hidden / grouped / resized. A real app would persist the columns here
+    // (per column: Field, IsVisible, IsGrouped, ResizedWidth, and the list order).
+    private void OnColumnsChanged() => StateHasChanged();
+
+    private async Task SaveEmployeeSettingsAsync(GridSettingsResult<Employee> result)
+    {
+        employeeColumns = result.Columns;
+        var pageSizeChanged = employeePageSize != result.PageSize;
+        employeePageSize = result.PageSize;
+        if (pageSizeChanged)
+            await LoadEmployeesAsync(0);
+    }
+
+    private void SaveDepartmentSettings(GridSettingsResult<Employee> result) =>
+        departmentColumns = result.Columns;
+}

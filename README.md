@@ -11,7 +11,7 @@ Blazor Toolkit is a comprehensive set of tools designed to enhance the developme
 
 - **Form Validators:** Integrate robust form validation mechanisms to ensure data integrity. The toolkit includes flexible validators that can be easily applied to your forms, providing immediate feedback to users and enhancing the overall user experience.
 
-- **UI Components (separate package):** `DevInstance.BlazorToolkit.Components` ships ready-made Bootstrap-styled components that plug into the service execution state: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, and the `BlazorToolkitPageLayout` layout.
+- **UI Components (separate package):** `DevInstance.BlazorToolkit.Components` ships ready-made Bootstrap-styled components that plug into the service execution state: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, and the `BlazorToolkitPageLayout` layout. Since 10.7.0 it also has `HDataGrid` (sorting, paging, selection, grouping, resizable columns, column settings drawer, server-side search highlights) and `HSearchBar`. See [docs/components.md](docs/components.md).
 
 - **Offline-First Tools:** Build offline-capable Blazor WebAssembly apps with an IndexedDB object store, connectivity tracking, a read-through cache, and a write-through outbox (sync queue). Reads serve local data immediately and refresh in the background; writes are persisted locally and replayed against the server when connectivity returns. See [docs/offline-tools.md](docs/offline-tools.md).
 
@@ -34,6 +34,18 @@ The UI components (`ErrorMessageBanner`, `DataPager`, `ModelDataPager`, `BlazorT
 
 ```bash
 dotnet add package DevInstance.BlazorToolkit.Components
+```
+
+To use `HDataGrid` / `HSearchBar`, the host page also needs Bootstrap 5.3 CSS **and** its JS bundle, Bootstrap Icons, and the package stylesheet (no `<script>` tag for the grid: it loads its own JS module):
+
+```html
+<link rel="stylesheet" href="_content/DevInstance.BlazorToolkit.Components/css/blazortoolkit-components.css" />
+```
+
+```razor
+@* _Imports.razor *@
+@using DevInstance.BlazorToolkit.Components.DataGrid
+@using DevInstance.BlazorToolkit.Components.Search
 ```
 
 > **Upgrading from 10.5.x or earlier:** as of 10.6.0 the UI components moved out of `DevInstance.BlazorToolkit` into `DevInstance.BlazorToolkit.Components` (same namespace, `DevInstance.BlazorToolkit.Components`). Add the new package if you use any of them. `ServiceExecutionHostComponent` stays in the core package. See [docs/USAGE.md](docs/USAGE.md#ui-components).

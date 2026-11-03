@@ -1,0 +1,86 @@
+@typeparam TItem
+<span class="text-nowrap">
+    @if (string.IsNullOrEmpty(UrlTemplate))
+    {
+        <a href="#" class="text-decoration-none text-reset" @onclick="ToggleSort" @onclick:preventDefault>@Label</a>
+        @if (IsSorted)
+        {
+            <button class="btn btn-link p-0 ms-1" @onclick="ToggleSort">
+                <i class="bi @(IsAsc ? "bi-sort-down-alt" : "bi-sort-up-alt")"></i>
+            </button>
+        }
+    }
+    else
+    {
+        <a href="@SortLink" class="text-decoration-none text-reset">@Label</a>
+        @if (IsSorted)
+        {
+            <a class="btn btn-link p-0 ms-1" href="@SortLink">
+                <i class="bi @(IsAsc ? "bi-sort-down-alt" : "bi-sort-up-alt")"></i>
+            </a>
+        }
+    }
+</span>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    [Parameter]
+    public string SortField { get; set; } = string.Empty;
+
+    [Parameter]
+    public IModelList<TItem>? Model { get; set; }
+
+    [Parameter]
+    public EventCallback<HSortableHeaderSortArgs> OnSort { get; set; }
+
+    [Parameter]
+    public string? UrlTemplate { get; set; }
+
+    private bool IsSorted = false;
+    private bool IsAsc = false;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (string.IsNullOrEmpty(SortField))
+        {
+            throw new ArgumentNullException(nameof(SortField), "SortField cannot be null or empty.");
+        }
+        if (Model == null)
+        {
+            throw new ArgumentNullException(nameof(Model), "Model cannot be null.");
+        }
+
+        IsSorted = false;
+        IsAsc = true;
+
+        if (Model.SortOrder != null)
+        {
+            foreach (var entry in Model.SortOrder)
+            {
+                if (entry == SortField)
+                {
+                    IsSorted = true;
+                    IsAsc = true;
+                    break;
+                }
+                else if (entry == "-" + SortField)
+                {
+                    IsSorted = true;
+                    IsAsc = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    private void ToggleSort()
+    {
+        IsAsc = !IsAsc;
+        OnSort.InvokeAsync(new HSortableHeaderSortArgs(SortField, IsAsc));
+    }
+
+    private string SortLink => string.Format(UrlTemplate ?? "", SortField, !IsAsc);
+}

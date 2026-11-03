@@ -22,7 +22,7 @@ A comprehensive guide to using the BlazorToolkit library for service execution, 
 | Package | Contents |
 |---------|----------|
 | `DevInstance.BlazorToolkit` | Core: service registration, service execution (`ServiceReadAsync`/`ServiceSubmitAsync`, `ServiceExecutionHostComponent`), HTTP API context, validation, offline stack |
-| `DevInstance.BlazorToolkit.Components` | Optional UI components: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`. Depends on the core package; both are released with the same version. See [UI Components](#ui-components). |
+| `DevInstance.BlazorToolkit.Components` | Optional UI components: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`, and (10.7.0+) `HDataGrid` / `HSearchBar`. Depends on the core package; both are released with the same version. See [UI Components](#ui-components). |
 
 ```bash
 dotnet add package DevInstance.BlazorToolkit
@@ -569,7 +569,15 @@ dotnet add package DevInstance.BlazorToolkit.Components
 @using DevInstance.BlazorToolkit.Components
 ```
 
-The markup uses Bootstrap 5 classes (`alert`, `progress`, `pagination`, `btn`) and Bootstrap Icons (`bi-*`); reference both in your host page. The package has no CSS or JS of its own.
+The markup uses Bootstrap 5 classes (`alert`, `progress`, `pagination`, `btn`) and Bootstrap Icons (`bi-*`); reference both in your host page. The components below need no CSS or JS of their own.
+
+**Data grid and search (10.7.0+).** `HDataGrid`, `GridSettings`, `HSearchBar` and `SearchHighlight` (namespaces `DevInstance.BlazorToolkit.Components.DataGrid` and `.Search`) additionally need:
+
+- Bootstrap 5.3 **JS bundle** (the settings drawer is an offcanvas), loaded before the Blazor script;
+- the package stylesheet `_content/DevInstance.BlazorToolkit.Components/css/blazortoolkit-components.css` (colours via `--btk-*` variables that fall back to Bootstrap's);
+- `@using DevInstance.BlazorToolkit.Components.DataGrid` and `@using DevInstance.BlazorToolkit.Components.Search`.
+
+No `<script>` tag is needed: the grid imports its own JS module. Search highlights come from lists that implement `IModelListHighlights` (WebServiceToolkit.Common 10.4.0+). Full guide: [components.md](components.md).
 
 `ServiceExecutionHostComponent` is **not** in this package: it is the base class of the service execution pattern and stays in the core `DevInstance.BlazorToolkit` package (same namespace).
 
@@ -596,6 +604,9 @@ Before 10.6.0 these components shipped inside `DevInstance.BlazorToolkit`. After
 | `ModelDataPager<TEntity>` | Pagination control driven directly by an `IModelList<TEntity>` |
 | `SortableHeader<TField>` | Table column header with a sort direction toggle |
 | `BlazorToolkitPageLayout` | Layout that implements `IServiceExecutionHost`, shows `PageProgress` and `ErrorMessageBanner`, and cascades itself to pages |
+| `HDataGrid<TItem>` | Grid over an `IModelList<TItem>`: sort, page, select, group, resize, column menu, search highlights ([components.md](components.md)) |
+| `GridSettings<TItem>` | Offcanvas drawer for column order/visibility, group-by and page size |
+| `HSearchBar` / `SearchHighlight` | Search input with optional advanced dropdown; text with `<mark>`ed match ranges |
 
 ### ErrorMessageBanner
 

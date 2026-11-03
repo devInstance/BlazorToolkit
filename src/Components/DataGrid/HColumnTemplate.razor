@@ -1,0 +1,17 @@
+@typeparam TItem where TItem : IModelItem
+
+@code {
+    [CascadingParameter]
+    private HDataGrid<TItem>? Grid { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Field { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<TItem> ChildContent { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Grid?.RegisterColumnTemplate(Field, ChildContent);
+    }
+}
