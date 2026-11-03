@@ -12,9 +12,9 @@
 		<Company>DevInstance LLC</Company>
 		<Authors>Yuriy Frankiv</Authors>
 		<Description>BlazorToolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.</Description>
-		<Version>10.5.2</Version>
-		<AssemblyVersion>10.5.2.0</AssemblyVersion>
-		<FileVersion>10.5.2.0</FileVersion>
+		<Version>10.6.0</Version>
+		<AssemblyVersion>10.6.0.0</AssemblyVersion>
+		<FileVersion>10.6.0.0</FileVersion>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 		<BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -46,6 +46,14 @@
 
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<!-- The Components package lives in a subfolder of this project's directory; keep it out of the core assembly. -->
+	<ItemGroup>
+		<Compile Remove="DevInstance.BlazorToolkit.Components\**" />
+		<Content Remove="DevInstance.BlazorToolkit.Components\**" />
+		<None Remove="DevInstance.BlazorToolkit.Components\**" />
+		<EmbeddedResource Remove="DevInstance.BlazorToolkit.Components\**" />
 	</ItemGroup>
 
 	<ItemGroup>

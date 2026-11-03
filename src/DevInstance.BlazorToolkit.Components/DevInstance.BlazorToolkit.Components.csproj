@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>DevInstance.BlazorToolkit.Components</AssemblyName>
+		<RootNamespace>DevInstance.BlazorToolkit.Components</RootNamespace>
+		<PackageId>DevInstance.BlazorToolkit.Components</PackageId>
+		<Configurations>Debug;Release;</Configurations>
+		<Copyright>Copyright 2024-2026 DevInstance LLC</Copyright>
+		<Company>DevInstance LLC</Company>
+		<Authors>Yuriy Frankiv</Authors>
+		<Description>UI components for DevInstance.BlazorToolkit: error banner, page progress, data pagers, sortable header, loading progress and a page layout that hosts service execution state.</Description>
+		<Version>10.6.0</Version>
+		<AssemblyVersion>10.6.0.0</AssemblyVersion>
+		<FileVersion>10.6.0.0</FileVersion>
+		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<SignAssembly>False</SignAssembly>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>Blazor Toolkit Components</Title>
+		<PackageProjectUrl>https://devinstance.net/engineering/blazortoolkit</PackageProjectUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
+		<PackageTags>tools, blazor, components</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DevInstance.BlazorToolkit.csproj" />
+	</ItemGroup>
+</Project>

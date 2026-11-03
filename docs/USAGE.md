@@ -8,6 +8,7 @@ A comprehensive guide to using the BlazorToolkit library for service execution, 
 - [Service Execution](#service-execution)
 - [HTTP API Context](#http-api-context)
 - [State Management](#state-management)
+- [UI Components](#ui-components)
 - [Offline Tools](#offline-tools)
 - [Error Handling](#error-handling)
 - [Complete Examples](#complete-examples)
@@ -15,6 +16,18 @@ A comprehensive guide to using the BlazorToolkit library for service execution, 
 ---
 
 ## Installation & Setup
+
+### Packages
+
+| Package | Contents |
+|---------|----------|
+| `DevInstance.BlazorToolkit` | Core: service registration, service execution (`ServiceReadAsync`/`ServiceSubmitAsync`, `ServiceExecutionHostComponent`), HTTP API context, validation, offline stack |
+| `DevInstance.BlazorToolkit.Components` | Optional UI components: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`. Depends on the core package; both are released with the same version. See [UI Components](#ui-components). |
+
+```bash
+dotnet add package DevInstance.BlazorToolkit
+dotnet add package DevInstance.BlazorToolkit.Components   # only if you use the UI components
+```
 
 ### 1. Register Services
 
@@ -106,6 +119,7 @@ The service execution pattern provides automatic progress tracking, error handli
 - **`IServiceExecutionHost`** - Interface implemented by components to handle service call state
 - **`ServiceExecutionHandler`** - Orchestrates service calls with automatic state management
 - **`ServiceActionResult<T>`** - Unified result type for all service operations
+- **`ServiceExecutionHostComponent`** - Base component that implements `IServiceExecutionHost` (namespace `DevInstance.BlazorToolkit.Components`, shipped in the **core** package)
 
 ### Using ServiceReadAsync
 
@@ -542,6 +556,154 @@ await this.ServiceReadAsync(
 
 ---
 
+## UI Components
+
+The UI components live in the separate **`DevInstance.BlazorToolkit.Components`** package (namespace `DevInstance.BlazorToolkit.Components`). It depends on the core package and is released with the same version number.
+
+```bash
+dotnet add package DevInstance.BlazorToolkit.Components
+```
+
+```razor
+@* _Imports.razor *@
+@using DevInstance.BlazorToolkit.Components
+```
+
+The markup uses Bootstrap 5 classes (`alert`, `progress`, `pagination`, `btn`) and Bootstrap Icons (`bi-*`); reference both in your host page. The package has no CSS or JS of its own.
+
+`ServiceExecutionHostComponent` is **not** in this package: it is the base class of the service execution pattern and stays in the core `DevInstance.BlazorToolkit` package (same namespace).
+
+### Upgrading from 10.5.x or earlier
+
+Before 10.6.0 these components shipped inside `DevInstance.BlazorToolkit`. After upgrading, add the `DevInstance.BlazorToolkit.Components` package; no code or `@using` changes are needed.
+
+> **Watch out:** if the package is missing, Razor does **not** fail the build for `<ErrorMessageBanner>`, `<PageProgress>`, `<DataPager>`, `<ModelDataPager>`, etc. It only emits warning `RZ10012` ("Found markup element with unexpected name") and renders them as unknown HTML elements, so they silently disappear. (`@layout BlazorToolkitPageLayout` does fail to compile.) To catch this while upgrading, add to your app's `.csproj`:
+>
+> ```xml
+> <PropertyGroup>
+>   <WarningsAsErrors>$(WarningsAsErrors);RZ10012</WarningsAsErrors>
+> </PropertyGroup>
+> ```
+
+### Component Overview
+
+| Component | Purpose |
+|-----------|---------|
+| `ErrorMessageBanner` | Dismissible Bootstrap alert bound to `IsError` / `ErrorMessage` |
+| `PageProgress` | Full-width animated striped progress bar |
+| `LoadingProgress` | Circular loading indicator while prerendering on the server; renders `ChildContent` once running in the browser |
+| `DataPager` | Pagination control driven by page count and selected page |
+| `ModelDataPager<TEntity>` | Pagination control driven directly by an `IModelList<TEntity>` |
+| `SortableHeader<TField>` | Table column header with a sort direction toggle |
+| `BlazorToolkitPageLayout` | Layout that implements `IServiceExecutionHost`, shows `PageProgress` and `ErrorMessageBanner`, and cascades itself to pages |
+
+### ErrorMessageBanner
+
+```razor
+@inherits ServiceExecutionHostComponent
+
+<ErrorMessageBanner IsError="@IsError" Message="@ErrorMessage" />
+```
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `IsError` | `true` | Whether the banner is shown |
+| `Message` | | Error text |
+| `ShowDismissButton` | `true` | Shows a button that hides the banner |
+| `DismissLabel` | `"Dismiss"` | Dismiss button text |
+
+### PageProgress
+
+```razor
+@if (InProgress)
+{
+    <PageProgress />
+}
+```
+
+No parameters. Style it through the `page-progress` CSS class.
+
+### LoadingProgress
+
+Wrap content that should only render in the browser. While the component is rendered on the server (prerendering), it shows a circular progress indicator that follows Blazor's `--blazor-load-percentage` loading variables; in the browser it renders `ChildContent`.
+
+```razor
+<LoadingProgress>
+    <Router AppAssembly="typeof(Program).Assembly">...</Router>
+</LoadingProgress>
+```
+
+### DataPager
+
+```razor
+<DataPager PagesCount="@pagesCount"
+           SelectedPage="@currentPage"
+           OnPageChanged="@ChangePage"
+           InProgress="@InProgress" />
+```
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `PagesCount` | `0` | Total number of pages; nothing is rendered when it is `1` or less |
+| `SelectedPage` | `0` | Current page (zero-based) |
+| `OnPageChanged` | | `EventCallback<int>` invoked with the new zero-based page |
+| `InProgress` | `false` | Disables the buttons while a call is running |
+| `MaxItems` | `15` | Maximum number of page buttons (first and last page are always shown) |
+| `UrlTemplate` | `null` | When set, renders links instead of buttons; `{0}` is replaced by the zero-based page, e.g. `"/todos?page={0}"` |
+
+### ModelDataPager
+
+Same as `DataPager`, but reads the page and page count from an `IModelList<TEntity>` (`TEntity : IModelItem`), so it can be bound straight to a list result.
+
+```razor
+<ModelDataPager List="todos" InProgress="InProgress" OnPageChanged="ChangePage" />
+```
+
+Parameters: `List`, `OnPageChanged`, `InProgress`, `MaxItems` (default `15`), `UrlTemplate`.
+
+### SortableHeader
+
+```razor
+<th>
+    <SortableHeader TField="string"
+                    Label="Title"
+                    SortField="@("title")"
+                    IsSorted="@(sortBy == "title")"
+                    IsAsc="@isAsc"
+                    OnSort="@(() => SortBy("title"))" />
+</th>
+```
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `Label` | `""` | Header text |
+| `SortField` | | Field identifier (`TField`), used in `UrlTemplate` |
+| `IsSorted` | `false` | Whether the table is currently sorted by this column |
+| `IsAsc` | `true` | Current sort direction |
+| `OnSort` | | `EventCallback` invoked when the header or icon is clicked |
+| `UrlTemplate` | `null` | When set, renders links instead of buttons; `{0}` is `SortField`, `{1}` is the toggled direction (`!IsAsc`) |
+
+### BlazorToolkitPageLayout
+
+A layout that implements `IServiceExecutionHost` itself and cascades it to the page, so pages do not need to inherit `ServiceExecutionHostComponent`. It shows `PageProgress` while a call is in progress and `ErrorMessageBanner` on failure. It does not support prerender state persistence (`stateKey`).
+
+```razor
+@page "/"
+@layout BlazorToolkitPageLayout
+
+@code {
+    [CascadingParameter]
+    public IServiceExecutionHost? Host { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Host.ServiceReadAsync(() => Service.GetItemsAsync(), e => employees = e);
+    }
+}
+```
+
+---
+
 ## Offline Tools
 
 The `DevInstance.BlazorToolkit.Offline` namespace provides offline-first building blocks for Blazor WebAssembly apps: an IndexedDB object store, connectivity tracking, a read-through cache, and a write-through outbox (sync queue). Reads serve local data immediately and refresh from the API in the background; writes save locally and queue for replay when connectivity returns.
@@ -951,6 +1113,8 @@ public class TodoService : ITodoService
 
 ### Component
 
+`ErrorMessageBanner` and `DataPager` come from the `DevInstance.BlazorToolkit.Components` package (see [UI Components](#ui-components)).
+
 ```razor
 @page "/todos"
 @inherits ServiceExecutionHostComponent
@@ -1084,6 +1248,8 @@ else if (todos?.Items != null)
 | `IApiContext<T>` | `Http` | HTTP request builder interface |
 | `HttpApiContextFactory` | `Http` | Creates API context instances |
 | `ApiUrlBuilder` | `Http` | Fluent URL construction |
+| `ServiceExecutionHostComponent` | `Components` | Base component implementing `IServiceExecutionHost` (core package) |
+| `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager<T>`, `SortableHeader<T>`, `BlazorToolkitPageLayout` | `Components` | UI components (`DevInstance.BlazorToolkit.Components` package) |
 | `IObjectStore` | `Offline.Storage` | Generic IndexedDB key/value store |
 | `IConnectivityService` | `Offline.Connectivity` | Tracks browser online/offline state |
 | `ICacheableSource<T>` | `Offline.Sync` | Read-through local cache backed by the API |

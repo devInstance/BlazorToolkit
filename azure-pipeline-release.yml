@@ -11,7 +11,8 @@ parameters:
 pool: default
 
 variables:
-  solution: 'src/DevInstance.BlazorToolkit.csproj'
+  # Core + Components packages are always released together with the same version
+  solution: 'src/DevInstance.BlazorToolkit.csproj;src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj'
   version: ${{ parameters.packageVersion }}
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -42,7 +43,7 @@ steps:
 
 # Step 3: Push NuGet Package
 - task: DotNetCoreCLI@2
-  displayName: 'Pack NuGet package'
+  displayName: 'Pack NuGet packages (core + Components)'
   inputs:
     command: 'pack'
     packagesToPack: '$(solution)'

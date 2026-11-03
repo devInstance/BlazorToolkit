@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\DevInstance.BlazorToolkit.csproj" />
+	  <ProjectReference Include="..\..\src\DevInstance.BlazorToolkit.Components\DevInstance.BlazorToolkit.Components.csproj" />
 	</ItemGroup>
 
 </Project>

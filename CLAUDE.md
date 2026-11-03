@@ -6,7 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `DevInstance.BlazorToolkit` is a NuGet-published class library (`Microsoft.NET.Sdk.Razor`, `net10.0`) that provides infrastructure for Blazor apps: attribute-based service registration, a service-execution/state-management pattern for components, a fluent HTTP API-context layer, form validation helpers, and an offline-first stack (IndexedDB store, connectivity, read-through cache, write-through outbox). It targets both Blazor Server and WASM from the same package (`browser` is a supported platform).
 
-The package version lives in `src/DevInstance.BlazorToolkit.csproj` (`<Version>`) and `GeneratePackageOnBuild` is on, so a Release build produces a `.nupkg`.
+A second package, `DevInstance.BlazorToolkit.Components` (`src/DevInstance.BlazorToolkit.Components/`, split out in 10.6.0), holds the UI components (`ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, `BlazorToolkitPageLayout`). It `ProjectReference`s core and packs with a NuGet dependency on it. Its folder sits inside core's project directory, so core's csproj `Remove`s it from its item globs — keep that when adding files. `ServiceExecutionHostComponent` deliberately **stays in core** (it is the base of the service-execution pattern); the `DevInstance.BlazorToolkit.Components` namespace is therefore split across both assemblies. Planned additions (HDataGrid etc.): `docs/components-package-plan.md`.
+
+Both packages share one version number: bump `<Version>`/`<AssemblyVersion>`/`<FileVersion>` in **both** `src/DevInstance.BlazorToolkit.csproj` and `src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj`. `GeneratePackageOnBuild` is on, so a Release build produces both `.nupkg`s.
 
 ## Build, test, run
 
@@ -14,8 +16,8 @@ The package version lives in `src/DevInstance.BlazorToolkit.csproj` (`<Version>`
 # Build the whole solution
 dotnet build DevInstance.BlazorToolkit.sln
 
-# Build the library only in Release (produces the NuGet package)
-dotnet build src/DevInstance.BlazorToolkit.csproj -c Release
+# Build the libraries in Release (produces both NuGet packages)
+dotnet build src/DevInstance.BlazorToolkit.Components/DevInstance.BlazorToolkit.Components.csproj -c Release
 
 # Run all tests
 dotnet test tests/DevInstance.BlazorToolkit.Offline.Tests/DevInstance.BlazorToolkit.Offline.Tests.csproj
@@ -38,7 +40,7 @@ Consuming apps depend on three interlocking pieces. Read `docs/USAGE.md` for the
 ### 1. Attribute-based DI (`Tools/`)
 Services are marked `[BlazorService]` (optionally `[BlazorService(ServiceLifetime.Singleton|Transient)]`, default **Scoped**). `AddBlazorServices()` in `Program.cs` scans **the calling assembly** via reflection and registers each marked class against **every interface it implements** (or the class itself if it has none). `AddBlazorServicesMocks()` does the same for `[BlazorServiceMock]` — the swap point for test/mock registrations. Because scanning uses `Assembly.GetCallingAssembly()`, services are discovered from the app assembly that calls `AddBlazorServices`, not from this library.
 
-### 2. Service execution + component state (`Services/`, `Components/`)
+### 2. Service execution + component state (`Services/`, `Components/ServiceExecutionHostComponent.razor`)
 This is the core pattern. A component implements `IServiceExecutionHost` (usually by inheriting `ServiceExecutionHostComponent`), which exposes `InProgress`, `IsError`, `ErrorMessage`, `ServiceState`, `ComponentState`/`State` (prerender persistence), and `ShowLogin()`.
 
 - `ServiceCall.cs` holds the extension methods components call: `ServiceReadAsync` / `ServiceSubmitAsync` (and `BeginServiceCall(...).DispatchCall(...).ExecuteAsync()` for manual chaining).
@@ -74,4 +76,5 @@ Registered separately via `AddBlazorOffline(opts => ...)` + per-entity `AddCache
 ## Conventions
 - Namespaces follow folders: `DevInstance.BlazorToolkit.{Services,Services.Server,Services.Wasm,Http,Http.Extensions,Tools,Validators,Offline.Storage,Offline.Connectivity,Offline.Sync,Offline.Extensions,Components,Utils,Exceptions}`.
 - Some public identifiers carry historical typos that are part of the shipped API — do not "fix" them without a version bump: `sucessAsync` parameter, `BoostrapValidationMessage`.
+- Moving a UI component across assemblies does not break the consumer's build: Razor only warns `RZ10012` and renders the tag as plain HTML. Build the sample with `-p:WarningsAsErrors=RZ10012` to check.
 - The `example/` projects (`Samples` server host + `Samples.Client` WASM) are the reference for wiring everything end-to-end.

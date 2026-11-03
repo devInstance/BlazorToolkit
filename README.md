@@ -1,4 +1,5 @@
 [![NuGet](https://img.shields.io/nuget/v/DevInstance.BlazorToolkit.svg)](https://www.nuget.org/packages/DevInstance.BlazorToolkit/)
+[![NuGet](https://img.shields.io/nuget/v/DevInstance.BlazorToolkit.Components.svg)](https://www.nuget.org/packages/DevInstance.BlazorToolkit.Components/)
 
 # Blazor Toolkit
 Blazor Toolkit is a comprehensive set of tools designed to enhance the development of Blazor applications. It provides a suite of utilities and services that streamline common tasks, allowing developers to focus on building rich, interactive web applications.
@@ -9,6 +10,8 @@ Blazor Toolkit is a comprehensive set of tools designed to enhance the developme
 - **Middleware Services:** Implement middleware logic as services to abstract complex processes from the UI layer. This promotes a clean separation of concerns, making your application more modular and maintainable.
 
 - **Form Validators:** Integrate robust form validation mechanisms to ensure data integrity. The toolkit includes flexible validators that can be easily applied to your forms, providing immediate feedback to users and enhancing the overall user experience.
+
+- **UI Components (separate package):** `DevInstance.BlazorToolkit.Components` ships ready-made Bootstrap-styled components that plug into the service execution state: `ErrorMessageBanner`, `PageProgress`, `LoadingProgress`, `DataPager`, `ModelDataPager`, `SortableHeader`, and the `BlazorToolkitPageLayout` layout.
 
 - **Offline-First Tools:** Build offline-capable Blazor WebAssembly apps with an IndexedDB object store, connectivity tracking, a read-through cache, and a write-through outbox (sync queue). Reads serve local data immediately and refresh in the background; writes are persisted locally and replayed against the server when connectivity returns. See [docs/offline-tools.md](docs/offline-tools.md).
 
@@ -26,6 +29,14 @@ dotnet add package DevInstance.BlazorToolkit
 ```bash
 Install-Package DevInstance.BlazorToolkit
 ```
+
+The UI components (`ErrorMessageBanner`, `DataPager`, `ModelDataPager`, `BlazorToolkitPageLayout`, ...) are in a separate package that depends on the core one. Both packages are released with the same version number:
+
+```bash
+dotnet add package DevInstance.BlazorToolkit.Components
+```
+
+> **Upgrading from 10.5.x or earlier:** as of 10.6.0 the UI components moved out of `DevInstance.BlazorToolkit` into `DevInstance.BlazorToolkit.Components` (same namespace, `DevInstance.BlazorToolkit.Components`). Add the new package if you use any of them. `ServiceExecutionHostComponent` stays in the core package. See [docs/USAGE.md](docs/USAGE.md#ui-components).
 
 ## Examples
 
@@ -94,7 +105,7 @@ static async Task Main(string[] args)
 }
 ```
 
-Add new razor component `Home.razor` and inject `EmployeeService` into it. Use `IServiceExecutionHost` interface to handle service execution state. `BlazorToolkitPageLayout` implement all necessary states like loading and error handling.
+Add new razor component `Home.razor` and inject `EmployeeService` into it. Use `IServiceExecutionHost` interface to handle service execution state. `BlazorToolkitPageLayout` (from the `DevInstance.BlazorToolkit.Components` package) implements all necessary states like loading and error handling.
 
 `Home.razor:`
 ```csharp
