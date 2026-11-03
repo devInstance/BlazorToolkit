@@ -26,6 +26,11 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
 		<PackageTags>tools, blazor, components</PackageTags>
+		<PackageReleaseNotes>10.6.0
+- First release. The UI components (ErrorMessageBanner, PageProgress, LoadingProgress, DataPager, ModelDataPager, SortableHeader, BlazorToolkitPageLayout) moved here from DevInstance.BlazorToolkit 10.5.x. The namespace (DevInstance.BlazorToolkit.Components) is unchanged; ServiceExecutionHostComponent stays in the core package.
+- Depends on DevInstance.BlazorToolkit with the same version; both packages are released together.
+- Fixed: SortableHeader's label link pointed to the literal URL "SortLink" when UrlTemplate was set.
+See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-components</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

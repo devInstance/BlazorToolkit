@@ -27,6 +27,11 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/devInstance/BlazorToolkit/</RepositoryUrl>
 		<PackageTags>tools, blazor</PackageTags>
+		<PackageReleaseNotes>10.6.0
+- BREAKING: the UI components (ErrorMessageBanner, PageProgress, LoadingProgress, DataPager, ModelDataPager, SortableHeader, BlazorToolkitPageLayout) moved to the new DevInstance.BlazorToolkit.Components package. Add that package if you use any of them; the namespace (DevInstance.BlazorToolkit.Components) is unchanged, so no code changes are needed.
+- ServiceExecutionHostComponent stays in this package.
+- Watch out: if the Components package is missing, Razor does not fail the build. It only emits warning RZ10012 and the components silently render nothing. Add &lt;WarningsAsErrors&gt;%24(WarningsAsErrors);RZ10012&lt;/WarningsAsErrors&gt; to your project while upgrading.
+See https://github.com/devInstance/BlazorToolkit/blob/master/docs/USAGE.md#ui-components</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
